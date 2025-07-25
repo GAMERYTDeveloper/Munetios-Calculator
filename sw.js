@@ -1,5 +1,5 @@
 // Define a version for your cache. Change this version to update the cache.
-const CACHE_VERSION = 'v1.7.4'; // Incremented version
+const CACHE_VERSION = 'v1.7.5'; // Incremented version again
 const CACHE_NAME = `gameryt-calculator-cache-${CACHE_VERSION}`;
 
 // A list of all the essential files your app needs to work offline.
@@ -41,24 +41,16 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// 2. Fetch Event: Implements a "Stale-While-Revalidate" strategy.
+// 2. Fetch Event: Implements a "Cache first, then network" strategy.
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.open(CACHE_NAME).then((cache) => {
-      // Go to the cache first
-      return cache.match(event.request).then((cachedResponse) => {
-        // Fetch from network in the background to update the cache
-        const fetchPromise = fetch(event.request).then((networkResponse) => {
-          // If we got a valid response, update the cache
-          if (networkResponse.status === 200) {
-            cache.put(event.request, networkResponse.clone());
-          }
-          return networkResponse;
-        });
-
-        // Return the cached response immediately if available, otherwise wait for the network
-        return cachedResponse || fetchPromise;
-      });
+    caches.match(event.request).then((cachedResponse) => {
+      // If we have a cached response, return it.
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      // Otherwise, fetch from the network.
+      return fetch(event.request);
     })
   );
 });
