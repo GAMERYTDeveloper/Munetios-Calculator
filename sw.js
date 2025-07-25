@@ -17,7 +17,7 @@ const URLS_TO_CACHE = [
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display'
   // Remember to add paths to your icons here if you have them
-  // e.g., '/GAMERYT-Calculator/icon-192x192.png',
+  '/GAMERYT-Calculator/icon-192x192.png',
 ];
 
 // --- EVENT LISTENERS ---
