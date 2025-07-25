@@ -1,5 +1,5 @@
 // Define a version for your cache. Change this version to update the cache.
-const CACHE_VERSION = 'v1.7.5'; // Incremented version again
+const CACHE_VERSION = 'v1.7.7'; // Incremented version to trigger the update
 const CACHE_NAME = `gameryt-calculator-cache-${CACHE_VERSION}`;
 
 // A list of all the essential files your app needs to work offline.
@@ -15,14 +15,14 @@ const URLS_TO_CACHE = [
   // External assets from CDNs
   'https://cdn.tailwindcss.com',
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display'
   // Remember to add paths to your icons here if you have them
   // e.g., '/GAMERYT-Calculator/icon-192x192.png',
 ];
 
 // --- EVENT LISTENERS ---
 
-// 1. Install Event: Caches all the essential files.
+// 1. Install Event: Caches all the essential files and activates immediately.
 self.addEventListener('install', (event) => {
   console.log(`[Service Worker] Installing version ${CACHE_VERSION}...`);
   event.waitUntil(
@@ -32,13 +32,21 @@ self.addEventListener('install', (event) => {
         return cache.addAll(URLS_TO_CACHE);
       })
       .then(() => {
-        // Force the waiting service worker to become the active service worker.
-        self.skipWaiting(); 
+        // This is the crucial line: it tells the new service worker to activate immediately
+        // instead of waiting for all tabs to be closed.
+        return self.skipWaiting();
       })
       .catch(error => {
         console.error('[Service Worker] Failed to cache during install', error);
       })
   );
+});
+
+// Listen for a message from the client to skip waiting (for the update prompt).
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 // 2. Fetch Event: Implements a "Cache first, then network" strategy.
