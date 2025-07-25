@@ -216,9 +216,11 @@
         // --- Service Worker Registration ---
         if ('serviceWorker' in navigator) {
           window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/GAMERYT-Calculator/sw.js')
+            // The path must be absolute from the root of the domain.
+            // The scope parameter is crucial for GitHub Pages.
+            navigator.serviceWorker.register('/GAMERYT-Calculator/sw.js', { scope: '/GAMERYT-Calculator/' })
               .then(registration => {
-                console.log('Service Worker registered: ', registration);
+                console.log('Service Worker registered successfully with scope: ', registration.scope);
               })
               .catch(registrationError => {
                 console.log('Service Worker registration failed: ', registrationError);
