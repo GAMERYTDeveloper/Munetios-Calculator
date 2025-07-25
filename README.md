@@ -1,7 +1,7 @@
 GAMERYT-Calculator
 The ultimate calculator web application built with a sleek, modern interface. This project goes beyond simple arithmetic, offering a full suite of scientific functions, numerous unit converters, specialty tools, and an integrated AI assistant.
 
-Live Demo: 
+Live :  https://gamerytdeveloper.github.io/GAMERYT-Calculator/offical.html
 ✨ Features
 This calculator is packed with features to handle a wide range of calculations and conversions:
 
