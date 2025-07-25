@@ -1,14 +1,15 @@
 // Define a version for your cache. Change this version to update the cache.
-const CACHE_VERSION = 'v1.7.2'; // Incremented version
+const CACHE_VERSION = 'v1.7.3'; // Incremented version
 const CACHE_NAME = `gameryt-calculator-cache-${CACHE_VERSION}`;
 
 // A list of all the essential files your app needs to work offline.
 const URLS_TO_CACHE = [
   // The main page, now pointing to app.html inside the /app/ folder
-  '/GAMERYT-Calculator/app/app.html', 
-  
+  '/GAMERYT-Calculator/app/app.html',
+  '/GAMERYT-Calculator/app/', // Also cache the directory path
+
   '/GAMERYT-Calculator/404.html',
-  
+
   // External assets from CDNs
   'https://cdn.tailwindcss.com',
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200',
