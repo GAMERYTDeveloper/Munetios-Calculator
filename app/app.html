@@ -8,7 +8,7 @@
     <!-- PWA and Offline Support -->
     <meta name="theme-color" content="#4c1d95"/>
     <link rel="manifest" href="/GAMERYT-Calculator/manifest.json">
-    <link rel="apple-touch-icon" href="/GAMERYT-Calculator/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="/GAMERYT-Calculator/apple-touch-icon.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -35,12 +35,6 @@
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .calc-btn {
-            @apply bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center;
-        }
-        .calc-btn.operator { @apply bg-pink-600 hover:bg-pink-700; }
-        .calc-btn.action { @apply bg-purple-600 hover:bg-purple-700; }
-        .calc-btn.sci { @apply bg-purple-800 hover:bg-purple-900 text-base; }
         input[type="datetime-local"] {
             background-color: #334155;
             border: 1px solid #475569;
@@ -294,38 +288,38 @@
 
                 const advancedButtons = `
                     <div id="advanced-buttons" class="grid grid-cols-2 gap-2">
-                        <button class="calc-btn sci" data-key="toggle-more">more</button>
-                        <button class="calc-btn sci" data-key="rad-deg">${state.calc.isRad ? 'RAD' : 'DEG'}</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="toggle-more">more</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="rad-deg">${state.calc.isRad ? 'RAD' : 'DEG'}</button>
                         
-                        <button class="calc-btn sci" data-key="(">(</button>
-                        <button class="calc-btn sci" data-key=")">)</button>
-                        <button class="calc-btn sci" data-key="mc">mc</button>
-                        <button class="calc-btn sci" data-key="m+">m+</button>
-                        <button class="calc-btn sci" data-key="m-">m-</button>
-                        <button class="calc-btn sci" data-key="mr">mr</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="(">(</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key=")">)</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="mc">mc</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="m+">m+</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="m-">m-</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="mr">mr</button>
                         
-                        <button class="calc-btn sci" data-key="2nd">2nd</button>
-                        <button class="calc-btn sci" data-key="x^2">x²</button>
-                        <button class="calc-btn sci" data-key="x^3">x³</button>
-                        <button class="calc-btn sci" data-key="x^y">xʸ</button>
-                        <button class="calc-btn sci" data-key="e^x">eˣ</button>
-                        <button class="calc-btn sci" data-key="10^x">10ˣ</button>
-                        <button class="calc-btn sci" data-key="1/x">1/x</button>
-                        <button class="calc-btn sci" data-key="sqrt">√</button>
-                        <button class="calc-btn sci" data-key="cbrt">∛</button>
-                        <button class="calc-btn sci" data-key="y_sqrt_x">ʸ√x</button>
-                        <button class="calc-btn sci" data-key="+/-">+/-</button>
-                        <button class="calc-btn sci" data-key="pi">π</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="2nd">2nd</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x^2">x²</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x^3">x³</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x^y">xʸ</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="e^x">eˣ</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="10^x">10ˣ</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="1/x">1/x</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="sqrt">√</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="cbrt">∛</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="y_sqrt_x">ʸ√x</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="+/-">+/-</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="pi">π</button>
 
                         <div id="more-sci-functions" class="col-span-2 grid grid-cols-2 gap-2 ${state.calc.showMoreSci ? 'visible' : ''}">
-                            <button class="calc-btn sci" data-key="ln">ln</button>
-                            <button class="calc-btn sci" data-key="log10">log₁₀</button>
-                            <button class="calc-btn sci" data-key="x!">x!</button>
-                            <button class="calc-btn sci" data-key="sin">sin</button>
-                            <button class="calc-btn sci" data-key="cos">cos</button>
-                            <button class="calc-btn sci" data-key="tan">tan</button>
-                            <button class="calc-btn sci" data-key="e">e</button>
-                            <button class="calc-btn sci" data-key="EE">EE</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="ln">ln</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="log10">log₁₀</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x!">x!</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="sin">sin</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="cos">cos</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="tan">tan</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="e">e</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="EE">EE</button>
                         </div>
                     </div>
                 `;
@@ -339,26 +333,26 @@
                     <div class="flex-grow mt-4 flex gap-2">
                         ${advancedMode ? advancedButtons : ''}
                         <div class="grid ${gridClass} gap-2 flex-grow">
-                            <button class="calc-btn action" data-key="AC">AC</button>
-                            <button class="calc-btn action" data-key="DEL">DEL</button>
-                            <button class="calc-btn action" data-key="%">%</button>
-                            <button class="calc-btn operator" data-key="/">÷</button>
-                            <button class="calc-btn" data-key="7">7</button>
-                            <button class="calc-btn" data-key="8">8</button>
-                            <button class="calc-btn" data-key="9">9</button>
-                            <button class="calc-btn operator" data-key="*">x</button>
-                            <button class="calc-btn" data-key="4">4</button>
-                            <button class="calc-btn" data-key="5">5</button>
-                            <button class="calc-btn" data-key="6">6</button>
-                            <button class="calc-btn operator" data-key="-">-</button>
-                            <button class="calc-btn" data-key="1">1</button>
-                            <button class="calc-btn" data-key="2">2</button>
-                            <button class="calc-btn" data-key="3">3</button>
-                            <button class="calc-btn operator" data-key="+">+</button>
-                            <button class="calc-btn ${advancedMode ? '' : 'col-span-2'}" data-key="0">0</button>
-                            <button class="calc-btn" data-key=".">.</button>
-                            <button class="calc-btn operator" data-key="=">=</button>
-                            ${advancedMode ? '<button class="calc-btn col-span-2" data-key="00">00</button>' : ''}
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="AC">AC</button>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="DEL">DEL</button>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="%">%</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="/">÷</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="7">7</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="8">8</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="9">9</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="*">x</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="4">4</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="5">5</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="6">6</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="-">-</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="1">1</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="2">2</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="3">3</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="+">+</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center ${advancedMode ? '' : 'col-span-2'}" data-key="0">0</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key=".">.</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="=">=</button>
+                            ${advancedMode ? '<button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center col-span-2" data-key="00">00</button>' : ''}
                         </div>
                     </div>
                 </div>`;
