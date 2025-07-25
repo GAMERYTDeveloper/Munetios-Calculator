@@ -1,7 +1,7 @@
 {
   "name": "GAMERYT Calculator",
   "short_name": "Calculator",
-  "start_url": "/GAMERYT-Calculator/index.html",
+  "start_url": "/GAMERYT-Calculator/app/app.html",
   "display": "standalone",
   "background_color": "#1e1b4b",
   "theme_color": "#4c1d95",
