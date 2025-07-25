@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAMERYT Calculator - Official Site</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background-start-dark: #1e1b4b; /* Deeper Purple */
+            --background-end-dark: #4c1d95;   /* Purple */
+            --background-start-light: #f3e8ff;
+            --background-end-light: #e9d5ff;
+        }
+        html.dark body {
+            background-color: #0f172a;
+            background-image: linear-gradient(to right, var(--background-start-dark), var(--background-end-dark));
+        }
+        html:not(.dark) body {
+            background-color: #f1f5f9;
+            background-image: linear-gradient(to right, var(--background-start-light), var(--background-end-light));
+        }
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+    </style>
+</head>
+<body class="text-slate-800 dark:text-white font-sans transition-colors duration-300">
+
+    <div id="app-container" class="min-h-screen">
+        <!-- Topbar -->
+        <header class="bg-slate-100/30 dark:bg-slate-900/30 backdrop-blur-md sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Logo -->
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 flex items-center gap-2">
+                             <span class="material-symbols-outlined text-pink-400 text-3xl">calculate</span>
+                             <span id="logo-text" class="text-xl font-bold">GAMERYT</span>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Navigation -->
+                    <div class="hidden lg:block">
+                        <nav id="desktop-nav" class="ml-10 flex items-baseline space-x-4">
+                            <button data-page="home">Home</button>
+                            <button data-page="about">About</button>
+                            <button data-page="compare">Compare</button>
+                            <button data-page="tos">TOS</button>
+                            <button data-page="privacy">Privacy</button>
+                        </nav>
+                    </div>
+
+                    <!-- Action Buttons & Mobile Menu Button -->
+                    <div class="flex items-center">
+                         <div class="hidden lg:flex items-center space-x-2">
+                            <button id="dark-mode-toggle" class="p-2 rounded-full transition-colors text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700/50">
+                                <span class="material-symbols-outlined">dark_mode</span>
+                            </button>
+                            <a id="contact-btn" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=minecraftgamer97529@gmail.com" target="_blank" class="flex items-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                                <span class="material-symbols-outlined text-base mr-2">email</span>
+                                <span id="contact-btn-text">Contact</span>
+                            </a>
+                        </div>
+                        <div class="lg:hidden flex items-center">
+                             <button id="dark-mode-toggle-mobile" class="p-2 rounded-full transition-colors text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700/50 mr-2">
+                                <span class="material-symbols-outlined">dark_mode</span>
+                            </button>
+                            <a id="contact-btn-mobile" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=minecraftgamer97529@gmail.com" target="_blank" class="p-2 rounded-full transition-colors text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700/50 mr-2">
+                                <span class="material-symbols-outlined">email</span>
+                            </a>
+                            <button id="menu-btn" class="p-2 rounded-full transition-colors text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700/50">
+                                <span class="material-symbols-outlined">menu</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-menu" class="lg:hidden hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <button data-page="home">Home</button>
+                    <button data-page="about">About</button>
+                    <button data-page="compare">Compare</button>
+                    <button data-page="tos">TOS</button>
+                    <button data-page="privacy">Privacy</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Page content will be injected here -->
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- STATE & CONFIG ---
+            const state = {
+                currentPage: 'home',
+                darkMode: localStorage.getItem('darkMode') !== 'false',
+                isMobileMenuOpen: false,
+                comparisonTarget: 'apple'
+            };
+
+            const comparisonData = {
+                features: [
+                    { key: 'private', name: 'Use privately' },
+                    { key: 'history', name: 'History' },
+                    { key: 'search', name: 'History search' },
+                    { key: 'types', name: 'All convert types' },
+                    { key: 'percent', name: 'Check %' },
+                    { key: 'ai', name: 'AI Assistant' },
+                    { key: 'theme', name: 'Dark/light mode' },
+                    { key: 'decimals', name: 'Decimals' },
+                    { key: 'advanced', name: 'Advanced mode' }
+                ],
+                calculators: {
+                    gameryt: { name: 'GAMERYT Calculator', private: 'yes', history: 'yes', search: 'yes', types: 'yes', percent: 'yes', ai: 'yes', theme: 'yes', decimals: 'yes', advanced: 'yes' },
+                    apple: { name: 'Apple Calculator', private: 'yes', history: 'limited', search: 'no', types: 'yes', percent: 'no', ai: 'no', theme: 'yes', decimals: 'yes', advanced: 'limited' },
+                    microsoft: { name: 'Microsoft Calculator', private: 'yes', history: 'yes', search: 'no', types: 'yes', percent: 'limited', ai: 'no', theme: 'yes', decimals: 'yes', advanced: 'yes' },
+                    google: { name: 'Google Calculator', private: 'no', history: 'limited', search: 'no', types: 'limited', percent: 'yes', ai: 'no', theme: 'limited', decimals: 'yes', advanced: 'limited' },
+                    samsung: { name: 'Samsung Calculator', private: 'yes', history: 'yes', search: 'no', types: 'yes', percent: 'no', ai: 'no', theme: 'yes', decimals: 'yes', advanced: 'limited' }
+                }
+            };
+
+            // --- SELECTORS ---
+            const mainContent = document.getElementById('main-content');
+            const desktopNav = document.getElementById('desktop-nav');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuBtn = document.getElementById('menu-btn');
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const darkModeToggleMobile = document.getElementById('dark-mode-toggle-mobile');
+            const contactBtn = document.getElementById('contact-btn');
+            const contactBtnText = document.getElementById('contact-btn-text');
+            const contactBtnMobile = document.getElementById('contact-btn-mobile');
+            const logoText = document.getElementById('logo-text');
+
+            // --- TEMPLATES ---
+            const pages = {
+                home: () => `
+                    <div class="text-center py-16 sm:py-24">
+                        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">
+                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">The Ultimate Calculator.</span>
+                            <span class="block text-slate-400 dark:text-slate-300 mt-2">Switch to GAMERYT Calculator.</span>
+                        </h1>
+                        <p class="mt-6 max-w-2xl mx-auto text-lg text-slate-500 dark:text-slate-400">
+                            A powerful, feature-rich calculator for all your needs, from simple math to complex conversions and AI-powered assistance.
+                        </p>
+                        <div class="mt-10">
+                            <a href="https://sites.google.com/view/gameryt-calculator/calculator" target="_blank" class="inline-block bg-purple-600 text-white font-bold text-lg px-10 py-4 rounded-full shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105">
+                                Open GAMERYT Calculator
+                            </a>
+                        </div>
+                    </div>`,
+                about: () => `
+                    <div class="bg-white/50 dark:bg-slate-900/50 p-8 rounded-xl shadow-lg">
+                        <h2 class="text-3xl font-bold text-pink-400 mb-4">About</h2>
+                        <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
+                            This is the official website for the GAMERYT Calculator, a project created by <strong class="text-purple-500 dark:text-purple-400">GAMERYTDeveloper (GAMERYT97529)</strong>.
+                            The goal is to provide a comprehensive and user-friendly calculator that goes beyond basic arithmetic, offering a wide range of converters, scientific functions, and modern features like an AI assistant.
+                            This project is built with passion for creating useful and well-designed tools for everyone.
+                        </p>
+                    </div>`,
+                compare: () => {
+                    const { features, calculators } = comparisonData;
+                    const targetCalc = calculators[state.comparisonTarget];
+
+                    const getIcon = (status) => {
+                        switch (status) {
+                            case 'yes': return `<span class="material-symbols-outlined text-green-500">check_circle</span>`;
+                            case 'limited': return `<span class="material-symbols-outlined text-yellow-500">check_circle</span>`;
+                            case 'no': return `<span class="material-symbols-outlined text-red-500">cancel</span>`;
+                            default: return '';
+                        }
+                    };
+                    
+                    return `
+                    <div class="bg-white/50 dark:bg-slate-900/50 p-4 sm:p-6 md:p-8 rounded-xl shadow-lg">
+                        <h2 class="text-3xl font-bold text-pink-400 mb-6 text-center">Calculator Comparison</h2>
+                        <div class="max-w-md mx-auto mb-8">
+                            <label for="compare-select" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">Compare GAMERYT Calculator with:</label>
+                            <select id="compare-select" class="w-full p-3 rounded-lg bg-slate-200 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                                <option value="apple" ${state.comparisonTarget === 'apple' ? 'selected' : ''}>Apple Calculator</option>
+                                <option value="microsoft" ${state.comparisonTarget === 'microsoft' ? 'selected' : ''}>Microsoft Calculator</option>
+                                <option value="google" ${state.comparisonTarget === 'google' ? 'selected' : ''}>Google Calculator</option>
+                                <option value="samsung" ${state.comparisonTarget === 'samsung' ? 'selected' : ''}>Samsung Calculator</option>
+                            </select>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full min-w-[600px] border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-200/50 dark:bg-slate-700/50">
+                                        <th class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700 text-left font-semibold">Feature</th>
+                                        <th class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700 font-semibold">GAMERYT Calculator</th>
+                                        <th class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700 font-semibold">${targetCalc.name}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${features.map(feature => `
+                                    <tr class="hover:bg-slate-200/30 dark:hover:bg-slate-800/30">
+                                        <td class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700 text-left">${feature.name}</td>
+                                        <td class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700">${getIcon(calculators.gameryt[feature.key])}</td>
+                                        <td class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700">${getIcon(targetCalc[feature.key])}</td>
+                                    </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>`;
+                },
+                tos: () => `
+                    <div class="bg-white/50 dark:bg-slate-900/50 p-8 rounded-xl shadow-lg">
+                        <h2 class="text-3xl font-bold text-pink-400 mb-4">Terms of Service</h2>
+                        <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
+                            Use of the GAMERYT Calculator and this website is at your own risk. The service is provided "as is" without any warranties. The creator, GAMERYTDeveloper, is not liable for any damages or losses resulting from your use of this service.
+                        </p>
+                    </div>`,
+                privacy: () => `
+                    <div class="bg-white/50 dark:bg-slate-900/50 p-8 rounded-xl shadow-lg">
+                        <h2 class="text-3xl font-bold text-pink-400 mb-4">Privacy Policy</h2>
+                        <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
+                            The GAMERYT Calculator website uses browser \`localStorage\` to save your settings (like dark mode preference) and history on your own device. This information is not sent to any server and is not collected or viewed by the creator. The calculator is designed to be a private, client-side tool.
+                        </p>
+                    </div>`
+            };
+
+            // --- RENDER & LOGIC FUNCTIONS ---
+            function renderPage(pageName) {
+                state.currentPage = pageName;
+                mainContent.innerHTML = pages[pageName]();
+                updateActiveNav();
+                
+                if (pageName === 'compare') {
+                    document.getElementById('compare-select').addEventListener('change', (e) => {
+                        state.comparisonTarget = e.target.value;
+                        renderPage('compare');
+                    });
+                }
+            }
+
+            function updateActiveNav() {
+                const navLinkClasses = {
+                    base: 'px-3 py-2 rounded-md text-sm font-medium transition-colors',
+                    active: 'bg-purple-700 text-white',
+                    inactive: 'text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700/50'
+                };
+                const mobileNavLinkClasses = {
+                    base: 'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+                    active: 'bg-purple-700 text-white',
+                    inactive: 'text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700'
+                };
+
+                document.querySelectorAll('#desktop-nav button').forEach(link => {
+                    const isActive = link.dataset.page === state.currentPage;
+                    link.className = `${navLinkClasses.base} ${isActive ? navLinkClasses.active : navLinkClasses.inactive}`;
+                });
+
+                document.querySelectorAll('#mobile-menu button').forEach(link => {
+                    const isActive = link.dataset.page === state.currentPage;
+                    link.className = `${mobileNavLinkClasses.base} ${isActive ? mobileNavLinkClasses.active : mobileNavLinkClasses.inactive}`;
+                });
+            }
+
+            function applyDarkMode() {
+                document.documentElement.classList.toggle('dark', state.darkMode);
+                const icon = state.darkMode ? 'light_mode' : 'dark_mode';
+                darkModeToggle.querySelector('.material-symbols-outlined').textContent = icon;
+                darkModeToggleMobile.querySelector('.material-symbols-outlined').textContent = icon;
+                localStorage.setItem('darkMode', state.darkMode);
+            }
+
+            function handleResponsiveUI() {
+                const width = window.innerWidth;
+                // Navbar collapse
+                if (width < 1024) { // Tailwind 'lg' breakpoint
+                    desktopNav.classList.add('hidden');
+                } else {
+                    desktopNav.classList.remove('hidden');
+                    mobileMenu.classList.add('hidden');
+                    state.isMobileMenuOpen = false;
+                }
+
+                // Contact button collapse
+                if (width < 992) {
+                    contactBtnText.classList.add('hidden');
+                    contactBtn.classList.remove('px-4');
+                    contactBtn.classList.add('p-2');
+                    contactBtn.querySelector('.material-symbols-outlined').classList.remove('mr-2');
+                } else {
+                    contactBtnText.classList.remove('hidden');
+                    contactBtn.classList.add('px-4');
+                    contactBtn.classList.remove('p-2');
+                    contactBtn.querySelector('.material-symbols-outlined').classList.add('mr-2');
+                }
+                
+                // Logo text collapse
+                if (width < 576) {
+                    logoText.classList.add('hidden');
+                } else {
+                    logoText.classList.remove('hidden');
+                }
+            }
+            
+            // --- EVENT LISTENERS ---
+            document.querySelectorAll('#desktop-nav button, #mobile-menu button').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const page = e.currentTarget.dataset.page;
+                    renderPage(page);
+                    if (state.isMobileMenuOpen) {
+                        mobileMenu.classList.add('hidden');
+                        state.isMobileMenuOpen = false;
+                    }
+                });
+            });
+
+            menuBtn.addEventListener('click', () => {
+                state.isMobileMenuOpen = !state.isMobileMenuOpen;
+                mobileMenu.classList.toggle('hidden', !state.isMobileMenuOpen);
+            });
+
+            darkModeToggle.addEventListener('click', () => {
+                state.darkMode = !state.darkMode;
+                applyDarkMode();
+            });
+            darkModeToggleMobile.addEventListener('click', () => {
+                state.darkMode = !state.darkMode;
+                applyDarkMode();
+            });
+
+            window.addEventListener('resize', handleResponsiveUI);
+
+            // --- INITIALIZATION ---
+            applyDarkMode();
+            renderPage('home');
+            handleResponsiveUI();
+        });
+    </script>
+</body>
+</html>
