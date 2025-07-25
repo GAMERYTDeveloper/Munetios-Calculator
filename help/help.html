@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAMERYT Calculator - Help Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background-start-dark: #1e1b4b;
+            --background-end-dark: #4c1d95;
+            --background-start-light: #f3e8ff;
+            --background-end-light: #e9d5ff;
+        }
+        html.dark body {
+            background-color: #0f172a;
+            background-image: linear-gradient(to right, var(--background-start-dark), var(--background-end-dark));
+        }
+        html:not(.dark) body {
+            background-color: #f1f5f9;
+            background-image: linear-gradient(to right, var(--background-start-light), var(--background-end-light));
+        }
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .nav-link.active {
+            color: #a855f7; /* purple-500 */
+            border-bottom-color: #a855f7;
+        }
+    </style>
+</head>
+<body class="text-slate-800 dark:text-white font-sans transition-colors duration-300">
+
+    <div id="app-container" class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-slate-100/30 dark:bg-slate-900/30 backdrop-blur-md sticky top-0 z-50 border-b border-slate-300/50 dark:border-slate-700/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Logo -->
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 flex items-center gap-2">
+                             <span class="material-symbols-outlined text-pink-400 text-3xl">quiz</span>
+                             <span class="text-xl font-bold">Help Center</span>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Navigation -->
+                    <div class="hidden md:block">
+                        <nav id="desktop-nav" class="flex items-center space-x-8">
+                            <button data-page="topics" class="nav-link text-slate-600 dark:text-slate-300 hover:text-purple-500 border-b-2 border-transparent py-2 transition-colors">Topics</button>
+                            <button data-page="articles" class="nav-link text-slate-600 dark:text-slate-300 hover:text-purple-500 border-b-2 border-transparent py-2 transition-colors active">Articles</button>
+                            <button data-page="compare" class="nav-link text-slate-600 dark:text-slate-300 hover:text-purple-500 border-b-2 border-transparent py-2 transition-colors">Compare</button>
+                            <a href="https://sites.google.com/view/gameryt-calculator/calculator" target="_blank" class="nav-link text-slate-600 dark:text-slate-300 hover:text-purple-500 border-b-2 border-transparent py-2 transition-colors">App</a>
+                        </nav>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <div class="md:hidden flex items-center">
+                        <button id="menu-btn" class="p-2 rounded-full transition-colors text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700/50">
+                            <span class="material-symbols-outlined">menu</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-menu" class="md:hidden hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <button data-page="topics" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">Topics</button>
+                    <button data-page="articles" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 bg-slate-200/50 dark:bg-slate-700/50">Articles</button>
+                    <button data-page="compare" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">Compare</button>
+                    <a href="https://sites.google.com/view/gameryt-calculator/calculator" target="_blank" class="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">App</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Dynamic content will be injected here -->
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- STATE & CONFIG ---
+            const state = {
+                currentPage: 'articles', // articles, topics, compare
+                view: 'list', // 'list' or 'grid'
+                searchTerm: '',
+                activeCategory: 'All',
+                comparisonTarget: 'apple',
+                articles: [
+                    { id: 1, title: 'Getting Started with Standard Calculator', category: 'Getting Started', icon: 'calculate', content: 'Learn the basic functions of the standard calculator, including arithmetic operations, decimals, and clearing the display.' },
+                    { id: 2, title: 'Using the Scientific Calculator', category: 'Advanced Features', icon: 'functions', content: 'Explore advanced functions like trigonometry (sin, cos, tan), logarithms (ln, log), powers, and roots.' },
+                    { id: 3, title: 'How to Use Converters', category: 'Converters', icon: 'conversion_path', content: 'Convert units for length, weight, temperature, speed, and more with our comprehensive set of converters.' },
+                    { id: 4, title: 'Understanding the Time Calculator', category: 'Core Features', icon: 'schedule', content: 'Calculate the duration between two dates or add/subtract time from a specific date and time.' },
+                    { id: 5, title: 'Checking Percentages (Likes vs Dislikes)', category: 'Core Features', icon: 'thumb_up', content: 'Quickly calculate the percentage of likes versus dislikes for any given numbers.' },
+                    { id: 6, title: 'Interacting with the AI Assistant', category: 'Advanced Features', icon: 'smart_toy', content: 'Ask the AI mathematical questions in natural language and get instant answers. The AI can solve equations and complex problems.' },
+                    { id: 7, title: 'Managing Your History', category: 'Core Features', icon: 'history', content: 'Your calculations are saved automatically. Learn how to view, search, copy, and delete items from your history.' },
+                    { id: 8, title: 'Customizing Settings', category: 'Getting Started', icon: 'settings', content: 'Personalize your experience by switching between dark and light mode, toggling decimals, and enabling advanced mode.' },
+                    { id: 9, title: 'Fuel & Volume Conversions', category: 'Converters', icon: 'local_gas_station', content: 'A guide to using the fuel efficiency (e.g., MPG, L/100km) and volume (e.g., Liters, Gallons) converters.' },
+                    { id: 10, title: 'Area, Power, and Force Converters', category: 'Converters', icon: 'square_foot', content: 'Details on how to convert units of area, power (Watts, Horsepower), and force (Newtons).' },
+                ]
+            };
+            
+            const comparisonData = {
+                features: [
+                    { key: 'private', name: 'Use privately', description: 'Use it privately without being tracked.' },
+                    { key: 'history', name: 'History', description: 'View a log of your past calculations.' },
+                    { key: 'search', name: 'History search', description: 'Search through your calculation history to find specific entries.' },
+                    { key: 'types', name: 'All convert types', description: 'Access a wide range of converters for units like length, weight, temperature, and more.' },
+                    { key: 'percent', name: 'Check %', description: 'Easily calculate percentages, including for scenarios like likes vs. dislikes.' },
+                    { key: 'ai', name: 'AI Assistant', description: 'Get help with complex math problems using the integrated AI.' },
+                    { key: 'theme', name: 'Dark/light mode', description: 'Switch between dark and light themes for your viewing comfort.' },
+                    { key: 'decimals', name: 'Decimals', description: 'Control whether results are shown as whole numbers or with decimal places.' },
+                    { key: 'advanced', name: 'Advanced mode', description: 'Unlock scientific functions for more complex calculations.' }
+                ],
+                calculators: {
+                    gameryt: { name: 'GAMERYT Calculator', private: 'yes', history: 'yes', search: 'yes', types: 'yes', percent: 'yes', ai: 'yes', theme: 'yes', decimals: 'yes', advanced: 'yes' },
+                    apple: { name: 'Apple Calculator', private: 'yes', history: 'limited', search: 'no', types: 'yes', percent: 'no', ai: 'no', theme: 'yes', decimals: 'yes', advanced: 'limited' },
+                    microsoft: { name: 'Microsoft Calculator', private: 'yes', history: 'yes', search: 'no', types: 'yes', percent: 'limited', ai: 'no', theme: 'yes', decimals: 'yes', advanced: 'yes' },
+                    google: { name: 'Google Calculator', private: 'no', history: 'limited', search: 'no', types: 'limited', percent: 'yes', ai: 'no', theme: 'limited', decimals: 'yes', advanced: 'limited' },
+                    samsung: { name: 'Samsung Calculator', private: 'yes', history: 'yes', search: 'no', types: 'yes', percent: 'no', ai: 'no', theme: 'yes', decimals: 'yes', advanced: 'limited' }
+                }
+            };
+
+            // --- SELECTORS ---
+            const mainContent = document.getElementById('main-content');
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // --- TEMPLATE FUNCTIONS ---
+            const getArticlesPageHTML = () => `
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">How can we help?</h1>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                    <div class="relative flex-grow">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                        <input id="search-input" type="text" placeholder="Search for articles..." class="w-full pl-10 pr-4 py-3 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500" value="${state.searchTerm}">
+                    </div>
+                    <div class="flex items-center justify-end gap-2">
+                        <button id="list-view-btn" class="p-3 rounded-lg"><span class="material-symbols-outlined">view_list</span></button>
+                        <button id="grid-view-btn" class="p-3 rounded-lg"><span class="material-symbols-outlined">grid_view</span></button>
+                    </div>
+                </div>
+
+                <div id="articles-container"></div>`;
+
+            const getTopicsPageHTML = () => {
+                const categories = ['All', ...new Set(state.articles.map(a => a.category))];
+                return `
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Browse by Topic</h1>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${categories.map(category => `
+                        <button data-category="${category}" class="topic-card text-left bg-white/50 dark:bg-slate-800/50 p-6 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                            <h3 class="text-xl font-bold">${category}</h3>
+                            <p class="text-slate-600 dark:text-slate-400 mt-1">${category === 'All' ? 'View all articles' : `View articles in the ${category} category.`}</p>
+                        </button>
+                    `).join('')}
+                </div>`;
+            };
+
+            const getComparePageHTML = () => {
+                const { features, calculators } = comparisonData;
+                const targetCalc = calculators[state.comparisonTarget];
+
+                const getIcon = (status) => {
+                    switch (status) {
+                        case 'yes': return `<span class="material-symbols-outlined text-green-500">check_circle</span>`;
+                        case 'limited': return `<span class="material-symbols-outlined text-yellow-500">check_circle</span>`;
+                        case 'no': return `<span class="material-symbols-outlined text-red-500">cancel</span>`;
+                        default: return '';
+                    }
+                };
+                
+                return `
+                <div class="bg-white/50 dark:bg-slate-900/50 p-4 sm:p-6 md:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-pink-400 mb-6 text-center">Calculator Comparison</h2>
+                    <div class="max-w-md mx-auto mb-8">
+                        <label for="compare-select" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">Compare GAMERYT Calculator with:</label>
+                        <select id="compare-select" class="w-full p-3 rounded-lg bg-slate-200 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                            <option value="apple" ${state.comparisonTarget === 'apple' ? 'selected' : ''}>Apple Calculator</option>
+                            <option value="microsoft" ${state.comparisonTarget === 'microsoft' ? 'selected' : ''}>Microsoft Calculator</option>
+                            <option value="google" ${state.comparisonTarget === 'google' ? 'selected' : ''}>Google Calculator</option>
+                            <option value="samsung" ${state.comparisonTarget === 'samsung' ? 'selected' : ''}>Samsung Calculator</option>
+                        </select>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[600px] border-collapse">
+                            <thead>
+                                <tr class="bg-slate-200/50 dark:bg-slate-700/50">
+                                    <th class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700 text-left font-semibold">Feature</th>
+                                    <th class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700 font-semibold">GAMERYT Calculator</th>
+                                    <th class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700 font-semibold">${targetCalc.name}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${features.map(feature => `
+                                <tr class="hover:bg-slate-200/30 dark:hover:bg-slate-800/30">
+                                    <td class="p-3 md:p-4 align-top border-b border-slate-300 dark:border-slate-700 text-left">
+                                        <div class="font-semibold">${feature.name}</div>
+                                        <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">${feature.description}</div>
+                                    </td>
+                                    <td class="p-3 md:p-4 align-middle text-center border-b border-slate-300 dark:border-slate-700">${getIcon(calculators.gameryt[feature.key])}</td>
+                                    <td class="p-3 md:p-4 align-middle text-center border-b border-slate-300 dark:border-slate-700">${getIcon(targetCalc[feature.key])}</td>
+                                </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
+            };
+
+            // --- RENDER FUNCTIONS ---
+            function renderMainContent() {
+                if (state.currentPage === 'articles') {
+                    mainContent.innerHTML = getArticlesPageHTML();
+                    renderArticles();
+                    attachArticlePageListeners();
+                } else if (state.currentPage === 'topics') {
+                    mainContent.innerHTML = getTopicsPageHTML();
+                    attachTopicsPageListeners();
+                } else if (state.currentPage === 'compare') {
+                    mainContent.innerHTML = getComparePageHTML();
+                    attachComparePageListeners();
+                }
+            }
+
+            function renderArticles() {
+                const articlesContainer = document.getElementById('articles-container');
+                if (!articlesContainer) return;
+
+                const filteredArticles = state.articles.filter(article => {
+                    const matchesCategory = state.activeCategory === 'All' || article.category === state.activeCategory;
+                    const matchesSearch = article.title.toLowerCase().includes(state.searchTerm.toLowerCase()) ||
+                                        article.content.toLowerCase().includes(state.searchTerm.toLowerCase());
+                    return matchesCategory && matchesSearch;
+                });
+
+                if (filteredArticles.length === 0) {
+                    articlesContainer.innerHTML = `<div class="text-center py-16 bg-white/30 dark:bg-slate-800/30 rounded-lg">
+                        <p class="text-xl font-semibold">No articles found</p>
+                        <p class="text-slate-500 dark:text-slate-400 mt-2">Try a different category or search term.</p>
+                    </div>`;
+                    return;
+                }
+
+                articlesContainer.className = state.view === 'grid'
+                    ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'
+                    : 'flex flex-col gap-4';
+
+                articlesContainer.innerHTML = filteredArticles.map(article => {
+                    const commonClasses = 'bg-white/50 dark:bg-slate-800/50 p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300';
+                    if (state.view === 'grid') {
+                        return `
+                        <div class="${commonClasses} flex flex-col">
+                            <div class="flex-shrink-0 mb-4"><span class="material-symbols-outlined text-4xl text-purple-500">${article.icon}</span></div>
+                            <h3 class="text-xl font-bold mb-2">${article.title}</h3>
+                            <p class="text-slate-600 dark:text-slate-400 flex-grow">${article.content}</p>
+                            <div class="mt-4"><span class="text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300 py-1 px-3 rounded-full">${article.category}</span></div>
+                        </div>`;
+                    } else { // List view
+                        return `
+                        <div class="${commonClasses} flex flex-col sm:flex-row items-start gap-6">
+                            <div class="flex-shrink-0"><span class="material-symbols-outlined text-3xl text-purple-500">${article.icon}</span></div>
+                            <div class="flex-grow">
+                                <h3 class="text-xl font-bold mb-1">${article.title}</h3>
+                                <p class="text-slate-600 dark:text-slate-400 mb-3">${article.content}</p>
+                                <span class="text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300 py-1 px-3 rounded-full">${article.category}</span>
+                            </div>
+                        </div>`;
+                    }
+                }).join('');
+            }
+
+            // --- EVENT ATTACHMENT ---
+            function attachArticlePageListeners() {
+                document.getElementById('search-input').addEventListener('input', (e) => {
+                    state.searchTerm = e.target.value;
+                    renderArticles();
+                });
+                document.getElementById('list-view-btn').addEventListener('click', () => handleViewChange('list'));
+                document.getElementById('grid-view-btn').addEventListener('click', () => handleViewChange('grid'));
+                handleViewChange(state.view); // Set initial style
+            }
+            
+            function attachTopicsPageListeners() {
+                document.querySelectorAll('.topic-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        state.activeCategory = e.currentTarget.dataset.category;
+                        state.currentPage = 'articles';
+                        state.searchTerm = ''; // Reset search when changing category
+                        updateActiveNav();
+                        renderMainContent();
+                    });
+                });
+            }
+
+            function attachComparePageListeners() {
+                document.getElementById('compare-select').addEventListener('change', (e) => {
+                    state.comparisonTarget = e.target.value;
+                    renderMainContent();
+                });
+            }
+
+            // --- EVENT HANDLERS ---
+            function handleViewChange(view) {
+                state.view = view;
+                const listViewBtn = document.getElementById('list-view-btn');
+                const gridViewBtn = document.getElementById('grid-view-btn');
+                const activeClasses = ['bg-purple-600', 'text-white'];
+                const inactiveClasses = ['bg-white/50', 'dark:bg-slate-800/50', 'text-slate-600', 'dark:text-slate-300'];
+
+                if (view === 'list') {
+                    listViewBtn.classList.add(...activeClasses);
+                    listViewBtn.classList.remove(...inactiveClasses);
+                    gridViewBtn.classList.remove(...activeClasses);
+                    gridViewBtn.classList.add(...inactiveClasses);
+                } else { // grid
+                    gridViewBtn.classList.add(...activeClasses);
+                    gridViewBtn.classList.remove(...inactiveClasses);
+                    listViewBtn.classList.remove(...activeClasses);
+                    listViewBtn.classList.add(...inactiveClasses);
+                }
+                renderArticles();
+            }
+            
+            function handleNavClick(e) {
+                const page = e.currentTarget.dataset.page;
+                state.currentPage = page;
+                state.activeCategory = 'All'; // Reset category when changing main page
+                state.searchTerm = '';
+                updateActiveNav();
+                renderMainContent();
+                if (mobileMenu.classList.contains('block')) {
+                    mobileMenu.classList.remove('block');
+                    mobileMenu.classList.add('hidden');
+                }
+            }
+
+            function updateActiveNav() {
+                // Reset all
+                document.querySelectorAll('#desktop-nav button, #mobile-menu button[data-page]').forEach(el => {
+                    el.classList.remove('active', 'bg-slate-200/50', 'dark:bg-slate-700/50');
+                });
+                // Apply to active
+                const desktopBtn = document.querySelector(`#desktop-nav button[data-page="${state.currentPage}"]`);
+                if (desktopBtn) desktopBtn.classList.add('active');
+                const mobileBtn = document.querySelector(`#mobile-menu button[data-page="${state.currentPage}"]`);
+                if (mobileBtn) mobileBtn.classList.add('bg-slate-200/50', 'dark:bg-slate-700/50');
+            }
+
+            // --- GLOBAL LISTENERS ---
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('block');
+                
+            });
+            
+            document.querySelectorAll('#desktop-nav button, #mobile-menu button[data-page]').forEach(btn => {
+                btn.addEventListener('click', handleNavClick);
+            });
+
+            // --- INITIALIZATION ---
+            renderMainContent();
+            updateActiveNav();
+        });
+    </script>
+</body>
+</html>
