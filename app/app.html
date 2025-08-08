@@ -33,11 +33,18 @@
           'GRAD' 0,
           'opsz' 24
         }
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         input[type="datetime-local"] {
-            background-color: #334155;
-            border: 1px solid #475569;
+            background-color: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
             color-scheme: dark;
         }
         #more-sci-functions {
@@ -56,64 +63,64 @@
 
     <div id="app-container" class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <aside id="sidebar" class="bg-slate-900/30 backdrop-blur-md text-white w-64 flex flex-col flex-shrink-0 transition-all duration-300 ease-in-out -translate-x-full sm:translate-x-0">
+        <aside id="sidebar" class="liquid-glass text-white w-64 flex flex-col flex-shrink-0 transition-all duration-300 ease-in-out -translate-x-full sm:translate-x-0">
             <div class="p-4 flex items-center justify-between h-16 border-b border-slate-700/50 flex-shrink-0">
                 <div class="flex items-center">
                     <span class="material-symbols-outlined text-pink-400">calculate</span>
                     <h1 class="text-xl font-bold ml-2 sidebar-text">Calculator</h1>
                 </div>
-                <button id="sidebar-close-btn" class="sm:hidden p-2 rounded-md hover:bg-slate-700">
+                <button id="sidebar-close-btn" class="sm:hidden p-2 rounded-3xl hover:bg-slate-700">
                      <span class="material-symbols-outlined">close</span>
                 </button>
             </div>
             <nav id="sidebar-nav" class="p-4 space-y-2 overflow-y-auto">
                  <div id="sidebar-main-nav" class="space-y-2">
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="standard">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="standard">
                         <span class="material-symbols-outlined">dialpad</span><span class="ml-3 sidebar-text">Standard</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="time">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="time">
                         <span class="material-symbols-outlined">schedule</span><span class="ml-3 sidebar-text">Time</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="storage">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="storage">
                         <span class="material-symbols-outlined">database</span><span class="ml-3 sidebar-text">Storage</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="currency">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="currency">
                         <span class="material-symbols-outlined">payments</span><span class="ml-3 sidebar-text">Currency</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="angle">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="angle">
                         <span class="material-symbols-outlined">square_foot</span><span class="ml-3 sidebar-text">Angle</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="pressure">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="pressure">
                         <span class="material-symbols-outlined">compress</span><span class="ml-3 sidebar-text">Pressure</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="weight">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="weight">
                         <span class="material-symbols-outlined">fitness_center</span><span class="ml-3 sidebar-text">Weight</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="speed">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="speed">
                         <span class="material-symbols-outlined">speed</span><span class="ml-3 sidebar-text">Speed</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="temp">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="temp">
                         <span class="material-symbols-outlined">thermostat</span><span class="ml-3 sidebar-text">Temp</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="length">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="length">
                         <span class="material-symbols-outlined">straighten</span><span class="ml-3 sidebar-text">Length</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="fuel">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="fuel">
                         <span class="material-symbols-outlined">local_gas_station</span><span class="ml-3 sidebar-text">Fuel</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="volume">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="volume">
                         <span class="material-symbols-outlined">science</span><span class="ml-3 sidebar-text">Volume</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="area">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="area">
                         <span class="material-symbols-outlined">view_in_ar</span><span class="ml-3 sidebar-text">Area</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="power">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="power">
                         <span class="material-symbols-outlined">bolt</span><span class="ml-3 sidebar-text">Power</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="energy">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="energy">
                         <span class="material-symbols-outlined">local_fire_department</span><span class="ml-3 sidebar-text">Energy</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="force">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="force">
                         <span class="material-symbols-outlined">moving</span><span class="ml-3 sidebar-text">Force</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="percent">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="percent">
                         <span class="material-symbols-outlined">thumb_up</span><span class="ml-3 sidebar-text">Check %</span></button>
-                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50" data-page="settings">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="settings">
                         <span class="material-symbols-outlined">settings</span><span class="ml-3 sidebar-text">Settings</span></button>
                  </div>
                  <div id="sidebar-more-container" class="hidden relative">
-                    <button id="sidebar-more-btn" class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-lg hover:bg-slate-700/50">
+                    <button id="sidebar-more-btn" class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50">
                         <span class="material-symbols-outlined">more_horiz</span><span class="ml-3 sidebar-text">More</span>
                     </button>
-                    <div id="sidebar-more-menu" class="hidden absolute bottom-full left-0 mb-2 w-full p-2 bg-slate-800 rounded-lg shadow-lg z-20 space-y-2 overflow-y-auto max-h-64">
+                    <div id="sidebar-more-menu" class="hidden absolute bottom-full left-0 mb-2 w-full p-2 bg-slate-800 rounded-3xl shadow-lg z-20 space-y-2 overflow-y-auto max-h-64">
                         <!-- Collapsed items go here -->
                     </div>
                  </div>
-                 <a id="sidebar-contact-btn" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=minecraftgamer97529@gmail.com" target="_blank" class="hidden items-center p-2 text-base font-normal text-slate-300 rounded-lg hover:bg-slate-700/50">
+                 <a id="sidebar-contact-btn" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=minecraftgamer97529@gmail.com" target="_blank" class="hidden items-center p-2 text-base font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50">
                     <span class="material-symbols-outlined">email</span><span class="ml-3 sidebar-text">Contact</span></a>
             </nav>
         </aside>
@@ -121,21 +128,21 @@
         <!-- Main Viewport -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Topbar -->
-            <header id="topbar" class="bg-slate-900/30 backdrop-blur-md text-white flex-shrink-0">
+            <header id="topbar" class="liquid-glass text-white flex-shrink-0">
                 <div class="flex items-center justify-between p-4 h-16 border-b border-slate-700/50">
                     <div class="flex items-center">
-                        <button id="menu-btn" class="sm:hidden mr-2 p-2 rounded-md hover:bg-slate-700">
+                        <button id="menu-btn" class="sm:hidden mr-2 p-2 rounded-3xl hover:bg-slate-700">
                             <span class="material-symbols-outlined">menu</span>
                         </button>
                     </div>
                     <div id="search-bar-wrapper" class="flex-1 flex justify-center">
                         <div id="desktop-search-container" class="relative w-full" style="max-width: 800px;">
                             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-                            <input id="history-search" type="text" placeholder="Search History" class="bg-slate-800/50 border border-slate-700 rounded-lg w-full pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                            <input id="history-search" type="text" placeholder="Search History" class="bg-slate-800/50 border border-slate-700 rounded-3xl w-full pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500">
                         </div>
                     </div>
                     <div class="flex items-center space-x-2 ml-2">
-                        <a id="desktop-contact-btn" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=minecraftgamer97529@gmail.com" target="_blank" class="flex items-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                        <a id="desktop-contact-btn" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=minecraftgamer97529@gmail.com" target="_blank" class="flex items-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-3xl transition-colors">
                             <span class="material-symbols-outlined text-sm mr-1">email</span>
                             <span id="contact-btn-text">Contact</span>
                         </a>
@@ -168,7 +175,7 @@
                 </main>
 
                 <!-- Right Panels -->
-                <aside id="right-panels" class="bg-slate-900/30 backdrop-blur-md flex-shrink-0 border-l border-slate-700/50 flex flex-col relative">
+                <aside id="right-panels" class="liquid-glass flex-shrink-0 border-l border-slate-700/50 flex flex-col relative">
                     <button id="right-panel-close-btn" class="absolute top-2 right-2 p-2 rounded-full hover:bg-slate-700/50 z-10 hidden">
                         <span class="material-symbols-outlined">close</span>
                     </button>
@@ -195,15 +202,15 @@
                 <div id="history-list" class="flex-1 p-4 space-y-2 overflow-y-auto no-scrollbar">
                    <!-- History items go here -->
                 </div>
-                <button id="clear-history-btn" class="m-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg">Clear History</button>
+                <button id="clear-history-btn" class="m-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-3xl">Clear History</button>
             </div>
             <div id="ai-panel" class="flex flex-col h-full">
                 <h2 class="text-lg font-bold p-4 border-b border-slate-700/50 flex-shrink-0">AI Assistant</h2>
                 <div class="flex-1 p-4 flex flex-col overflow-hidden">
-                    <div id="ai-output" class="flex-1 bg-slate-800/50 rounded-lg p-2 mb-4 overflow-y-auto no-scrollbar"></div>
+                    <div id="ai-output" class="liquid-glass rounded-3xl p-2 mb-4 overflow-y-auto no-scrollbar"></div>
                     <div class="flex flex-shrink-0">
-                        <input id="ai-input" type="text" placeholder="Ask AI..." class="bg-slate-800/50 border border-slate-700 rounded-l-lg w-full p-2 focus:outline-none focus:ring-2 focus:ring-pink-500">
-                        <button id="ai-submit-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold p-2 rounded-r-lg">
+                        <input id="ai-input" type="text" placeholder="Ask AI..." class="bg-slate-800/50 border border-slate-700 rounded-l-3xl w-full p-2 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                        <button id="ai-submit-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold p-2 rounded-r-3xl">
                             <span class="material-symbols-outlined">send</span>
                         </button>
                     </div>
@@ -216,8 +223,6 @@
         // --- Service Worker Registration ---
         if ('serviceWorker' in navigator) {
           window.addEventListener('load', () => {
-            // The path must be absolute from the root of the domain.
-            // The scope parameter is crucial for GitHub Pages.
             navigator.serviceWorker.register('/GAMERYT-Calculator/sw.js', { scope: '/GAMERYT-Calculator/' })
               .then(registration => {
                 console.log('Service Worker registered successfully with scope: ', registration.scope);
@@ -242,9 +247,9 @@
                 calc: {
                     memory: 0,
                     is2ndFlipped: false,
-                    isRad: false, // false for DEG, true for RAD
+                    isRad: false, 
                     showMoreSci: false,
-                    lastOperation: { operator: null, operand: null }, // For repeating equals
+                    lastOperation: { operator: null, operand: null },
                 },
                 isSidebarOpen: false,
                 isRightPanelOpen: true,
@@ -258,24 +263,20 @@
             const sidebarNav = document.getElementById('sidebar-nav');
             const menuBtn = document.getElementById('menu-btn');
             const sidebarCloseBtn = document.getElementById('sidebar-close-btn');
-            
             const rightPanelsContainer = document.getElementById('right-panels');
             const rightPanelCloseBtn = document.getElementById('right-panel-close-btn');
             const panelTemplates = document.getElementById('panel-templates');
             const historyPanel = document.getElementById('history-panel');
             const aiPanel = document.getElementById('ai-panel');
-            
             const historyBtn = document.getElementById('history-btn');
             const aiBtn = document.getElementById('ai-btn');
             const historyList = document.getElementById('history-list');
             const clearHistoryBtn = document.getElementById('clear-history-btn');
             const historySearchInput = document.getElementById('history-search');
             const mobileHistorySearchInput = document.getElementById('mobile-history-search');
-
             const aiInput = document.getElementById('ai-input');
             const aiOutput = document.getElementById('ai-output');
             const aiSubmitBtn = document.getElementById('ai-submit-btn');
-
             const mobileSearchBtn = document.getElementById('mobile-search-btn');
             const mobileSearchView = document.getElementById('mobile-search-view');
             const mobileSearchBackBtn = document.getElementById('mobile-search-back-btn');
@@ -291,71 +292,69 @@
 
                 const advancedButtons = `
                     <div id="advanced-buttons" class="grid grid-cols-2 gap-2">
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="toggle-more">more</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="rad-deg">${state.calc.isRad ? 'RAD' : 'DEG'}</button>
-                        
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="(">(</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key=")">)</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="mc">mc</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="m+">m+</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="m-">m-</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="mr">mr</button>
-                        
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="2nd">2nd</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x^2">x²</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x^3">x³</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x^y">xʸ</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="e^x">eˣ</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="10^x">10ˣ</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="1/x">1/x</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="sqrt">√</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="cbrt">∛</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="y_sqrt_x">ʸ√x</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="+/-">+/-</button>
-                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="pi">π</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="toggle-more">more</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="rad-deg">${state.calc.isRad ? 'RAD' : 'DEG'}</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="(">(</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key=")">)</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="mc">mc</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="m+">m+</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="m-">m-</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="mr">mr</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="2nd">2nd</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x^2">x²</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x^3">x³</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x^y">xʸ</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="e^x">eˣ</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="10^x">10ˣ</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="1/x">1/x</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="sqrt">√</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="cbrt">∛</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="y_sqrt_x">ʸ√x</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="+/-">+/-</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="pi">π</button>
 
                         <div id="more-sci-functions" class="col-span-2 grid grid-cols-2 gap-2 ${state.calc.showMoreSci ? 'visible' : ''}">
-                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="ln">ln</button>
-                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="log10">log₁₀</button>
-                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x!">x!</button>
-                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="sin">sin</button>
-                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="cos">cos</button>
-                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="tan">tan</button>
-                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="e">e</button>
-                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="EE">EE</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="ln">ln</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="log10">log₁₀</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x!">x!</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="sin">sin</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="cos">cos</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="tan">tan</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="e">e</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="EE">EE</button>
                         </div>
                     </div>
                 `;
 
                 return `
-                <div id="calculator" class="w-full max-w-2xl mx-auto h-full bg-slate-900/50 rounded-xl shadow-lg p-4 flex flex-col">
+                <div id="calculator" class="w-full max-w-2xl mx-auto h-full liquid-glass rounded-xl shadow-lg p-4 flex flex-col">
                     <div class="relative">
                         <div id="expression-display" class="text-right text-slate-400 text-2xl h-8 pr-4 break-all truncate"></div>
-                        <div id="display" class="bg-slate-800/60 text-right text-white p-4 rounded-lg text-5xl overflow-x-auto no-scrollbar break-all flex-shrink-0">0</div>
+                        <div id="display" class="bg-slate-800/60 text-right text-white p-4 rounded-3xl text-5xl overflow-x-auto no-scrollbar break-all flex-shrink-0">0</div>
                     </div>
                     <div class="flex-grow mt-4 flex gap-2">
                         ${advancedMode ? advancedButtons : ''}
                         <div class="grid ${gridClass} gap-2 flex-grow">
-                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="AC">AC</button>
-                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="DEL">DEL</button>
-                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="%">%</button>
-                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="/">÷</button>
-                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="7">7</button>
-                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="8">8</button>
-                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="9">9</button>
-                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="*">x</button>
-                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="4">4</button>
-                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="5">5</button>
-                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="6">6</button>
-                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="-">-</button>
-                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="1">1</button>
-                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="2">2</button>
-                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="3">3</button>
-                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="+">+</button>
-                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center ${advancedMode ? '' : 'col-span-2'}" data-key="0">0</button>
-                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key=".">.</button>
-                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="=">=</button>
-                            ${advancedMode ? '<button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-lg text-xl transition-all duration-200 active:scale-95 flex justify-center items-center col-span-2" data-key="00">00</button>' : ''}
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="AC">AC</button>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="DEL">DEL</button>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="%">%</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="/">÷</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="7">7</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="8">8</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="9">9</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="*">x</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="4">4</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="5">5</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="6">6</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="-">-</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="1">1</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="2">2</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="3">3</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="+">+</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center ${advancedMode ? '' : 'col-span-2'}" data-key="0">0</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key=".">.</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="=">=</button>
+                            ${advancedMode ? '<button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center col-span-2" data-key="00">00</button>' : ''}
                         </div>
                     </div>
                 </div>`;
@@ -363,38 +362,38 @@
             
             const getTimeCalculatorHTML = () => `
                 <div class="w-full max-w-2xl mx-auto p-4 md:p-6 space-y-8">
-                    <div class="bg-slate-900/50 rounded-xl shadow-lg p-6">
+                    <div class="liquid-glass rounded-xl shadow-lg p-6">
                         <h3 class="text-2xl font-bold text-pink-400 mb-4">Time Difference</h3>
                         <div class="flex flex-wrap -mx-2 items-end">
                             <div class="px-2 w-full md:w-1/2 mb-4 md:mb-0">
                                 <label for="start-time" class="block text-sm font-medium text-slate-300 mb-1">Start Date & Time</label>
-                                <input type="datetime-local" id="start-time" class="w-full p-2 rounded-lg bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                                <input type="datetime-local" id="start-time" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">
                             </div>
                             <div class="px-2 w-full md:w-1/2">
                                 <label for="end-time" class="block text-sm font-medium text-slate-300 mb-1">End Date & Time</label>
-                                <input type="datetime-local" id="end-time" class="w-full p-2 rounded-lg bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                                <input type="datetime-local" id="end-time" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">
                             </div>
                         </div>
                         <div class="text-center mt-6">
-                            <button id="calc-diff-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-lg">Calculate Difference</button>
+                            <button id="calc-diff-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-3xl">Calculate Difference</button>
                         </div>
                         <div id="diff-result" class="text-center text-lg md:text-xl font-bold pt-4 mt-4 border-t border-slate-700/50 min-h-[2.25rem]"></div>
                     </div>
-                    <div class="bg-slate-900/50 rounded-xl shadow-lg p-6">
+                    <div class="liquid-glass rounded-xl shadow-lg p-6">
                         <h3 class="text-2xl font-bold text-pink-400 mb-4">Add/Subtract Time</h3>
                         <div>
                              <label for="base-time" class="block text-sm font-medium text-slate-300 mb-1">Base Date & Time</label>
-                             <input type="datetime-local" id="base-time" class="w-full p-2 rounded-lg bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                             <input type="datetime-local" id="base-time" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">
                         </div>
                         <div class="flex flex-wrap -mx-2 mt-4">
-                            <div class="w-1/2 sm:w-1/4 px-2 mb-2"><label for="add-days" class="block text-sm text-center">Days</label><input type="number" id="add-days" min="0" class="w-full p-2 rounded-lg bg-slate-700 border border-slate-600 text-center" placeholder="0"></div>
-                            <div class="w-1/2 sm:w-1/4 px-2 mb-2"><label for="add-hours" class="block text-sm text-center">Hours</label><input type="number" id="add-hours" min="0" class="w-full p-2 rounded-lg bg-slate-700 border border-slate-600 text-center" placeholder="0"></div>
-                            <div class="w-1/2 sm:w-1/4 px-2 mb-2"><label for="add-mins" class="block text-sm text-center">Minutes</label><input type="number" id="add-mins" min="0" class="w-full p-2 rounded-lg bg-slate-700 border border-slate-600 text-center" placeholder="0"></div>
-                            <div class="w-1/2 sm:w-1/4 px-2 mb-2"><label for="add-secs" class="block text-sm text-center">Seconds</label><input type="number" id="add-secs" min="0" class="w-full p-2 rounded-lg bg-slate-700 border border-slate-600 text-center" placeholder="0"></div>
+                            <div class="w-1/2 sm:w-1/4 px-2 mb-2"><label for="add-days" class="block text-sm text-center">Days</label><input type="number" id="add-days" min="0" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 text-center" placeholder="0"></div>
+                            <div class="w-1/2 sm:w-1/4 px-2 mb-2"><label for="add-hours" class="block text-sm text-center">Hours</label><input type="number" id="add-hours" min="0" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 text-center" placeholder="0"></div>
+                            <div class="w-1/2 sm:w-1/4 px-2 mb-2"><label for="add-mins" class="block text-sm text-center">Minutes</label><input type="number" id="add-mins" min="0" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 text-center" placeholder="0"></div>
+                            <div class="w-1/2 sm:w-1/4 px-2 mb-2"><label for="add-secs" class="block text-sm text-center">Seconds</label><input type="number" id="add-secs" min="0" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 text-center" placeholder="0"></div>
                         </div>
                         <div class="flex justify-center gap-4 mt-6">
-                            <button id="add-time-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-5 rounded-lg">Add</button>
-                            <button id="subtract-time-btn" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-5 rounded-lg">Subtract</button>
+                            <button id="add-time-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-5 rounded-3xl">Add</button>
+                            <button id="subtract-time-btn" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-5 rounded-3xl">Subtract</button>
                         </div>
                         <div id="add-subtract-result" class="text-center text-lg md:text-xl font-bold pt-4 mt-4 border-t border-slate-700/50 min-h-[2.25rem]"></div>
                     </div>
@@ -402,23 +401,23 @@
             
             const getConverterHTML = (title, units) => {
                 const options = units.map(u => `<option value="${u.value}">${u.name}</option>`).join('');
-                return `<div class="w-full max-w-lg mx-auto bg-slate-900/50 rounded-xl shadow-lg p-6 space-y-6">
+                return `<div class="w-full max-w-lg mx-auto liquid-glass rounded-xl shadow-lg p-6 space-y-6">
                     <h2 class="text-2xl font-bold text-center text-pink-400">${title} Converter</h2>
                     <div class="space-y-4">
                          <div>
                             <label class="block text-sm font-medium text-slate-300 mb-1">From</label>
                             <div class="flex flex-wrap gap-2">
-                                <input type="number" id="converter-input" class="flex-grow w-full min-w-[100px] p-2 rounded-lg bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="Enter value">
-                                <select id="from-unit" class="flex-grow w-full min-w-[100px] p-2 rounded-lg bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">${options}</select>
+                                <input type="number" id="converter-input" class="flex-grow w-full min-w-[100px] p-2 rounded-3xl bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="Enter value">
+                                <select id="from-unit" class="flex-grow w-full min-w-[100px] p-2 rounded-3xl bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">${options}</select>
                             </div>
                          </div>
                          <div>
                             <label class="block text-sm font-medium text-slate-300 mb-1">To</label>
-                            <select id="to-unit" class="w-full p-2 rounded-lg bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">${options}</select>
+                            <select id="to-unit" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">${options}</select>
                          </div>
                     </div>
                     <div class="text-center">
-                        <button id="convert-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-lg">Convert</button>
+                        <button id="convert-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-3xl">Convert</button>
                     </div>
                     <div id="converter-result" class="text-center text-xl font-bold pt-4 min-h-[2rem]"></div>
                 </div>`;
@@ -427,15 +426,15 @@
             const getLikesDislikesHTML = () => `
                 <div class="w-full max-w-4xl mx-auto p-4 md:p-6 space-y-4 h-full flex flex-col">
                     <h2 class="text-3xl font-bold text-pink-400 flex-shrink-0">Check %</h2>
-                    <div class="bg-slate-900/50 rounded-xl shadow-lg p-4 flex-shrink-0 flex flex-wrap items-center gap-4">
+                    <div class="liquid-glass rounded-xl shadow-lg p-4 flex-shrink-0 flex flex-wrap items-center gap-4">
                         <label for="likes-input" class="font-medium">Likes:</label>
-                        <input type="number" id="likes-input" class="bg-slate-800/60 border border-slate-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-pink-500 w-24" placeholder="12" min="0">
+                        <input type="number" id="likes-input" class="bg-slate-800/60 border border-slate-700 rounded-3xl p-2 focus:outline-none focus:ring-2 focus:ring-pink-500 w-24" placeholder="12" min="0">
                         <label for="dislikes-input" class="font-medium">Dislikes:</label>
-                        <input type="number" id="dislikes-input" class="bg-slate-800/60 border border-slate-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-pink-500 w-24" placeholder="23" min="0">
-                        <button id="likes-submit-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 ml-auto">
+                        <input type="number" id="dislikes-input" class="bg-slate-800/60 border border-slate-700 rounded-3xl p-2 focus:outline-none focus:ring-2 focus:ring-pink-500 w-24" placeholder="23" min="0">
+                        <button id="likes-submit-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-3xl flex items-center gap-2 ml-auto">
                             <span class="material-symbols-outlined">send</span> Submit</button>
                     </div>
-                    <div class="flex-grow bg-slate-900/50 rounded-xl shadow-lg mt-4 flex flex-col overflow-hidden">
+                    <div class="flex-grow liquid-glass rounded-xl shadow-lg mt-4 flex flex-col overflow-hidden">
                          <h3 class="text-xl font-bold p-4 border-b border-slate-700/50 flex-shrink-0">History</h3>
                          <div id="likes-history-container" class="space-y-4 p-4 overflow-y-auto no-scrollbar"></div>
                     </div></div>`;
@@ -443,24 +442,24 @@
 
             const getSettingsHTML = () => `
                 <div class="w-full max-w-2xl mx-auto p-4 md:p-6 space-y-8">
-                    <div class="bg-slate-900/50 rounded-xl shadow-lg p-6">
+                    <div class="liquid-glass rounded-xl shadow-lg p-6">
                         <h2 class="text-2xl font-bold text-center text-pink-400 mb-4">Settings</h2>
                         <div class="space-y-4">
-                            <div class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-800/50">
+                            <div class="flex items-center justify-between p-2 rounded-3xl hover:bg-slate-800/50">
                                 <label for="dark-mode-toggle" class="text-lg">Dark Mode</label>
                                 <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
                                     <input type="checkbox" name="dark-mode-toggle" id="dark-mode-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
                                     <label for="dark-mode-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
                                 </div>
                             </div>
-                            <div class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-800/50">
+                            <div class="flex items-center justify-between p-2 rounded-3xl hover:bg-slate-800/50">
                                 <label for="decimals-toggle" class="text-lg">Show Decimals</label>
                                 <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
                                     <input type="checkbox" name="decimals-toggle" id="decimals-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
                                     <label for="decimals-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
                                 </div>
                             </div>
-                            <div class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-800/50">
+                            <div class="flex items-center justify-between p-2 rounded-3xl hover:bg-slate-800/50">
                                 <label for="advanced-mode-toggle" class="text-lg">Advanced Mode</label>
                                 <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
                                     <input type="checkbox" name="advanced-mode-toggle" id="advanced-mode-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
@@ -469,9 +468,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bg-slate-900/50 rounded-xl shadow-lg p-6">
+                    <div class="liquid-glass rounded-xl shadow-lg p-6">
                          <h2 class="text-2xl font-bold text-center text-pink-400 mb-4">Changelog</h2>
                          <div class="space-y-3 text-slate-300 max-h-64 overflow-y-auto">
+                            <div><strong class="text-purple-400">v1.7.3</strong><ul class="list-disc list-inside pl-2"><li>Reverted to Google Material Symbols from SVGs.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.7.2</strong><ul class="list-disc list-inside pl-2"><li>Added liquid glass design.</li><li>Replaced Google Icons with custom SVGs.</li><li>Buttons are now fully rounded (30px).</li></ul></div>
                             <div><strong class="text-purple-400">v1.7.1</strong><ul class="list-disc list-inside pl-2"><li>Fixed fuel converter.</li><li>Added repeating equals functionality to standard calculator.</li><li>Added units to all converter outputs.</li></ul></div>
                             <div><strong class="text-purple-400">v1.7.0</strong><ul class="list-disc list-inside pl-2"><li>Added Offline Support (PWA).</li></ul></div>
                             <div><strong class="text-purple-400">v1.6.2</strong><ul class="list-disc list-inside pl-2"><li>Added Fuel, Volume, Area, Power, Energy, and Force converters.</li></ul></div>
@@ -493,7 +494,7 @@
             function renderPage(page) {
                 state.currentPage = page;
                 mainContent.innerHTML = '';
-                mainContent.style.padding = page === 'standard' ? '0' : '';
+                mainContent.style.padding = page === 'standard' ? '0' : '1rem';
                 const pages = {
                     standard: getStandardCalculatorHTML,
                     time: getTimeCalculatorHTML,
@@ -548,7 +549,7 @@
 
                 const filteredHistory = state.history.filter(item => item.toLowerCase().includes(filter.toLowerCase()));
                 listElem.innerHTML = filteredHistory.length ? filteredHistory.map((item, index) =>
-                    `<div class="bg-slate-800/50 p-2 rounded-lg flex items-center justify-between">
+                    `<div class="bg-slate-800/50 p-2 rounded-3xl flex items-center justify-between">
                         <span class="history-text truncate pr-2">${item}</span>
                         <div class="flex items-center flex-shrink-0">
                             <button class="p-1 hover:bg-purple-700/50 rounded-full copy-btn" data-index="${index}" title="Copy">
@@ -573,20 +574,16 @@
                 const contactBtnText = document.getElementById('contact-btn-text');
                 const sidebarContactBtn = document.getElementById('sidebar-contact-btn');
                 
-                // --- Universal Resets ---
                 rightPanelsContainer.classList.remove('fixed', 'top-0', 'right-0', 'h-full', 'z-30');
                 rightPanelsContainer.style.width = '';
                 rightPanelCloseBtn.classList.add('hidden');
                 
-                // --- Breakpoint-driven logic ---
-                
-                // < 768px (Mobile & Small Tablet View)
                 if (width < 768) {
                     rightPanelsContainer.classList.add('hidden');
                     if (rightPanelsContainer.contains(historyPanel)) panelTemplates.appendChild(historyPanel);
                     if (rightPanelsContainer.contains(aiPanel)) panelTemplates.appendChild(aiPanel);
 
-                    if (width < 600) { // Pure Mobile
+                    if (width < 600) { 
                         sidebar.classList.add('fixed', 'top-0', 'left-0', 'h-full', 'z-40');
                         sidebar.style.transform = state.isSidebarOpen ? 'translateX(0)' : 'translateX(-100%)';
                         sidebar.style.width = '256px';
@@ -596,7 +593,7 @@
                         sidebarContactBtn.classList.add('flex');
                         desktopSearchContainer.classList.add('hidden');
                         mobileSearchBtn.classList.remove('hidden');
-                    } else { // 600px to 768px
+                    } else { 
                         if(state.isMobileSheetOpen) toggleMobileSheet(false);
                         sidebar.classList.remove('fixed', 'top-0', 'left-0', 'h-full', 'z-40');
                         sidebar.style.transform = 'translateX(0)';
@@ -613,7 +610,7 @@
                         desktopSearchContainer.classList.add('hidden');
                         mobileSearchBtn.classList.remove('hidden');
                     }
-                } else { // >= 768px (Desktop Views)
+                } else { 
                     if(state.isMobileSheetOpen) toggleMobileSheet(false);
                     sidebar.classList.remove('fixed', 'top-0', 'left-0', 'h-full', 'z-40');
                     sidebar.style.transform = 'translateX(0)';
@@ -633,7 +630,7 @@
 
                     if (state.isRightPanelOpen) {
                         rightPanelsContainer.classList.remove('hidden');
-                        rightPanelsContainer.innerHTML = ''; // Clear previous panels
+                        rightPanelsContainer.innerHTML = ''; 
                         const panelToShow = state.rightPanelContent === 'history' ? historyPanel : aiPanel;
                         rightPanelsContainer.appendChild(panelToShow);
                     } else {
@@ -641,7 +638,6 @@
                     }
                 }
                 
-                // Contact button text at 1024px
                 if (width < 1024) {
                     contactBtnText.classList.add('hidden');
                     contactBtn.querySelector('.material-symbols-outlined').classList.remove('mr-1');
@@ -650,7 +646,6 @@
                     contactBtn.querySelector('.material-symbols-outlined').classList.add('mr-1');
                 }
 
-                // Search bar position
                 if (width < 992 && width >= 650) {
                     searchBarWrapper.classList.remove('justify-center');
                     searchBarWrapper.classList.add('justify-start');
@@ -659,7 +654,6 @@
                     searchBarWrapper.classList.remove('justify-start');
                 }
 
-                // Sidebar collapse for desktop
                 if (width >= 600 && width < 1190) {
                      sidebar.style.width = '70px';
                     document.querySelectorAll('.sidebar-text').forEach(el => el.classList.add('hidden'));
@@ -708,7 +702,6 @@
 
                 function safeEvaluate(expr) {
                     try {
-                        // Replace user-friendly symbols with JS Math functions
                         let safeExpr = expr
                             .replace(/×/g, '*')
                             .replace(/÷/g, '/')
@@ -716,14 +709,12 @@
                             .replace(/e/g, 'Math.E')
                             .replace(/\^/g, '**');
 
-                        // Handle trigonometry with DEG/RAD conversion
                         safeExpr = safeExpr.replace(/(sin|cos|tan)\(([^)]+)\)/g, (match, func, val) => {
                             const angle = parseFloat(eval(val));
                             const radAngle = state.calc.isRad ? angle : angle * (Math.PI / 180);
                             return `Math.${func}(${radAngle})`;
                         });
                         
-                        // Final check for allowed characters
                         if (/^[0-9+\-*/().\s,MathPIE**]+$/.test(safeExpr.replace(/Math\.(sin|cos|tan|PI|E|sqrt|cbrt|log|log10|exp|pow|abs|sign)/g, ''))) {
                              return new Function('return ' + safeExpr)();
                         } else {
@@ -745,7 +736,7 @@
                         } else {
                             currentInput += key;
                         }
-                        state.calc.lastOperation.operator = null; // Reset repeating equals on new number
+                        state.calc.lastOperation.operator = null; 
                     } else if (key === '.') {
                         if (!currentInput.includes('.')) {
                             currentInput += '.';
@@ -763,10 +754,8 @@
                     } else if (key === '=') {
                         let finalExpression;
                         if (state.calc.lastOperation.operator && expression === '') {
-                             // Repeat last operation
                             finalExpression = currentInput + state.calc.lastOperation.operator + state.calc.lastOperation.operand;
                         } else {
-                            // Normal calculation
                             if (expression === '') return;
                             finalExpression = expression + currentInput;
                             const match = finalExpression.match(/([+\-*/])([^+\-*/]+)$/);
@@ -797,9 +786,8 @@
                         document.getElementById('more-sci-functions').classList.toggle('visible');
                     } else if (key === 'rad-deg') {
                         state.calc.isRad = !state.calc.isRad;
-                        renderPage('standard'); // Re-render to update the button text
+                        renderPage('standard'); 
                     }
-                    // --- Advanced Functions ---
                     else if (state.settings.advancedMode) {
                         handleAdvancedInput(key);
                     }
@@ -834,7 +822,7 @@
                             currentInput = String(Math[key](angle));
                             break;
                         case 'x^y': expression += currentInput + '^'; currentInput = '0'; requiresReset = false; break;
-                        case 'y_sqrt_x': expression += currentInput + 'yroot'; currentInput = '0'; requiresReset = false; break; // Needs custom eval logic
+                        case 'y_sqrt_x': expression += currentInput + 'yroot'; currentInput = '0'; requiresReset = false; break;
                         case 'EE': currentInput += 'e+'; requiresReset = false; break;
                         default: requiresReset = false;
                     }
@@ -980,7 +968,7 @@
                 submitBtn.addEventListener('click', () => {
                     const likes=parseInt(likesInput.value,10)||0, dislikes=parseInt(dislikesInput.value,10)||0; if(likes<0||dislikes<0)return;
                     const total=likes+dislikes, positivePercent=total===0?0:(likes/total)*100, entryNum=state.likesDislikesHistory.length+1, resultText=`Entry ${entryNum}: (${positivePercent.toFixed(1)}% positive) (${likes} likes, ${dislikes} dislikes)`;
-                    const entryHTML=`<div class="bg-slate-800/50 p-3 rounded-lg"><p class="text-sm text-slate-300">${resultText}</p><div class="w-full bg-slate-700 rounded-full h-2.5 mt-2"><div class="bg-green-500 h-2.5 rounded-full" style="width:${positivePercent}%"></div></div></div>`;
+                    const entryHTML=`<div class="liquid-glass p-3 rounded-3xl"><p class="text-sm text-slate-300">${resultText}</p><div class="w-full bg-slate-700 rounded-full h-2.5 mt-2"><div class="bg-green-500 h-2.5 rounded-full" style="width:${positivePercent}%"></div></div></div>`;
                     state.likesDislikesHistory.unshift({html:entryHTML}); localStorage.setItem('likesDislikesHistory', JSON.stringify(state.likesDislikesHistory)); renderLikesHistory();
                     addToHistory(`Likes/Dislikes: ${resultText}`); likesInput.value=''; dislikesInput.value='';
                 });
@@ -1002,7 +990,7 @@
                     state.settings.advancedMode = e.target.checked;
                     localStorage.setItem('advancedMode', state.settings.advancedMode);
                     if (state.currentPage === 'standard') {
-                        renderPage('standard'); // Re-render calculator to show/hide advanced buttons
+                        renderPage('standard'); 
                     }
                 });
             }
@@ -1061,7 +1049,6 @@
                          return C.temp[f][t](v);
                     }
                 } else if (type === 'fuel') {
-                    // Convert to a base unit (km/L) then convert to target
                     const to_base = {
                         'mpg_us': val => val * 0.425144,
                         'l_100km': val => val === 0 ? Infinity : 100 / val,
@@ -1079,8 +1066,8 @@
                 } else if (C[type]) {
                     const T = C[type];
                     if (T[f] && T[t]) {
-                        const baseValue = v / T[f]; // Convert input to base unit (where factor is 1)
-                        return baseValue * T[t]; // Convert from base to target unit
+                        const baseValue = v / T[f];
+                        return baseValue * T[t]; 
                     }
                 }
                 throw new Error("Conversion not supported.");
