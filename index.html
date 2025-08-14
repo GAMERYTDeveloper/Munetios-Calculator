@@ -3,344 +3,1367 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAMERYT Calculator - Official Site</title>
+    <title>GAMERYT Calculator</title>
+    
+    <!-- PWA and Offline Support -->
+    <meta name="theme-color" content="#4c1d95"/>
+    <link rel="manifest" href="/GAMERYT-Calculator/manifest.json">
+    <link rel="icon" type="image/png" href="/GAMERYT-Calculator/favicon.png">
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --background-start-dark: #1e1b4b; /* Deeper Purple */
-            --background-end-dark: #4c1d95;   /* Purple */
-            --background-start-light: #f3e8ff;
-            --background-end-light: #e9d5ff;
+            --background-start-dark: #581c87; /* Purple-ish */
+            --background-end-dark: #db2777;   /* Pink-ish */
+            --background-start-light: #fbcfe8;
+            --background-end-light: #dbeafe;
         }
         html.dark body {
-            background-color: #0f172a;
             background-image: linear-gradient(to right, var(--background-start-dark), var(--background-end-dark));
         }
         html:not(.dark) body {
-            background-color: #f1f5f9;
             background-image: linear-gradient(to right, var(--background-start-light), var(--background-end-light));
         }
-        .material-symbols-outlined {
-          font-variation-settings:
-          'FILL' 0,
-          'wght' 400,
-          'GRAD' 0,
-          'opsz' 24
+        .icon-sm, .icon-md { 
+            font-size: 1.25rem;
+        }
+        .icon-md { 
+            font-size: 1.5rem;
+        }
+
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        input[type="datetime-local"] {
+            background-color: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+            color-scheme: dark;
+        }
+        #more-sci-functions {
+            transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #more-sci-functions.visible {
+            max-height: 500px; /* Adjust as needed */
+            opacity: 1;
+        }
+        /* Styles for Math Notes Canvas */
+        #math-canvas {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: crosshair;
+            touch-action: none;
+        }
+        .color-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+        .color-swatch.active {
+            border-color: #f472b6; /* pink-400 */
         }
     </style>
 </head>
-<body class="text-slate-800 dark:text-white font-sans transition-colors duration-300">
+<body class="bg-slate-900 text-white font-sans transition-colors duration-300">
 
-    <div id="app-container" class="min-h-screen">
-        <!-- Topbar -->
-        <header class="bg-slate-100/30 dark:bg-slate-900/30 backdrop-blur-md sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between h-16">
-                    <!-- Logo -->
+    <div id="app-container" class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="liquid-glass text-white w-64 flex flex-col flex-shrink-0 transition-all duration-300 ease-in-out -translate-x-full sm:translate-x-0">
+            <div class="p-4 flex items-center justify-between h-16 border-b border-slate-700/50 flex-shrink-0">
+                <div class="flex items-center">
+                    <i class="ri-calculator-line icon-md text-pink-400"></i>
+                    <h1 class="text-xl font-bold ml-2 sidebar-text">Calculator</h1>
+                </div>
+                <button id="sidebar-close-btn" class="sm:hidden p-2 rounded-full hover:bg-slate-700">
+                     <i class="ri-close-line icon-md"></i>
+                </button>
+            </div>
+            <nav id="sidebar-nav" class="p-4 space-y-2 overflow-y-auto">
+                 <div id="sidebar-main-nav" class="space-y-2">
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="standard">
+                        <i class="ri-function-line icon-md"></i><span class="ml-3 sidebar-text">Standard</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="math_notes">
+                        <i class="ri-edit-2-line icon-md"></i><span class="ml-3 sidebar-text">Math Notes</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="time">
+                        <i class="ri-time-line icon-md"></i><span class="ml-3 sidebar-text">Time</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="storage">
+                        <i class="ri-database-2-line icon-md"></i><span class="ml-3 sidebar-text">Storage</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="currency">
+                        <i class="ri-money-dollar-circle-line icon-md"></i><span class="ml-3 sidebar-text">Currency</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="angle">
+                        <i class="ri-ruler-line icon-md"></i><span class="ml-3 sidebar-text">Angle</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="pressure">
+                        <i class="ri-compasses-2-line icon-md"></i><span class="ml-3 sidebar-text">Pressure</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="weight">
+                        <i class="ri-scales-3-line icon-md"></i><span class="ml-3 sidebar-text">Weight</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="speed">
+                        <i class="ri-speed-up-line icon-md"></i><span class="ml-3 sidebar-text">Speed</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="temp">
+                        <i class="ri-temp-hot-line icon-md"></i><span class="ml-3 sidebar-text">Temp</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="length">
+                        <i class="ri-ruler-2-line icon-md"></i><span class="ml-3 sidebar-text">Length</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="fuel">
+                        <i class="ri-gas-station-line icon-md"></i><span class="ml-3 sidebar-text">Fuel</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="volume">
+                        <i class="ri-flask-line icon-md"></i><span class="ml-3 sidebar-text">Volume</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="area">
+                       <i class="ri-square-line"></i><span class="ml-3 sidebar-text">Area</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="power">
+                        <i class="ri-flashlight-line icon-md"></i><span class="ml-3 sidebar-text">Power</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="energy">
+                        <i class="ri-fire-line icon-md"></i><span class="ml-3 sidebar-text">Energy</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="force">
+                        <i class="ri-drag-move-2-line icon-md"></i><span class="ml-3 sidebar-text">Force</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="percent">
+                        <i class="ri-percent-line icon-md"></i><span class="ml-3 sidebar-text">Check %</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="settings">
+                        <i class="ri-settings-3-line icon-md"></i><span class="ml-3 sidebar-text">Settings</span></button>
+                 </div>
+                 <div id="sidebar-more-container" class="hidden relative">
+                    <button id="sidebar-more-btn" class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50">
+                        <i class="ri-more-2-fill icon-md"></i><span class="ml-3 sidebar-text">More</span>
+                    </button>
+                    <div id="sidebar-more-menu" class="hidden absolute bottom-full left-0 mb-2 w-full p-2 bg-slate-800 rounded-3xl shadow-lg z-20 space-y-2 overflow-y-auto max-h-64">
+                        <!-- Collapsed items go here -->
+                    </div>
+                 </div>
+                 <a id="sidebar-contact-btn" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=minecraftgamer97529@gmail.com" target="_blank" class="hidden items-center p-2 text-base font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50">
+                    <i class="ri-mail-line icon-md"></i><span class="ml-3 sidebar-text">Contact</span></a>
+            </nav>
+        </aside>
+
+        <!-- Main Viewport -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Topbar -->
+            <header id="topbar" class="liquid-glass text-white flex-shrink-0">
+                <div class="flex items-center justify-between p-4 h-16 border-b border-slate-700/50">
                     <div class="flex items-center">
-                        <div class="flex-shrink-0 flex items-center gap-2">
-                             <span class="material-symbols-outlined text-pink-400 text-3xl">calculate</span>
-                             <span id="logo-text" class="text-xl font-bold">GAMERYT</span>
+                        <button id="menu-btn" class="sm:hidden mr-2 p-2 rounded-full hover:bg-slate-700">
+                          <i class="ri-menu-line icon-md"></i>
+                        </button>
+                    </div>
+                    <div id="search-bar-wrapper" class="flex-1 flex justify-center">
+                        <div id="desktop-search-container" class="relative w-full" style="max-width: 800px;">
+                            <i class="ri-search-line icon-md absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input id="history-search" type="text" placeholder="Search History" class="bg-slate-800/50 border border-slate-700 rounded-3xl w-full pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500">
                         </div>
                     </div>
-
-                    <!-- Desktop Navigation -->
-                    <div class="hidden lg:block">
-                        <nav id="desktop-nav" class="ml-10 flex items-baseline space-x-4">
-                            <button data-page="home">Home</button>
-                            <button data-page="about">About</button>
-                            <button data-page="compare">Compare</button>
-                            <button data-page="tos">TOS</button>
-                            <button data-page="privacy">Privacy</button>
-                        </nav>
+                    <div class="flex items-center space-x-2 ml-2">
+                        <a id="desktop-contact-btn" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=minecraftgamer97529@gmail.com" target="_blank" class="flex items-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-3xl transition-colors">
+                            <i class="ri-mail-line icon-sm mr-1"></i>
+                            <span id="contact-btn-text">Contact</span>
+                        </a>
+                        <button id="mobile-search-btn" class="hidden p-2 rounded-full hover:bg-slate-700">
+                            <i class="ri-search-line icon-md"></i>
+                        </button>
+                        <button id="history-btn" class="p-2 rounded-full hover:bg-slate-700">
+                          <i class="ri-history-line icon-md"></i>
+                        </button>
+                        <button id="ai-btn" class="p-2 rounded-full hover:bg-slate-700">
+                          <i class="ri-robot-2-line icon-md"></i>
+                        </button>
                     </div>
-
-                    <!-- Action Buttons & Mobile Menu Button -->
+                </div>
+                 <!-- Mobile Search -->
+                <div id="mobile-search-view" class="hidden p-2 bg-slate-800">
                     <div class="flex items-center">
-                         <div class="hidden lg:flex items-center space-x-2">
-                            <button id="dark-mode-toggle" class="p-2 rounded-full transition-colors text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700/50">
-                                <span class="material-symbols-outlined">dark_mode</span>
-                            </button>
-                            <a id="contact-btn" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=minecraftgamer97529@gmail.com" target="_blank" class="flex items-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">
-                                <span class="material-symbols-outlined text-base mr-2">email</span>
-                                <span id="contact-btn-text">Contact</span>
-                            </a>
-                        </div>
-                        <div class="lg:hidden flex items-center">
-                             <button id="dark-mode-toggle-mobile" class="p-2 rounded-full transition-colors text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700/50 mr-2">
-                                <span class="material-symbols-outlined">dark_mode</span>
-                            </button>
-                            <a id="contact-btn-mobile" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=minecraftgamer97529@gmail.com" target="_blank" class="p-2 rounded-full transition-colors text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700/50 mr-2">
-                                <span class="material-symbols-outlined">email</span>
-                            </a>
-                            <button id="menu-btn" class="p-2 rounded-full transition-colors text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700/50">
-                                <span class="material-symbols-outlined">menu</span>
-                            </button>
-                        </div>
+                        <button id="mobile-search-back-btn" class="p-2 rounded-full hover:bg-slate-700">
+                            <i class="ri-arrow-left-line icon-md"></i>
+                        </button>
+                        <input id="mobile-history-search" type="text" placeholder="Search History..." class="bg-transparent w-full ml-2 focus:outline-none">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="flex-1 flex flex-row overflow-hidden">
+                <main id="main-content" class="flex-1 flex flex-col overflow-y-auto">
+                    <!-- Dynamic content goes here -->
+                </main>
+
+                <!-- Right Panels -->
+                <aside id="right-panels" class="liquid-glass flex-shrink-0 border-l border-slate-700/50 flex flex-col relative">
+                    <button id="right-panel-close-btn" class="absolute top-2 right-2 p-2 rounded-full hover:bg-slate-700/50 z-10 hidden">
+                        <i class="ri-close-line icon-md"></i>
+                    </button>
+                    <!-- This is a persistent container for the panels -->
+                </aside>
+            </div>
+        </div>
+
+        <!-- Mobile Bottom Sheet -->
+        <div id="mobile-bottom-sheet" class="fixed bottom-0 left-0 right-0 h-1/2 bg-slate-800 transform translate-y-full transition-transform duration-300 ease-in-out flex flex-col">
+            <div id="sheet-header" class="p-4 border-b border-slate-700/50 flex justify-between items-center flex-shrink-0">
+                 <h2 id="sheet-title" class="text-lg font-bold"></h2>
+                 <button id="sheet-close-btn"><i class="ri-arrow-down-s-line icon-md"></i></button>
+            </div>
+            <div id="sheet-content" class="flex-1 overflow-y-auto">
+                <!-- Mobile history/ai content will be moved here -->
+            </div>
+        </div>
+
+        <!-- Panel Templates (kept out of sight, ready to be moved) -->
+        <div id="panel-templates" class="hidden">
+            <div id="history-panel" class="flex flex-col h-full">
+                <h2 class="text-lg font-bold p-4 border-b border-slate-700/50 flex-shrink-0">History</h2>
+                <div id="history-list" class="flex-1 p-4 space-y-2 overflow-y-auto no-scrollbar">
+                   <!-- History items go here -->
+                </div>
+                <button id="clear-history-btn" class="m-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-3xl">Clear History</button>
+            </div>
+            <div id="ai-panel" class="flex flex-col h-full">
+                <h2 class="text-lg font-bold p-4 border-b border-slate-700/50 flex-shrink-0">AI Assistant</h2>
+                <div class="flex-1 p-4 flex flex-col overflow-hidden">
+                    <div id="ai-output" class="liquid-glass rounded-3xl p-2 mb-4 overflow-y-auto no-scrollbar"></div>
+                    <div class="flex flex-shrink-0">
+                        <input id="ai-input" type="text" placeholder="Ask AI..." class="bg-slate-800/50 border border-slate-700 rounded-l-3xl w-full p-2 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                        <button id="ai-submit-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold p-2 rounded-r-3xl">
+                            <i class="ri-send-plane-2-line icon-md"></i>
+                        </button>
                     </div>
                 </div>
             </div>
-            <!-- Mobile Navigation Menu -->
-            <div id="mobile-menu" class="lg:hidden hidden">
-                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <button data-page="home">Home</button>
-                    <button data-page="about">About</button>
-                    <button data-page="compare">Compare</button>
-                    <button data-page="tos">TOS</button>
-                    <button data-page="privacy">Privacy</button>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <!-- Page content will be injected here -->
-        </main>
+        </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- STATE & CONFIG ---
-            const state = {
-                currentPage: 'home',
-                darkMode: localStorage.getItem('darkMode') !== 'false',
-                isMobileMenuOpen: false,
-                comparisonTarget: 'apple'
-            };
+        // --- Service Worker Registration ---
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/GAMERYT-Calculator/sw.js', { scope: '/GAMERYT-Calculator/' })
+              .then(registration => {
+                console.log('Service Worker registered successfully with scope: ', registration.scope);
+              })
+              .catch(registrationError => {
+                console.log('Service Worker registration failed: ', registrationError);
+              });
+          });
+        }
 
-            const comparisonData = {
-                features: [
-                    { key: 'private', name: 'Use privately' },
-                    { key: 'history', name: 'History' },
-                    { key: 'search', name: 'History search' },
-                    { key: 'types', name: 'All convert types' },
-                    { key: 'percent', name: 'Check %' },
-                    { key: 'ai', name: 'AI Assistant' },
-                    { key: 'theme', name: 'Dark/light mode' },
-                    { key: 'decimals', name: 'Decimals' },
-                    { key: 'advanced', name: 'Advanced mode' }
-                ],
-                calculators: {
-                    gameryt: { name: 'GAMERYT Calculator', private: 'yes', history: 'yes', search: 'yes', types: 'yes', percent: 'yes', ai: 'yes', theme: 'yes', decimals: 'yes', advanced: 'yes' },
-                    apple: { name: 'Apple Calculator', private: 'yes', history: 'limited', search: 'no', types: 'yes', percent: 'no', ai: 'no', theme: 'yes', decimals: 'yes', advanced: 'limited' },
-                    microsoft: { name: 'Microsoft Calculator', private: 'yes', history: 'yes', search: 'no', types: 'yes', percent: 'limited', ai: 'no', theme: 'yes', decimals: 'yes', advanced: 'yes' },
-                    google: { name: 'Google Calculator', private: 'no', history: 'limited', search: 'no', types: 'limited', percent: 'yes', ai: 'no', theme: 'limited', decimals: 'yes', advanced: 'limited' },
-                    samsung: { name: 'Samsung Calculator', private: 'yes', history: 'yes', search: 'no', types: 'yes', percent: 'no', ai: 'no', theme: 'yes', decimals: 'yes', advanced: 'limited' }
-                }
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- STATE MANAGEMENT ---
+            const state = {
+                currentPage: 'standard',
+                history: JSON.parse(localStorage.getItem('calculatorHistory')) || [],
+                likesDislikesHistory: JSON.parse(localStorage.getItem('likesDislikesHistory')) || [],
+                settings: {
+                    darkMode: localStorage.getItem('darkMode') !== 'false',
+                    showDecimals: localStorage.getItem('showDecimals') !== 'false',
+                    advancedMode: localStorage.getItem('advancedMode') === 'true',
+                },
+                calc: {
+                    memory: 0,
+                    is2ndFlipped: false,
+                    isRad: false, 
+                    showMoreSci: false,
+                    lastOperation: { operator: null, operand: null },
+                },
+                mathNotes: {
+                    isDrawing: false,
+                    color: '#FFFFFF',
+                    lineWidth: 2,
+                    ctx: null,
+                },
+                isSidebarOpen: false,
+                isRightPanelOpen: true,
+                rightPanelContent: 'history',
+                isMobileSheetOpen: false,
+                mobileSheetContent: 'history'
             };
 
             // --- SELECTORS ---
             const mainContent = document.getElementById('main-content');
-            const desktopNav = document.getElementById('desktop-nav');
-            const mobileMenu = document.getElementById('mobile-menu');
+            const sidebarNav = document.getElementById('sidebar-nav');
             const menuBtn = document.getElementById('menu-btn');
-            const darkModeToggle = document.getElementById('dark-mode-toggle');
-            const darkModeToggleMobile = document.getElementById('dark-mode-toggle-mobile');
-            const contactBtn = document.getElementById('contact-btn');
-            const contactBtnText = document.getElementById('contact-btn-text');
-            const contactBtnMobile = document.getElementById('contact-btn-mobile');
-            const logoText = document.getElementById('logo-text');
-
+            const sidebarCloseBtn = document.getElementById('sidebar-close-btn');
+            const rightPanelsContainer = document.getElementById('right-panels');
+            const rightPanelCloseBtn = document.getElementById('right-panel-close-btn');
+            const panelTemplates = document.getElementById('panel-templates');
+            const historyPanel = document.getElementById('history-panel');
+            const aiPanel = document.getElementById('ai-panel');
+            const historyBtn = document.getElementById('history-btn');
+            const aiBtn = document.getElementById('ai-btn');
+            const historyList = document.getElementById('history-list');
+            const clearHistoryBtn = document.getElementById('clear-history-btn');
+            const historySearchInput = document.getElementById('history-search');
+            const mobileHistorySearchInput = document.getElementById('mobile-history-search');
+            const aiInput = document.getElementById('ai-input');
+            const aiOutput = document.getElementById('ai-output');
+            const aiSubmitBtn = document.getElementById('ai-submit-btn');
+            const mobileSearchBtn = document.getElementById('mobile-search-btn');
+            const mobileSearchView = document.getElementById('mobile-search-view');
+            const mobileSearchBackBtn = document.getElementById('mobile-search-back-btn');
+            const mobileBottomSheet = document.getElementById('mobile-bottom-sheet');
+            const sheetTitle = document.getElementById('sheet-title');
+            const sheetContent = document.getElementById('sheet-content');
+            const sheetCloseBtn = document.getElementById('sheet-close-btn');
+            
             // --- TEMPLATES ---
-            const pages = {
-                home: () => `
-                    <div class="text-center py-16 sm:py-24">
-                        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">
-                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">The Ultimate Calculator.</span>
-                            <span class="block text-slate-400 dark:text-slate-300 mt-2">Switch to GAMERYT Calculator.</span>
-                        </h1>
-                        <p class="mt-6 max-w-2xl mx-auto text-lg text-slate-500 dark:text-slate-400">
-                            A powerful, feature-rich calculator for all your needs, from simple math to complex conversions and AI-powered assistance.
-                        </p>
-                        <div class="mt-10">
-                            <a href="https://gamerytdeveloper.github.io/GAMERYT-Calculator/app/app.html" target="_blank" class="inline-block bg-purple-600 text-white font-bold text-lg px-10 py-4 rounded-full shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105">
-                                Open GAMERYT Calculator
-                            </a>
-                        </div>
-                    </div>`,
-                about: () => `
-                    <div class="bg-white/50 dark:bg-slate-900/50 p-8 rounded-xl shadow-lg">
-                        <h2 class="text-3xl font-bold text-pink-400 mb-4">About</h2>
-                        <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
-                            This is the official website for the GAMERYT Calculator, a project created by <strong class="text-purple-500 dark:text-purple-400">GAMERYTDeveloper (GAMERYT97529)</strong>.
-                            The goal is to provide a comprehensive and user-friendly calculator that goes beyond basic arithmetic, offering a wide range of converters, scientific functions, and modern features like an AI assistant.
-                            This project is built with passion for creating useful and well-designed tools for everyone.
-                        </p>
-                    </div>`,
-                compare: () => {
-                    const { features, calculators } = comparisonData;
-                    const targetCalc = calculators[state.comparisonTarget];
+            const getStandardCalculatorHTML = () => {
+                const advancedMode = state.settings.advancedMode;
+                const gridClass = advancedMode ? 'grid-cols-5' : 'grid-cols-4';
 
-                    const getIcon = (status) => {
-                        switch (status) {
-                            case 'yes': return `<span class="material-symbols-outlined text-green-500">check_circle</span>`;
-                            case 'limited': return `<span class="material-symbols-outlined text-yellow-500">check_circle</span>`;
-                            case 'no': return `<span class="material-symbols-outlined text-red-500">cancel</span>`;
-                            default: return '';
-                        }
-                    };
-                    
-                    return `
-                    <div class="bg-white/50 dark:bg-slate-900/50 p-4 sm:p-6 md:p-8 rounded-xl shadow-lg">
-                        <h2 class="text-3xl font-bold text-pink-400 mb-6 text-center">Calculator Comparison</h2>
-                        <div class="max-w-md mx-auto mb-8">
-                            <label for="compare-select" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">Compare GAMERYT Calculator with:</label>
-                            <select id="compare-select" class="w-full p-3 rounded-lg bg-slate-200 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">
-                                <option value="apple" ${state.comparisonTarget === 'apple' ? 'selected' : ''}>Apple Calculator</option>
-                                <option value="microsoft" ${state.comparisonTarget === 'microsoft' ? 'selected' : ''}>Microsoft Calculator</option>
-                                <option value="google" ${state.comparisonTarget === 'google' ? 'selected' : ''}>Google Calculator</option>
-                                <option value="samsung" ${state.comparisonTarget === 'samsung' ? 'selected' : ''}>Samsung Calculator</option>
-                            </select>
+                const advancedButtons = `
+                    <div id="advanced-buttons" class="grid grid-cols-2 gap-2">
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="toggle-more">more</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="rad-deg">${state.calc.isRad ? 'RAD' : 'DEG'}</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="(">(</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key=")">)</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="mc">mc</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="m+">m+</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="m-">m-</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="mr">mr</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="2nd">2nd</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x^2">x²</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x^3">x³</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x^y">xʸ</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="e^x">eˣ</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="10^x">10ˣ</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="1/x">1/x</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="sqrt">√</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="cbrt">∛</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="y_sqrt_x">ʸ√x</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="+/-">+/-</button>
+                        <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="pi">π</button>
+
+                        <div id="more-sci-functions" class="col-span-2 grid grid-cols-2 gap-2 ${state.calc.showMoreSci ? 'visible' : ''}">
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="ln">ln</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="log10">log₁₀</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="x!">x!</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="sin">sin</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="cos">cos</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="tan">tan</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="e">e</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="EE">EE</button>
                         </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full min-w-[600px] border-collapse">
-                                <thead>
-                                    <tr class="bg-slate-200/50 dark:bg-slate-700/50">
-                                        <th class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700 text-left font-semibold">Feature</th>
-                                        <th class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700 font-semibold">GAMERYT Calculator</th>
-                                        <th class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700 font-semibold">${targetCalc.name}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${features.map(feature => `
-                                    <tr class="hover:bg-slate-200/30 dark:hover:bg-slate-800/30">
-                                        <td class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700 text-left">${feature.name}</td>
-                                        <td class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700">${getIcon(calculators.gameryt[feature.key])}</td>
-                                        <td class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700">${getIcon(targetCalc[feature.key])}</td>
-                                    </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
+                    </div>
+                `;
+
+                return `
+                <div id="calculator" class="w-full max-w-2xl mx-auto h-full liquid-glass rounded-xl shadow-lg p-4 flex flex-col">
+                    <div class="relative">
+                        <div id="expression-display" class="text-right text-slate-400 text-2xl h-8 pr-4 break-all truncate"></div>
+                        <div id="display" class="bg-slate-800/60 text-right text-white p-4 rounded-3xl text-5xl overflow-x-auto no-scrollbar break-all flex-shrink-0">0</div>
+                    </div>
+                    <div class="flex-grow mt-4 flex gap-2">
+                        ${advancedMode ? advancedButtons : ''}
+                        <div class="grid ${gridClass} gap-2 flex-grow">
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="AC">AC</button>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="DEL">DEL</button>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="%">%</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="/">÷</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="7">7</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="8">8</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="9">9</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="*">x</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="4">4</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="5">5</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="6">6</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="-">-</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="1">1</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="2">2</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="3">3</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="+">+</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center ${advancedMode ? '' : 'col-span-2'}" data-key="0">0</button>
+                            <button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key=".">.</button>
+                            <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="=">=</button>
+                            ${advancedMode ? '<button class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-3xl text-xl transition-all duration-200 active:scale-95 flex justify-center items-center col-span-2" data-key="00">00</button>' : ''}
                         </div>
-                    </div>`;
-                },
-                tos: () => `
-                    <div class="bg-white/50 dark:bg-slate-900/50 p-8 rounded-xl shadow-lg">
-                        <h2 class="text-3xl font-bold text-pink-400 mb-4">Terms of Service</h2>
-                        <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
-                            Use of the GAMERYT Calculator and this website is at your own risk. The service is provided "as is" without any warranties. The creator, GAMERYTDeveloper, is not liable for any damages or losses resulting from your use of this service.
-                        </p>
-                    </div>`,
-                privacy: () => `
-                    <div class="bg-white/50 dark:bg-slate-900/50 p-8 rounded-xl shadow-lg">
-                        <h2 class="text-3xl font-bold text-pink-400 mb-4">Privacy Policy</h2>
-                        <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
-                            The GAMERYT Calculator website uses browser \`localStorage\` to save your settings (like dark mode preference) and history on your own device. This information is not sent to any server and is not collected or viewed by the creator. The calculator is designed to be a private, client-side tool.
-                        </p>
-                    </div>`
+                    </div>
+                </div>`;
+            }
+            
+            const getTimeCalculatorHTML = () => `
+                <div class="w-full max-w-2xl mx-auto p-4 md:p-6 space-y-8">
+                    <div class="liquid-glass rounded-xl shadow-lg p-6">
+                        <h3 class="text-2xl font-bold text-pink-400 mb-4">Time Difference</h3>
+                        <div class="flex flex-wrap -mx-2 items-end">
+                            <div class="px-2 w-full md:w-1/2 mb-4 md:mb-0">
+                                <label for="start-time" class="block text-sm font-medium text-slate-300 mb-1">Start Date & Time</label>
+                                <input type="datetime-local" id="start-time" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                            </div>
+                            <div class="px-2 w-full md:w-1/2">
+                                <label for="end-time" class="block text-sm font-medium text-slate-300 mb-1">End Date & Time</label>
+                                <input type="datetime-local" id="end-time" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                            </div>
+                        </div>
+                        <div class="text-center mt-6">
+                            <button id="calc-diff-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-3xl">Calculate Difference</button>
+                        </div>
+                        <div id="diff-result" class="text-center text-lg md:text-xl font-bold pt-4 mt-4 border-t border-slate-700/50 min-h-[2.25rem]"></div>
+                    </div>
+                    <div class="liquid-glass rounded-xl shadow-lg p-6">
+                        <h3 class="text-2xl font-bold text-pink-400 mb-4">Add/Subtract Time</h3>
+                        <div>
+                             <label for="base-time" class="block text-sm font-medium text-slate-300 mb-1">Base Date & Time</label>
+                             <input type="datetime-local" id="base-time" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                        </div>
+                        <div class="flex flex-wrap -mx-2 mt-4">
+                            <div class="w-1/2 sm:w-1/4 px-2 mb-2"><label for="add-days" class="block text-sm text-center">Days</label><input type="number" id="add-days" min="0" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 text-center" placeholder="0"></div>
+                            <div class="w-1/2 sm:w-1/4 px-2 mb-2"><label for="add-hours" class="block text-sm text-center">Hours</label><input type="number" id="add-hours" min="0" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 text-center" placeholder="0"></div>
+                            <div class="w-1/2 sm:w-1/4 px-2 mb-2"><label for="add-mins" class="block text-sm text-center">Minutes</label><input type="number" id="add-mins" min="0" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 text-center" placeholder="0"></div>
+                            <div class="w-1/2 sm:w-1/4 px-2 mb-2"><label for="add-secs" class="block text-sm text-center">Seconds</label><input type="number" id="add-secs" min="0" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 text-center" placeholder="0"></div>
+                        </div>
+                        <div class="flex justify-center gap-4 mt-6">
+                            <button id="add-time-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-5 rounded-3xl">Add</button>
+                            <button id="subtract-time-btn" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-5 rounded-3xl">Subtract</button>
+                        </div>
+                        <div id="add-subtract-result" class="text-center text-lg md:text-xl font-bold pt-4 mt-4 border-t border-slate-700/50 min-h-[2.25rem]"></div>
+                    </div>
+                </div>`;
+            
+            const getConverterHTML = (title, units) => {
+                const options = units.map(u => `<option value="${u.value}">${u.name}</option>`).join('');
+                return `<div class="w-full max-w-lg mx-auto liquid-glass rounded-xl shadow-lg p-6 space-y-6">
+                    <h2 class="text-2xl font-bold text-center text-pink-400">${title} Converter</h2>
+                    <div class="space-y-4">
+                         <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-1">From</label>
+                            <div class="flex flex-wrap gap-2">
+                                <input type="number" id="converter-input" class="flex-grow w-full min-w-[100px] p-2 rounded-3xl bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="Enter value">
+                                <select id="from-unit" class="flex-grow w-full min-w-[100px] p-2 rounded-3xl bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">${options}</select>
+                            </div>
+                         </div>
+                         <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-1">To</label>
+                            <select id="to-unit" class="w-full p-2 rounded-3xl bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">${options}</select>
+                         </div>
+                    </div>
+                    <div class="text-center">
+                        <button id="convert-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-3xl">Convert</button>
+                    </div>
+                    <div id="converter-result" class="text-center text-xl font-bold pt-4 min-h-[2rem]"></div>
+                </div>`;
             };
+            
+            const getLikesDislikesHTML = () => `
+                <div class="w-full max-w-4xl mx-auto p-4 md:p-6 space-y-4 h-full flex flex-col">
+                    <h2 class="text-3xl font-bold text-pink-400 flex-shrink-0">Check %</h2>
+                    <div class="liquid-glass rounded-xl shadow-lg p-4 flex-shrink-0 flex flex-wrap items-center gap-4">
+                        <label for="likes-input" class="font-medium">Likes:</label>
+                        <input type="number" id="likes-input" class="bg-slate-800/60 border border-slate-700 rounded-3xl p-2 focus:outline-none focus:ring-2 focus:ring-pink-500 w-24" placeholder="12" min="0">
+                        <label for="dislikes-input" class="font-medium">Dislikes:</label>
+                        <input type="number" id="dislikes-input" class="bg-slate-800/60 border border-slate-700 rounded-3xl p-2 focus:outline-none focus:ring-2 focus:ring-pink-500 w-24" placeholder="23" min="0">
+                        <button id="likes-submit-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-3xl flex items-center gap-2 ml-auto">
+                            <i class="ri-send-plane-2-line icon-sm"></i> Submit</button>
+                    </div>
+                    <div class="flex-grow liquid-glass rounded-xl shadow-lg mt-4 flex flex-col overflow-hidden">
+                         <h3 class="text-xl font-bold p-4 border-b border-slate-700/50 flex-shrink-0">History</h3>
+                         <div id="likes-history-container" class="space-y-4 p-4 overflow-y-auto no-scrollbar"></div>
+                    </div></div>`;
 
+
+            const getSettingsHTML = () => `
+                <div class="w-full max-w-2xl mx-auto p-4 md:p-6 space-y-8">
+                    <div class="liquid-glass rounded-xl shadow-lg p-6">
+                        <h2 class="text-2xl font-bold text-center text-pink-400 mb-4">Settings</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-2 rounded-3xl hover:bg-slate-800/50">
+                                <label for="dark-mode-toggle" class="text-lg">Dark Mode</label>
+                                <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                    <input type="checkbox" name="dark-mode-toggle" id="dark-mode-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                                    <label for="dark-mode-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-2 rounded-3xl hover:bg-slate-800/50">
+                                <label for="decimals-toggle" class="text-lg">Show Decimals</label>
+                                <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                    <input type="checkbox" name="decimals-toggle" id="decimals-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                                    <label for="decimals-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-2 rounded-3xl hover:bg-slate-800/50">
+                                <label for="advanced-mode-toggle" class="text-lg">Advanced Mode</label>
+                                <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                    <input type="checkbox" name="advanced-mode-toggle" id="advanced-mode-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                                    <label for="advanced-mode-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="liquid-glass rounded-xl shadow-lg p-6">
+                         <h2 class="text-2xl font-bold text-center text-pink-400 mb-4">Changelog</h2>
+                         <div class="space-y-3 text-slate-300 max-h-64 overflow-y-auto">
+                            <div><strong class="text-purple-400">v1.8.2</strong><ul class="list-disc list-inside pl-2"><li>Replaced Google Material Symbols with Remix Icon font for a new look and feel.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.8.1</strong><ul class="list-disc list-inside pl-2"><li>Replaced custom SVGs with official Google Material Symbol SVGs to ensure correct branding and accessibility.</li><li>Removed external font stylesheet to improve performance and reliability in all regions.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.8.0</strong><ul class="list-disc list-inside pl-2"><li>Added Math Notes with canvas drawing and auto-solver.</li><li>Expanded all unit converters with more options.</li><li>Replaced Material Icons with custom SVGs for a lighter footprint.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.7.3</strong><ul class="list-disc list-inside pl-2"><li>Reverted to Google Material Symbols from SVGs.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.7.2</strong><ul class="list-disc list-inside pl-2"><li>Added liquid glass design.</li><li>Replaced Google Icons with custom SVGs.</li><li>Buttons are now fully rounded (30px).</li></ul></div>
+                            <div><strong class="text-purple-400">v1.7.1</strong><ul class="list-disc list-inside pl-2"><li>Fixed fuel converter.</li><li>Added repeating equals functionality to standard calculator.</li><li>Added units to all converter outputs.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.7.0</strong><ul class="list-disc list-inside pl-2"><li>Added Offline Support (PWA).</li></ul></div>
+                            <div><strong class="text-purple-400">v1.6.2</strong><ul class="list-disc list-inside pl-2"><li>Added Fuel, Volume, Area, Power, Energy, and Force converters.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.6.0</strong><ul class="list-disc list-inside pl-2"><li>Added full scientific calculator functionality in Advanced Mode.</li><li>Includes memory functions, trigonometry, logarithms, powers, and more.</li><li>New 5-column layout for advanced mode.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.5.3</strong><ul class="list-disc list-inside pl-2"><li>Added Storage Converter.</li><li>Added Advanced Mode toggle in settings.</li><li>Major responsiveness overhaul for a more fluid experience on all screen sizes.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.5.2</strong><ul class="list-disc list-inside pl-2"><li>Added Angle & Currency Converters.</li><li>Upgraded AI to solve more query types.</li><li>Added Copy & Delete to history items.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.5.1</strong><ul class="list-disc list-inside pl-2"><li>Adjusted responsive width of the right-side panel.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.5.0</strong><ul class="list-disc list-inside pl-2"><li>Added Pressure Converter.</li><li>Added Changelog to Settings page.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.4.0</strong><ul class="list-disc list-inside pl-2"><li>Added Time Calculator.</li><li>Restored 'DEL' and '%' buttons.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.3.0</strong><ul class="list-disc list-inside pl-2"><li>Added advanced 'Check %' for Likes vs. Dislikes.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.2.0</strong><ul class="list-disc list-inside pl-2"><li>Major mobile responsiveness overhaul.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.0.0</strong><ul class="list-disc list-inside pl-2"><li>Initial release of GAMERYT Calculator.</li></ul></div>
+                         </div>
+                    </div>
+                </div>
+                <style>.toggle-checkbox:checked { right: 0; border-color: #ec4899; } .toggle-checkbox:checked + .toggle-label { background-color: #ec4899; }</style>`;
+
+            const getMathNotesHTML = () => `
+                <div class="w-full max-w-4xl mx-auto p-4 md:p-6 space-y-4 h-full flex flex-col">
+                    <h2 class="text-3xl font-bold text-pink-400 flex-shrink-0">Math Notes</h2>
+                    <div class="liquid-glass rounded-xl shadow-lg p-4 flex-shrink-0 flex flex-wrap items-center gap-4">
+                        <label class="font-medium">Color:</label>
+                        <div id="color-palette" class="flex items-center gap-2">
+                            <div class="color-swatch active" style="background-color: #FFFFFF;" data-color="#FFFFFF"></div>
+                            <div class="color-swatch" style="background-color: #ef4444;" data-color="#ef4444"></div>
+                            <div class="color-swatch" style="background-color: #3b82f6;" data-color="#3b82f6"></div>
+                            <div class="color-swatch" style="background-color: #22c55e;" data-color="#22c55e"></div>
+                            <div class="color-swatch" style="background-color: #eab308;" data-color="#eab308"></div>
+                        </div>
+                        <label for="pen-size" class="font-medium ml-4">Size:</label>
+                        <input type="range" id="pen-size" min="1" max="20" value="2" class="w-24">
+                        <button id="clear-canvas-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-3xl ml-auto">Clear</button>
+                    </div>
+                    <div class="flex-grow liquid-glass rounded-xl shadow-lg mt-4 flex flex-col overflow-hidden">
+                         <canvas id="math-canvas"></canvas>
+                    </div>
+                    <div class="liquid-glass rounded-xl shadow-lg p-4 flex-shrink-0 flex flex-wrap items-center gap-4">
+                        <label for="math-input" class="font-medium">Auto-Solve:</label>
+                        <input type="text" id="math-input" class="flex-grow bg-slate-800/60 border border-slate-700 rounded-3xl p-2 focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="e.g., (3 + 2) * 5">
+                        <button id="solve-math-btn" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-3xl">Solve</button>
+                    </div>
+                     <div id="math-solve-result" class="text-center text-xl font-bold p-2 min-h-[2rem]"></div>
+                </div>`;
+            
             // --- RENDER & LOGIC FUNCTIONS ---
-            function renderPage(pageName) {
-                state.currentPage = pageName;
-                mainContent.innerHTML = pages[pageName]();
+            function renderPage(page) {
+                state.currentPage = page;
+                mainContent.innerHTML = '';
+                mainContent.style.padding = ['standard', 'math_notes'].includes(page) ? '0' : '1rem';
+                const pages = {
+                    standard: getStandardCalculatorHTML,
+                    math_notes: getMathNotesHTML,
+                    time: getTimeCalculatorHTML,
+                    storage: () => getConverterHTML('Storage', unitDefinitions.storage),
+                    currency: () => getConverterHTML('Currency', unitDefinitions.currency),
+                    angle: () => getConverterHTML('Angle', unitDefinitions.angle),
+                    pressure: () => getConverterHTML('Pressure', unitDefinitions.pressure),
+                    weight: () => getConverterHTML('Weight & Mass', unitDefinitions.weight),
+                    speed: () => getConverterHTML('Speed', unitDefinitions.speed),
+                    temp: () => getConverterHTML('Temperature', unitDefinitions.temp),
+                    length: () => getConverterHTML('Length', unitDefinitions.length),
+                    fuel: () => getConverterHTML('Fuel Efficiency', unitDefinitions.fuel),
+                    volume: () => getConverterHTML('Volume', unitDefinitions.volume),
+                    area: () => getConverterHTML('Area', unitDefinitions.area),
+                    power: () => getConverterHTML('Power', unitDefinitions.power),
+                    energy: () => getConverterHTML('Energy', unitDefinitions.energy),
+                    force: () => getConverterHTML('Force', unitDefinitions.force),
+                    percent: getLikesDislikesHTML, 
+                    settings: getSettingsHTML
+                };
+                const listeners = {
+                    standard: attachStandardCalculatorListeners,
+                    math_notes: attachMathNotesListeners,
+                    time: attachTimeCalculatorListeners,
+                    storage: () => attachConverterListeners('storage'),
+                    currency: () => attachConverterListeners('currency'),
+                    angle: () => attachConverterListeners('angle'),
+                    pressure: () => attachConverterListeners('pressure'),
+                    weight: () => attachConverterListeners('weight'),
+                    speed: () => attachConverterListeners('speed'), 
+                    temp: () => attachConverterListeners('temp'),
+                    length: () => attachConverterListeners('length'), 
+                    fuel: () => attachConverterListeners('fuel'),
+                    volume: () => attachConverterListeners('volume'),
+                    area: () => attachConverterListeners('area'),
+                    power: () => attachConverterListeners('power'),
+                    energy: () => attachConverterListeners('energy'),
+                    force: () => attachConverterListeners('force'),
+                    percent: attachLikesDislikesListeners, 
+                    settings: attachSettingsListeners
+                };
+                mainContent.innerHTML = pages[page]();
+                listeners[page]();
                 updateActiveNav();
-                
-                if (pageName === 'compare') {
-                    document.getElementById('compare-select').addEventListener('change', (e) => {
-                        state.comparisonTarget = e.target.value;
-                        renderPage('compare');
-                    });
-                }
             }
 
-            function updateActiveNav() {
-                const navLinkClasses = {
-                    base: 'px-3 py-2 rounded-md text-sm font-medium transition-colors',
-                    active: 'bg-purple-700 text-white',
-                    inactive: 'text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700/50'
-                };
-                const mobileNavLinkClasses = {
-                    base: 'block px-3 py-2 rounded-md text-base font-medium transition-colors',
-                    active: 'bg-purple-700 text-white',
-                    inactive: 'text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700'
-                };
+            function renderHistory(filter = '') {
+                const listElem = (state.isMobileSheetOpen && sheetContent.contains(historyPanel)) 
+                    ? sheetContent.querySelector('#history-list') 
+                    : historyList;
 
-                document.querySelectorAll('#desktop-nav button').forEach(link => {
-                    const isActive = link.dataset.page === state.currentPage;
-                    link.className = `${navLinkClasses.base} ${isActive ? navLinkClasses.active : navLinkClasses.inactive}`;
-                });
+                if (!listElem) return;
 
-                document.querySelectorAll('#mobile-menu button').forEach(link => {
-                    const isActive = link.dataset.page === state.currentPage;
-                    link.className = `${mobileNavLinkClasses.base} ${isActive ? mobileNavLinkClasses.active : mobileNavLinkClasses.inactive}`;
-                });
+                const filteredHistory = state.history.filter(item => item.toLowerCase().includes(filter.toLowerCase()));
+                listElem.innerHTML = filteredHistory.length ? filteredHistory.map((item, index) =>
+                    `<div class="bg-slate-800/50 p-2 rounded-3xl flex items-center justify-between">
+                        <span class="history-text truncate pr-2">${item}</span>
+                        <div class="flex items-center flex-shrink-0">
+                            <button class="p-1 hover:bg-purple-700/50 rounded-full copy-btn" data-index="${index}" title="Copy">
+                                <i class="ri-file-copy-line icon-sm"></i>
+                            </button>
+                            <button class="p-1 hover:bg-red-700/50 rounded-full delete-btn" data-index="${index}" title="Delete">
+                                <i class="ri-delete-bin-line icon-sm"></i>
+                            </button>
+                        </div>
+                     </div>`
+                ).join('') : '<p class="text-slate-400 text-center">No history yet.</p>';
             }
 
-            function applyDarkMode() {
-                document.documentElement.classList.toggle('dark', state.darkMode);
-                const icon = state.darkMode ? 'light_mode' : 'dark_mode';
-                darkModeToggle.querySelector('.material-symbols-outlined').textContent = icon;
-                darkModeToggleMobile.querySelector('.material-symbols-outlined').textContent = icon;
-                localStorage.setItem('darkMode', state.darkMode);
-            }
-
-            function handleResponsiveUI() {
+            function updateUI() {
+                document.documentElement.classList.toggle('dark', state.settings.darkMode);
                 const width = window.innerWidth;
-                // Navbar collapse
-                if (width < 1024) { // Tailwind 'lg' breakpoint
-                    desktopNav.classList.add('hidden');
-                } else {
-                    desktopNav.classList.remove('hidden');
-                    mobileMenu.classList.add('hidden');
-                    state.isMobileMenuOpen = false;
-                }
+                const sidebar = document.getElementById('sidebar');
+                const searchBarWrapper = document.getElementById('search-bar-wrapper');
+                const desktopSearchContainer = document.getElementById('desktop-search-container');
+                const mobileSearchBtn = document.getElementById('mobile-search-btn');
+                const contactBtn = document.getElementById('desktop-contact-btn');
+                const contactBtnText = document.getElementById('contact-btn-text');
+                const sidebarContactBtn = document.getElementById('sidebar-contact-btn');
+                
+                rightPanelsContainer.classList.remove('fixed', 'top-0', 'right-0', 'h-full', 'z-30');
+                rightPanelsContainer.style.width = '';
+                rightPanelCloseBtn.classList.add('hidden');
+                
+                if (width < 768) {
+                    rightPanelsContainer.classList.add('hidden');
+                    if (rightPanelsContainer.contains(historyPanel)) panelTemplates.appendChild(historyPanel);
+                    if (rightPanelsContainer.contains(aiPanel)) panelTemplates.appendChild(aiPanel);
 
-                // Contact button collapse
-                if (width < 992) {
+                    if (width < 600) { 
+                        sidebar.classList.add('fixed', 'top-0', 'left-0', 'h-full', 'z-40');
+                        sidebar.style.transform = state.isSidebarOpen ? 'translateX(0)' : 'translateX(-100%)';
+                        sidebar.style.width = '256px';
+                        document.querySelectorAll('.sidebar-text').forEach(el => el.classList.remove('hidden'));
+                        contactBtn.classList.add('hidden');
+                        sidebarContactBtn.classList.remove('hidden');
+                        sidebarContactBtn.classList.add('flex');
+                        desktopSearchContainer.classList.add('hidden');
+                        mobileSearchBtn.classList.remove('hidden');
+                    } else { 
+                        if(state.isMobileSheetOpen) toggleMobileSheet(false);
+                        sidebar.classList.remove('fixed', 'top-0', 'left-0', 'h-full', 'z-40');
+                        sidebar.style.transform = 'translateX(0)';
+                        state.isSidebarOpen = false;
+                        sidebar.style.width = '70px';
+                        document.querySelectorAll('.sidebar-text').forEach(el => el.classList.add('hidden'));
+                        
+                        contactBtn.classList.remove('hidden');
+                        contactBtnText.classList.add('hidden');
+                        contactBtn.querySelector('i').classList.remove('mr-1');
+                        sidebarContactBtn.classList.add('hidden');
+                        sidebarContactBtn.classList.remove('flex');
+
+                        desktopSearchContainer.classList.add('hidden');
+                        mobileSearchBtn.classList.remove('hidden');
+                    }
+                } else { 
+                    if(state.isMobileSheetOpen) toggleMobileSheet(false);
+                    sidebar.classList.remove('fixed', 'top-0', 'left-0', 'h-full', 'z-40');
+                    sidebar.style.transform = 'translateX(0)';
+                    state.isSidebarOpen = false;
+                    
+                    contactBtn.classList.remove('hidden');
+                    sidebarContactBtn.classList.add('hidden');
+                    sidebarContactBtn.classList.remove('flex');
+                    
+                    desktopSearchContainer.classList.remove('hidden');
+                    mobileSearchBtn.classList.add('hidden');
+                    
+                    rightPanelsContainer.style.width = '375px';
+                    if (width < 992) {
+                        rightPanelsContainer.style.width = '300px';
+                    }
+
+                    if (state.isRightPanelOpen) {
+                        rightPanelsContainer.classList.remove('hidden');
+                        rightPanelsContainer.innerHTML = ''; 
+                        const panelToShow = state.rightPanelContent === 'history' ? historyPanel : aiPanel;
+                        rightPanelsContainer.appendChild(panelToShow);
+                    } else {
+                        rightPanelsContainer.classList.add('hidden');
+                    }
+                }
+                
+                if (width < 1024) {
                     contactBtnText.classList.add('hidden');
-                    contactBtn.classList.remove('px-4');
-                    contactBtn.classList.add('p-2');
-                    contactBtn.querySelector('.material-symbols-outlined').classList.remove('mr-2');
+                    contactBtn.querySelector('i').classList.remove('mr-1');
                 } else {
                     contactBtnText.classList.remove('hidden');
-                    contactBtn.classList.add('px-4');
-                    contactBtn.classList.remove('p-2');
-                    contactBtn.querySelector('.material-symbols-outlined').classList.add('mr-2');
+                    contactBtn.querySelector('i').classList.add('mr-1');
                 }
-                
-                // Logo text collapse
-                if (width < 576) {
-                    logoText.classList.add('hidden');
+
+                if (width < 992 && width >= 650) {
+                    searchBarWrapper.classList.remove('justify-center');
+                    searchBarWrapper.classList.add('justify-start');
                 } else {
-                    logoText.classList.remove('hidden');
+                    searchBarWrapper.classList.add('justify-center');
+                    searchBarWrapper.classList.remove('justify-start');
+                }
+
+                if (width >= 600 && width < 1190) {
+                     sidebar.style.width = '70px';
+                    document.querySelectorAll('.sidebar-text').forEach(el => el.classList.add('hidden'));
+                } else if (width >= 1190) {
+                    sidebar.style.width = '256px';
+                    document.querySelectorAll('.sidebar-text').forEach(el => el.classList.remove('hidden'));
                 }
             }
             
-            // --- EVENT LISTENERS ---
-            document.querySelectorAll('#desktop-nav button, #mobile-menu button').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    const page = e.currentTarget.dataset.page;
-                    renderPage(page);
-                    if (state.isMobileMenuOpen) {
-                        mobileMenu.classList.add('hidden');
-                        state.isMobileMenuOpen = false;
+            function updateActiveNav(){
+                 document.querySelectorAll('#sidebar-nav button').forEach(button => {
+                    button.classList.toggle('bg-pink-600/50', button.dataset.page === state.currentPage);
+                    button.classList.toggle('text-white', button.dataset.page === state.currentPage);
+                })
+            }
+            
+            function safeEvaluate(expr) {
+                try {
+                    let safeExpr = expr
+                        .replace(/×/g, '*')
+                        .replace(/÷/g, '/')
+                        .replace(/π/g, 'Math.PI')
+                        .replace(/e(?![\d.+-])/g, 'Math.E') // only replace e if not part of a number like 1e+5
+                        .replace(/\^/g, '**');
+
+                    safeExpr = safeExpr.replace(/(sin|cos|tan)\(([^)]+)\)/g, (match, func, val) => {
+                        const angle = safeEvaluate(val);
+                        if (isNaN(angle)) return 'Error';
+                        const radAngle = state.calc.isRad ? angle : angle * (Math.PI / 180);
+                        return `Math.${func}(${radAngle})`;
+                    });
+                    
+                    // A slightly more robust regex to allow for scientific notation (e.g., 1e-5)
+                    if (/^[\d\s()+\-*/.,*^eE]+$/.test(safeExpr.replace(/Math\.(PI|E|sin|cos|tan|sqrt|cbrt|log|log10|exp|pow|abs|sign)/g, ''))) {
+                         return new Function('return ' + safeExpr)();
+                    } else {
+                        return 'Error';
+                    }
+                } catch (e) {
+                    return 'Error';
+                }
+            }
+
+            function attachStandardCalculatorListeners() {
+                const display = document.getElementById('display');
+                const expressionDisplay = document.getElementById('expression-display');
+                let currentInput = '0';
+                let expression = '';
+                let resetDisplay = false;
+
+                function updateDisplay() {
+                    display.innerText = formatDisplayNumber(currentInput);
+                    expressionDisplay.innerText = expression.replace(/\*/g, '×').replace(/\//g, '÷');
+                }
+                
+                function formatDisplayNumber(numStr) {
+                    if (typeof numStr !== 'string') numStr = String(numStr);
+                    if (numStr.length > 15) {
+                        return parseFloat(numStr).toExponential(9);
+                    }
+                    return numStr;
+                }
+
+                function factorial(n) {
+                    if (n < 0) return NaN;
+                    if (n === 0) return 1;
+                    let result = 1;
+                    for (let i = 2; i <= n; i++) {
+                        result *= i;
+                    }
+                    return result;
+                }
+
+                function handleInput(key) {
+                    const lastChar = currentInput.slice(-1);
+                    const isOperator = ['+', '-', '*', '/'].includes(lastChar);
+
+                    if (/\d/.test(key) || key === '00') {
+                        if (currentInput === '0' || resetDisplay) {
+                            currentInput = key;
+                            resetDisplay = false;
+                        } else {
+                            currentInput += key;
+                        }
+                        state.calc.lastOperation.operator = null; 
+                    } else if (key === '.') {
+                        if (!currentInput.includes('.')) {
+                            currentInput += '.';
+                        }
+                        state.calc.lastOperation.operator = null;
+                    } else if (['+', '-', '*', '/'].includes(key)) {
+                        if (resetDisplay) {
+                            expression = display.innerText + key;
+                            resetDisplay = false;
+                        } else {
+                            expression += currentInput + key;
+                        }
+                        currentInput = '0';
+                        state.calc.lastOperation.operator = null;
+                    } else if (key === '=') {
+                        let finalExpression;
+                        if (state.calc.lastOperation.operator && expression === '') {
+                            finalExpression = currentInput + state.calc.lastOperation.operator + state.calc.lastOperation.operand;
+                        } else {
+                            if (expression === '') return;
+                            finalExpression = expression + currentInput;
+                            const match = finalExpression.match(/([+\-*/])([^+\-*/]+)$/);
+                            if (match) {
+                                state.calc.lastOperation.operator = match[1];
+                                state.calc.lastOperation.operand = match[2];
+                            }
+                        }
+                        
+                        const result = safeEvaluate(finalExpression);
+                        addToHistory(`${finalExpression.replace(/\*/g, '×').replace(/\//g, '÷')} = ${result}`);
+                        currentInput = String(result);
+                        expression = '';
+                        resetDisplay = true;
+
+                    } else if (key === 'AC') {
+                        currentInput = '0';
+                        expression = '';
+                        resetDisplay = false;
+                        state.calc.lastOperation = { operator: null, operand: null };
+                    } else if (key === 'DEL') {
+                        currentInput = currentInput.slice(0, -1) || '0';
+                    } else if (key === '%') {
+                        currentInput = String(parseFloat(currentInput) / 100);
+                        resetDisplay = true;
+                    } else if (key === 'toggle-more') {
+                        state.calc.showMoreSci = !state.calc.showMoreSci;
+                        document.getElementById('more-sci-functions').classList.toggle('visible');
+                    } else if (key === 'rad-deg') {
+                        state.calc.isRad = !state.calc.isRad;
+                        renderPage('standard'); 
+                    }
+                    else if (state.settings.advancedMode) {
+                        handleAdvancedInput(key);
+                    }
+                    updateDisplay();
+                }
+
+                function handleAdvancedInput(key) {
+                    let val = parseFloat(currentInput);
+                    let requiresReset = true;
+                    switch (key) {
+                        case '(': case ')': currentInput = currentInput === '0' ? key : currentInput + key; requiresReset = false; break;
+                        case 'mc': state.calc.memory = 0; requiresReset = false; break;
+                        case 'm+': state.calc.memory += val; requiresReset = false; break;
+                        case 'm-': state.calc.memory -= val; requiresReset = false; break;
+                        case 'mr': currentInput = String(state.calc.memory); break;
+                        case '2nd': state.calc.is2ndFlipped = !state.calc.is2ndFlipped; renderPage('standard'); requiresReset = false; break;
+                        case 'x^2': currentInput = String(Math.pow(val, 2)); break;
+                        case 'x^3': currentInput = String(Math.pow(val, 3)); break;
+                        case 'e^x': currentInput = String(Math.exp(val)); break;
+                        case '10^x': currentInput = String(Math.pow(10, val)); break;
+                        case '1/x': currentInput = String(1 / val); break;
+                        case 'sqrt': currentInput = String(Math.sqrt(val)); break;
+                        case 'cbrt': currentInput = String(Math.cbrt(val)); break;
+                        case '+/-': currentInput = String(val * -1); requiresReset = false; break;
+                        case 'pi': currentInput = String(Math.PI); break;
+                        case 'e': currentInput = String(Math.E); break;
+                        case 'ln': currentInput = String(Math.log(val)); break;
+                        case 'log10': currentInput = String(Math.log10(val)); break;
+                        case 'x!': currentInput = String(factorial(val)); break;
+                        case 'sin': case 'cos': case 'tan':
+                            const angle = state.calc.isRad ? val : val * (Math.PI / 180);
+                            currentInput = String(Math[key](angle));
+                            break;
+                        case 'x^y': expression += currentInput + '^'; currentInput = '0'; requiresReset = false; break;
+                        case 'y_sqrt_x': expression += currentInput + 'yroot'; currentInput = '0'; requiresReset = false; break;
+                        case 'EE': currentInput += 'e+'; requiresReset = false; break;
+                        default: requiresReset = false;
+                    }
+                    if (requiresReset) {
+                        resetDisplay = true;
+                        state.calc.lastOperation.operator = null;
+                    }
+                }
+
+                document.getElementById('calculator').addEventListener('click', e => { 
+                    if (e.target.matches('button')) handleInput(e.target.dataset.key); 
+                });
+                document.addEventListener('keydown', e => { 
+                    if (state.currentPage !== 'standard') return;
+                    const keyMap = {'Enter':'=','Backspace':'DEL','Escape':'AC','+':'+','-':'-','*':'*','/':'/','.':'.','0':'0','1':'1','2':'2','3':'3','4':'4','5':'5','6':'6','7':'7','8':'8','9':'9', '(': '(', ')': ')'};
+                    if (keyMap[e.key]) {
+                        e.preventDefault();
+                        handleInput(keyMap[e.key]);
                     }
                 });
+            }
+
+            function attachTimeCalculatorListeners() {
+                const startTime = document.getElementById('start-time');
+                const endTime = document.getElementById('end-time');
+                const calcDiffBtn = document.getElementById('calc-diff-btn');
+                const diffResult = document.getElementById('diff-result');
+
+                const baseTime = document.getElementById('base-time');
+                const addDays = document.getElementById('add-days');
+                const addHours = document.getElementById('add-hours');
+                const addMins = document.getElementById('add-mins');
+                const addSecs = document.getElementById('add-secs');
+                const addTimeBtn = document.getElementById('add-time-btn');
+                const subtractTimeBtn = document.getElementById('subtract-time-btn');
+                const addSubtractResult = document.getElementById('add-subtract-result');
+
+                calcDiffBtn.addEventListener('click', () => {
+                    if (!startTime.value || !endTime.value) {
+                        diffResult.textContent = "Please select both a start and end date.";
+                        return;
+                    }
+                    const start = new Date(startTime.value);
+                    const end = new Date(endTime.value);
+                    let diff = Math.abs(end - start);
+
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    diff -= days * (1000 * 60 * 60 * 24);
+                    const hours = Math.floor(diff / (1000 * 60 * 60));
+                    diff -= hours * (1000 * 60 * 60);
+                    const mins = Math.floor(diff / (1000 * 60));
+                    diff -= mins * (1000 * 60);
+                    const secs = Math.floor(diff / 1000);
+
+                    const resultString = `${days}d ${hours}h ${mins}m ${secs}s`;
+                    diffResult.textContent = resultString;
+                    addToHistory(`Time Diff: ${resultString}`);
+                });
+                
+                function handleDurationCalc(isSubtract) {
+                     if (!baseTime.value) {
+                        addSubtractResult.textContent = "Please select a base date.";
+                        return;
+                    }
+                    const base = new Date(baseTime.value);
+                    const days = parseInt(addDays.value) || 0;
+                    const hours = parseInt(addHours.value) || 0;
+                    const mins = parseInt(addMins.value) || 0;
+                    const secs = parseInt(addSecs.value) || 0;
+
+                    let totalMs = secs * 1000;
+                    totalMs += mins * 60 * 1000;
+                    totalMs += hours * 60 * 60 * 1000;
+                    totalMs += days * 24 * 60 * 60 * 1000;
+                    
+                    const newTime = isSubtract ? base.getTime() - totalMs : base.getTime() + totalMs;
+                    const newDate = new Date(newTime);
+                    
+                    addSubtractResult.textContent = newDate.toLocaleString();
+                    addToHistory(`Time Calc: ${newDate.toLocaleString()}`);
+                }
+
+                addTimeBtn.addEventListener('click', () => handleDurationCalc(false));
+                subtractTimeBtn.addEventListener('click', () => handleDurationCalc(true));
+            }
+            
+            const unitDefinitions = {
+                storage: [
+                    {name:'Bits', value:'bit'}, {name:'Bytes',value:'b'}, {name:'Kilobytes (KB)',value:'kb'},
+                    {name:'Megabytes (MB)',value:'mb'}, {name:'Gigabytes (GB)',value:'gb'}, {name:'Terabytes (TB)',value:'tb'},
+                    {name:'Petabytes (PB)', value:'pb'}
+                ],
+                currency: [
+                    {name:'USD',value:'usd'}, {name:'EUR',value:'eur'}, {name:'JPY',value:'jpy'}, {name:'GBP',value:'gbp'},
+                    {name:'AUD', value:'aud'}, {name:'CAD',value:'cad'}, {name:'CHF', value:'chf'}, {name:'CNY', value:'cny'},
+                    {name:'INR', value:'inr'}
+                ],
+                angle: [
+                    {name:'Degrees',value:'deg'}, {name:'Radians',value:'rad'}, {name:'Gradians',value:'grad'},
+                    {name:'Arcminutes', value: 'arcmin'}, {name:'Arcseconds', value: 'arcsec'}
+                ],
+                pressure: [
+                    {name:'Pascals (Pa)',value:'pa'}, {name:'Kilopascals (kPa)',value:'kpa'}, {name:'Megapascals (MPa)', value: 'mpa'},
+                    {name:'Bars (bar)',value:'bar'}, {name:'Millibars (mbar)', value: 'mbar'}, {name:'PSI',value:'psi'},
+                    {name:'Atmospheres (atm)',value:'atm'}, {name:'Torr', value: 'torr'}
+                ],
+                weight: [
+                    {name:'Kilograms (kg)',value:'kg'}, {name:'Grams (g)',value:'g'}, {name:'Milligrams (mg)', value: 'mg'},
+                    {name:'Metric Tonnes', value: 'tonne'}, {name:'Pounds (lb)',value:'lb'}, {name:'Ounces (oz)',value:'oz'},
+                    {name:'Stones (st)', value: 'st'}
+                ],
+                speed: [
+                    {name:'Meters/sec (m/s)',value:'mps'}, {name:'Kilometers/hr (km/h)',value:'kmph'},
+                    {name:'Miles/hr (mph)',value:'mph'}, {name:'Knots',value:'knots'}, {name:'Feet/sec (ft/s)', value: 'ftps'}
+                ],
+                temp: [
+                    {name:'Celsius',value:'c'}, {name:'Fahrenheit',value:'f'}, {name:'Kelvin',value:'k'}
+                ],
+                length: [
+                    {name:'Meters (m)',value:'m'}, {name:'Kilometers (km)',value:'km'}, {name:'Centimeters (cm)',value:'cm'},
+                    {name:'Millimeters (mm)', value: 'mm'}, {name:'Miles (mi)',value:'mi'}, {name:'Yards (yd)',value:'yd'},
+                    {name:'Feet (ft)', value: 'ft'}, {name:'Inches (in)', value: 'in'}
+                ],
+                fuel: [
+                    {name:'MPG (US)',value:'mpg_us'}, {name:'MPG (Imperial)', value: 'mpg_imp'},
+                    {name:'L/100km',value:'l_100km'}, {name:'km/L',value:'km_l'}
+                ],
+                volume: [
+                    {name:'Liters (L)',value:'l'}, {name:'Milliliters (mL)',value:'ml'}, {name:'Cubic Meters',value:'m3'},
+                    {name:'Cubic Centimeters', value: 'cm3'}, {name:'Gallons (US)',value:'gal_us'},
+                    {name:'Gallons (Imperial)', value: 'gal_imp'}, {name:'Quarts (US)', value: 'qt_us'}, {name:'Pints (US)', value: 'pt_us'}
+                ],
+                area: [
+                    {name:'Square Meters',value:'m2'}, {name:'Square Kilometers',value:'km2'}, {name:'Square Miles',value:'mi2'},
+                    {name:'Hectares', value: 'hectare'}, {name:'Acres',value:'acre'}, {name:'Square Feet', value: 'ft2'}
+                ],
+                power: [
+                    {name:'Watts (W)',value:'w'}, {name:'Kilowatts (kW)',value:'kw'}, {name:'Megawatts (MW)', value: 'mw'},
+                    {name:'Horsepower (hp)',value:'hp'}, {name:'BTU/minute', value: 'btu_min'}
+                ],
+                energy: [
+                    {name:'Joules (J)',value:'j'}, {name:'Kilojoules (kJ)',value:'kj'}, {name:'Calories (cal)',value:'cal'},
+                    {name:'Kilocalories (kcal)', value: 'kcal'}, {name:'Kilowatt-hours (kWh)',value:'kwh'},
+                    {name:'Electronvolts (eV)', value: 'ev'}
+                ],
+                force: [
+                    {name:'Newtons (N)',value:'n'}, {name:'Kilonewtons (kN)', value: 'kn'},
+                    {name:'Pound-force (lbf)',value:'lbf'}, {name:'Kilogram-force (kgf)', value: 'kgf'}
+                ]
+            };
+
+            function attachConverterListeners(type) {
+                document.getElementById('convert-btn').addEventListener('click', () => {
+                    const input = parseFloat(document.getElementById('converter-input').value);
+                    const from = document.getElementById('from-unit').value;
+                    const to = document.getElementById('to-unit').value;
+                    const resDiv = document.getElementById('converter-result');
+                    
+                    if (isNaN(input)) {
+                        resDiv.innerText = "Please enter a valid number.";
+                        resDiv.classList.add('text-red-400');
+                        return;
+                    }
+                    resDiv.classList.remove('text-red-400');
+
+                    try {
+                        const units = unitDefinitions[type];
+                        const fromUnit = units.find(u => u.value === from);
+                        const toUnit = units.find(u => u.value === to);
+                        const fromName = fromUnit ? fromUnit.name : from;
+                        const toName = toUnit ? toUnit.name : to;
+
+                        let res = convert(input, from, to, type);
+                        if (typeof res === 'number') {
+                            const finRes = state.settings.showDecimals ? res.toPrecision(6) : Math.round(res);
+                            resDiv.innerText = `${input} ${fromName} = ${finRes} ${toName}`;
+                            addToHistory(`${type}: ${input} ${fromName} to ${toName} = ${finRes}`);
+                        } else {
+                            resDiv.innerText = res;
+                        }
+                    } catch (e) {
+                        resDiv.innerText = e.message;
+                        resDiv.classList.add('text-red-400');
+                    }
+                });
+            }
+            
+            function attachLikesDislikesListeners() {
+                const likesInput=document.getElementById('likes-input'), dislikesInput=document.getElementById('dislikes-input'), submitBtn=document.getElementById('likes-submit-btn'), historyContainer=document.getElementById('likes-history-container');
+                function renderLikesHistory(){ if(state.likesDislikesHistory.length===0){historyContainer.innerHTML=`<p class="text-slate-400">No entries yet.</p>`;return;}historyContainer.innerHTML=state.likesDislikesHistory.map(entry=>entry.html).join('');}
+                submitBtn.addEventListener('click', () => {
+                    const likes=parseInt(likesInput.value,10)||0, dislikes=parseInt(dislikesInput.value,10)||0; if(likes<0||dislikes<0)return;
+                    const total=likes+dislikes, positivePercent=total===0?0:(likes/total)*100, entryNum=state.likesDislikesHistory.length+1, resultText=`Entry ${entryNum}: (${positivePercent.toFixed(1)}% positive) (${likes} likes, ${dislikes} dislikes)`;
+                    const entryHTML=`<div class="liquid-glass p-3 rounded-3xl"><p class="text-sm text-slate-300">${resultText}</p><div class="w-full bg-slate-700 rounded-full h-2.5 mt-2"><div class="bg-green-500 h-2.5 rounded-full" style="width:${positivePercent}%"></div></div></div>`;
+                    state.likesDislikesHistory.unshift({html:entryHTML}); localStorage.setItem('likesDislikesHistory', JSON.stringify(state.likesDislikesHistory)); renderLikesHistory();
+                    addToHistory(`Likes/Dislikes: ${resultText}`); likesInput.value=''; dislikesInput.value='';
+                });
+                renderLikesHistory();
+            }
+
+            function attachSettingsListeners() {
+                const darkModeToggle=document.getElementById('dark-mode-toggle');
+                const decimalsToggle=document.getElementById('decimals-toggle');
+                const advancedModeToggle = document.getElementById('advanced-mode-toggle');
+
+                darkModeToggle.checked=state.settings.darkMode; 
+                decimalsToggle.checked=state.settings.showDecimals;
+                advancedModeToggle.checked = state.settings.advancedMode;
+
+                darkModeToggle.addEventListener('change',e=>{state.settings.darkMode=e.target.checked;localStorage.setItem('darkMode',state.settings.darkMode);updateUI();});
+                decimalsToggle.addEventListener('change',e=>{state.settings.showDecimals=e.target.checked;localStorage.setItem('showDecimals',state.settings.showDecimals);updateUI();});
+                advancedModeToggle.addEventListener('change', e => {
+                    state.settings.advancedMode = e.target.checked;
+                    localStorage.setItem('advancedMode', state.settings.advancedMode);
+                    if (state.currentPage === 'standard') {
+                        renderPage('standard'); 
+                    }
+                });
+            }
+            
+            function attachMathNotesListeners() {
+                const canvas = document.getElementById('math-canvas');
+                const ctx = canvas.getContext('2d');
+                state.mathNotes.ctx = ctx;
+
+                const container = canvas.parentElement;
+                
+                function resizeCanvas() {
+                    const dpr = window.devicePixelRatio || 1;
+                    canvas.width = container.clientWidth * dpr;
+                    canvas.height = container.clientHeight * dpr;
+                    ctx.scale(dpr, dpr);
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    ctx.strokeStyle = state.mathNotes.color;
+                    ctx.lineWidth = state.mathNotes.lineWidth;
+                }
+                
+                resizeCanvas();
+                
+                const getPos = (e) => {
+                    const rect = canvas.getBoundingClientRect();
+                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                    return { x: clientX - rect.left, y: clientY - rect.top };
+                };
+
+                const startDrawing = (e) => {
+                    e.preventDefault();
+                    state.mathNotes.isDrawing = true;
+                    const { x, y } = getPos(e);
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                };
+
+                const draw = (e) => {
+                    if (!state.mathNotes.isDrawing) return;
+                    e.preventDefault();
+                    const { x, y } = getPos(e);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                };
+
+                const stopDrawing = () => {
+                    if (!state.mathNotes.isDrawing) return;
+                    ctx.closePath();
+                    state.mathNotes.isDrawing = false;
+                };
+                
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseleave', stopDrawing);
+                canvas.addEventListener('touchstart', startDrawing, { passive: false });
+                canvas.addEventListener('touchmove', draw, { passive: false });
+                canvas.addEventListener('touchend', stopDrawing);
+
+                document.getElementById('color-palette').addEventListener('click', e => {
+                    if (e.target.classList.contains('color-swatch')) {
+                        state.mathNotes.color = e.target.dataset.color;
+                        ctx.strokeStyle = state.mathNotes.color;
+                        document.querySelectorAll('.color-swatch').forEach(el => el.classList.remove('active'));
+                        e.target.classList.add('active');
+                    }
+                });
+
+                document.getElementById('pen-size').addEventListener('input', e => {
+                    state.mathNotes.lineWidth = e.target.value;
+                    ctx.lineWidth = state.mathNotes.lineWidth;
+                });
+
+                document.getElementById('clear-canvas-btn').addEventListener('click', () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                });
+                
+                document.getElementById('solve-math-btn').addEventListener('click', () => {
+                    const input = document.getElementById('math-input').value;
+                    const resultDiv = document.getElementById('math-solve-result');
+                    if (!input) {
+                        resultDiv.textContent = 'Please enter an expression.';
+                        return;
+                    }
+                    const result = safeEvaluate(input);
+                    resultDiv.textContent = `Result: ${result}`;
+                    addToHistory(`Math Note Solve: ${input} = ${result}`);
+                });
+
+                window.addEventListener('resize', resizeCanvas);
+            }
+
+            function handleAiQuery() {
+                const inputElem = state.isMobileSheetOpen ? sheetContent.querySelector('#ai-input') : aiInput;
+                const outputElem = state.isMobileSheetOpen ? sheetContent.querySelector('#ai-output') : aiOutput;
+                const query = inputElem.value.trim().toLowerCase(); if(!query) return; let response='';
+                try {
+                    const percentMatch = query.match(/(\d+\.?\d*)\s*%\s*of\s*(\d+\.?\d*)/i);
+                    const likesMatch = query.match(/(\d+)\s*likes\s*(\d+)\s*dislikes/i);
+
+                    if (percentMatch) {
+                        const p=parseFloat(percentMatch[1]),n=parseFloat(percentMatch[2]);response=`${p}% of ${n} is ${(p/100)*n}`;
+                    } else if (likesMatch) {
+                        const likes = parseInt(likesMatch[1]), dislikes = parseInt(likesMatch[2]);
+                        const total = likes + dislikes;
+                        const positivePercent = total === 0 ? 0 : (likes / total) * 100;
+                        response = `${likes} likes and ${dislikes} dislikes is ${positivePercent.toFixed(1)}% positive.`;
+                    } else {
+                        const sanitizedQuery = query.replace(/[^-()\d/*+.]/g,'');
+                        if(sanitizedQuery) {
+                            response=`${query} = ${safeEvaluate(sanitizedQuery)}`;
+                        } else {
+                            response="Sorry, I can only solve math, time, and percentage problems.";
+                        }
+                    }
+                } catch(e) {
+                    response="Sorry, I couldn't understand that.";
+                }
+                outputElem.innerHTML+=`<div class="text-right text-blue-300 mb-2">${inputElem.value}</div><div class="text-left text-pink-300 mb-4">${response}</div>`; outputElem.scrollTop=outputElem.scrollHeight; inputElem.value=''; addToHistory(`AI: ${response}`);
+            }
+
+            function addToHistory(item) { state.history.unshift(item); if(state.history.length>50)state.history.pop(); localStorage.setItem('calculatorHistory',JSON.stringify(state.history)); renderHistory(historySearchInput.value); renderHistory(mobileHistorySearchInput.value);}
+            
+            function convert(v, f, t, type) {
+                if (f === t) return v;
+                // Conversion factors to a base unit for each category
+                const toBase = {
+                    temp: { c: v => v, f: v => (v - 32) * 5 / 9, k: v => v - 273.15 }, // Base: Celsius
+                    weight: { kg: 1, g: 1e-3, mg: 1e-6, tonne: 1000, lb: 0.453592, oz: 0.0283495, st: 6.35029 }, // Base: kg
+                    speed: { mps: 1, kmph: 1/3.6, mph: 0.44704, knots: 0.514444, ftps: 0.3048 }, // Base: m/s
+                    length: { m: 1, km: 1000, cm: 0.01, mm: 0.001, mi: 1609.34, yd: 0.9144, ft: 0.3048, in: 0.0254 }, // Base: m
+                    pressure: { pa: 1, kpa: 1000, mpa: 1e6, bar: 1e5, mbar: 100, psi: 6894.76, atm: 101325, torr: 133.322 }, // Base: Pa
+                    angle: { deg: 1, rad: 180/Math.PI, grad: 0.9, arcmin: 1/60, arcsec: 1/3600 }, // Base: degrees
+                    currency: { usd: 1, eur: 1.07, jpy: 0.0063, gbp: 1.25, aud: 0.66, cad: 0.73, chf: 1.10, cny: 0.14, inr: 0.012 }, // Base: USD
+                    storage: { bit: 1, b: 8, kb: 8 * 1024, mb: 8 * 1024**2, gb: 8 * 1024**3, tb: 8 * 1024**4, pb: 8 * 1024**5 }, // Base: bits
+                    volume: { l: 1, ml: 0.001, m3: 1000, cm3: 0.001, gal_us: 3.78541, gal_imp: 4.54609, qt_us: 0.946353, pt_us: 0.473176 }, // Base: Liters
+                    area: { m2: 1, km2: 1e6, mi2: 2.59e6, hectare: 10000, acre: 4046.86, ft2: 0.092903 }, // Base: m^2
+                    power: { w: 1, kw: 1000, mw: 1e6, hp: 745.7, btu_min: 17.5843 }, // Base: Watts
+                    energy: { j: 1, kj: 1000, cal: 4.184, kcal: 4184, kwh: 3.6e6, ev: 1.60218e-19 }, // Base: Joules
+                    force: { n: 1, kn: 1000, lbf: 4.44822, kgf: 9.80665 }, // Base: Newtons
+                    fuel: { km_l: 1, mpg_us: 0.425144, mpg_imp: 0.354006, l_100km: v => v === 0 ? Infinity : 100 / v } // Base: km/L
+                };
+
+                const fromBase = { ...toBase }; // For symmetric conversions
+
+                if (type === 'temp') {
+                    const baseValue = toBase.temp[f](v);
+                    const from_base_temp = { c: v => v, f: v => v * 9 / 5 + 32, k: v => v + 273.15 };
+                    return from_base_temp[t](baseValue);
+                }
+
+                let baseValue;
+                if (type === 'fuel' && typeof toBase.fuel[f] === 'function') {
+                    baseValue = toBase.fuel[f](v);
+                } else {
+                    baseValue = v * toBase[type][f];
+                }
+
+                let result;
+                if (type === 'fuel' && typeof fromBase.fuel[t] === 'function') {
+                    result = fromBase.fuel[t](baseValue);
+                } else {
+                    result = baseValue / fromBase[type][t];
+                }
+                
+                return result;
+            }
+
+            // --- GLOBAL EVENT LISTENERS ---
+            sidebarNav.addEventListener('click', e => { const btn=e.target.closest('button'); if (btn?.dataset.page){renderPage(btn.dataset.page); if(window.innerWidth<768){state.isSidebarOpen=false;updateUI();}}});
+            menuBtn.addEventListener('click', () => { state.isSidebarOpen=true; updateUI(); });
+            sidebarCloseBtn.addEventListener('click', () => { state.isSidebarOpen=false; updateUI(); });
+            
+            function handlePanelToggle(panelType) {
+                const width = window.innerWidth;
+                if (width < 768) {
+                    state.mobileSheetContent = panelType;
+                    toggleMobileSheet(true);
+                } else {
+                    if (state.isRightPanelOpen && state.rightPanelContent === panelType) {
+                        state.isRightPanelOpen = false;
+                    } else {
+                        state.isRightPanelOpen = true;
+                        state.rightPanelContent = panelType;
+                    }
+                    updateUI();
+                }
+            }
+
+            historyBtn.addEventListener('click', () => handlePanelToggle('history'));
+            aiBtn.addEventListener('click', () => handlePanelToggle('ai'));
+            rightPanelCloseBtn.addEventListener('click', () => {
+                state.isRightPanelOpen = false;
+                updateUI();
+            });
+            
+            function copyToClipboard(text) {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed'; ta.style.left = '-9999px';
+                document.body.appendChild(ta);
+                ta.select();
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                    console.error('Fallback: Oops, unable to copy', err);
+                }
+                document.body.removeChild(ta);
+            }
+
+            function handleHistoryActions(e) {
+                const target = e.target.closest('button');
+                if (!target) return;
+                const index = parseInt(target.dataset.index, 10);
+                if (target.classList.contains('copy-btn')) {
+                    copyToClipboard(state.history[index]);
+                } else if (target.classList.contains('delete-btn')) {
+                    state.history.splice(index, 1);
+                    localStorage.setItem('calculatorHistory', JSON.stringify(state.history));
+                    renderHistory(historySearchInput.value);
+                    renderHistory(mobileHistorySearchInput.value);
+                }
+            }
+            historyList.addEventListener('click', handleHistoryActions);
+            sheetContent.addEventListener('click', e => {
+                if (sheetContent.contains(historyPanel)) handleHistoryActions(e);
             });
 
-            menuBtn.addEventListener('click', () => {
-                state.isMobileMenuOpen = !state.isMobileMenuOpen;
-                mobileMenu.classList.toggle('hidden', !state.isMobileMenuOpen);
-            });
+            function toggleMobileSheet(show){
+                state.isMobileSheetOpen = show;
+                mobileBottomSheet.style.transform = show ? 'translateY(0)' : 'translateY(100%)';
+                if (show) {
+                    sheetTitle.innerText = state.mobileSheetContent === 'history' ? 'History' : 'AI Assistant';
+                    const panelToMove = state.mobileSheetContent === 'history' ? historyPanel : aiPanel;
+                    sheetContent.appendChild(panelToMove);
+                    renderHistory(mobileHistorySearchInput.value);
+                } else {
+                    const panelInSheet = sheetContent.children[0];
+                    if (panelInSheet) {
+                        panelTemplates.appendChild(panelInSheet);
+                    }
+                }
+            }
+            
+            sheetCloseBtn.addEventListener('click', () => toggleMobileSheet(false));
+            clearHistoryBtn.addEventListener('click', () => { state.history=[];localStorage.removeItem('calculatorHistory');renderHistory(historySearchInput.value);renderHistory(mobileHistorySearchInput.value); });
+            
+            const searchHandler = e => renderHistory(e.target.value);
+            historySearchInput.addEventListener('input', searchHandler);
+            mobileHistorySearchInput.addEventListener('input', searchHandler);
+            
+            aiSubmitBtn.addEventListener('click', handleAiQuery);
+            aiInput.addEventListener('keydown', e => { if(e.key==='Enter')handleAiQuery(); });
 
-            darkModeToggle.addEventListener('click', () => {
-                state.darkMode = !state.darkMode;
-                applyDarkMode();
-            });
-            darkModeToggleMobile.addEventListener('click', () => {
-                state.darkMode = !state.darkMode;
-                applyDarkMode();
-            });
+            mobileSearchBtn.addEventListener('click', () => { mobileSearchView.classList.remove('hidden'); mobileHistorySearchInput.focus(); });
+            mobileSearchBackBtn.addEventListener('click', () => { mobileSearchView.classList.add('hidden'); });
 
-            window.addEventListener('resize', handleResponsiveUI);
+            document.addEventListener('keydown', e => { if(e.ctrlKey&&e.shiftKey){ if(e.key.toLowerCase()==='a'){e.preventDefault();aiBtn.click();} if(e.key.toLowerCase()==='h'){e.preventDefault();historyBtn.click();}}});
+            window.addEventListener('resize', updateUI);
 
             // --- INITIALIZATION ---
-            applyDarkMode();
-            renderPage('home');
-            handleResponsiveUI();
+            renderPage('standard');
+            updateUI();
+            renderHistory();
         });
     </script>
 </body>
