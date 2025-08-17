@@ -5,7 +5,7 @@ const CACHE_NAME = `gameryt-calculator-cache-${CACHE_VERSION}`;
 // A list of all the essential files your app needs to work offline.
 const URLS_TO_CACHE = [
   // App shell
-  '/GAMERYT-Calculator/index.html',
+  '/GAMERYT-Calculator/index.html/',
   '/GAMERYT-Calculator/',
   '/GAMERYT-Calculator/404.html',
   '/GAMERYT-Calculator/icon-192x192.png',
