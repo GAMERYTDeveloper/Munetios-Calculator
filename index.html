@@ -139,7 +139,7 @@
                         <!-- Collapsed items go here -->
                     </div>
                  </div>
-                 <a id="sidebar-contact-btn" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=minecraftgamer97529@gmail.com" target="_blank" class="hidden items-center p-2 text-base font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50">
+                 <a id="sidebar-contact-btn" href="mailto:minecraftgamer97529@gmail.com" target="_blank" class="hidden items-center p-2 text-base font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50">
                     <i class="ri-mail-line icon-md"></i><span class="ml-3 sidebar-text">Contact</span></a>
             </nav>
         </aside>
@@ -161,7 +161,7 @@
                         </div>
                     </div>
                     <div class="flex items-center space-x-2 ml-2">
-                        <a id="desktop-contact-btn" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=minecraftgamer97529@gmail.com" target="_blank" class="flex items-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-3xl transition-colors">
+                        <a id="desktop-contact-btn" href="mailto:minecraftgamer97529@gmail.com" target="_blank" class="flex items-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-3xl transition-colors">
                             <i class="ri-mail-line icon-sm mr-1"></i>
                             <span id="contact-btn-text">Contact</span>
                         </a>
@@ -514,6 +514,10 @@
                             <div><strong class="text-purple-400">v1.2.0</strong><ul class="list-disc list-inside pl-2"><li>Major mobile responsiveness overhaul.</li></ul></div>
                             <div><strong class="text-purple-400">v1.0.0</strong><ul class="list-disc list-inside pl-2"><li>Initial release of GAMERYT Calculator.</li></ul></div>
                          </div>
+                    </div>
+                    <div class="text-center text-slate-400 text-sm py-4">
+                        <p class="mb-2">Made by GAMERYTDeveloper</p>
+                        <a href="https://gamerytdeveloper.github.io/GAMERYT-Calculator/help/help.html" target="_blank" class="text-purple-400 hover:text-pink-400 underline">Help (F1)</a>
                     </div>
                 </div>
                 <style>.toggle-checkbox:checked { right: 0; border-color: #ec4899; } .toggle-checkbox:checked + .toggle-label { background-color: #ec4899; }</style>`;
@@ -1357,7 +1361,22 @@
             mobileSearchBtn.addEventListener('click', () => { mobileSearchView.classList.remove('hidden'); mobileHistorySearchInput.focus(); });
             mobileSearchBackBtn.addEventListener('click', () => { mobileSearchView.classList.add('hidden'); });
 
-            document.addEventListener('keydown', e => { if(e.ctrlKey&&e.shiftKey){ if(e.key.toLowerCase()==='a'){e.preventDefault();aiBtn.click();} if(e.key.toLowerCase()==='h'){e.preventDefault();historyBtn.click();}}});
+            document.addEventListener('keydown', e => {
+                if (e.key === 'F1') {
+                    e.preventDefault();
+                    window.open('https://gamerytdeveloper.github.io/GAMERYT-Calculator/help/help.html', '_blank');
+                }
+                if (e.ctrlKey && e.shiftKey) {
+                    if (e.key.toLowerCase() === 'a') {
+                        e.preventDefault();
+                        aiBtn.click();
+                    }
+                    if (e.key.toLowerCase() === 'h') {
+                        e.preventDefault();
+                        historyBtn.click();
+                    }
+                }
+            });
             window.addEventListener('resize', updateUI);
 
             // --- INITIALIZATION ---
