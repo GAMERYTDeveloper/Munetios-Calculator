@@ -6,7 +6,7 @@
     <title>GAMERYT Calculator - Help Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/png" href="/GAMERYT-Calculator/favicon.png">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -23,12 +23,12 @@
             background-color: #f1f5f9;
             background-image: linear-gradient(to right, var(--background-start-light), var(--background-end-light));
         }
-        .material-symbols-outlined {
-          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
         .nav-link.active {
             color: #a855f7; /* purple-500 */
             border-bottom-color: #a855f7;
+        }
+        .bxi {
+            font-size: 1.5rem;
         }
     </style>
 </head>
@@ -42,7 +42,7 @@
                     <!-- Logo -->
                     <div class="flex items-center">
                         <div class="flex-shrink-0 flex items-center gap-2">
-                             <span class="material-symbols-outlined text-pink-400 text-3xl">quiz</span>
+                             <i class='bx bxs-help-circle text-pink-400 text-3xl'></i>
                              <span class="text-xl font-bold">Help Center</span>
                         </div>
                     </div>
@@ -53,14 +53,14 @@
                             <button data-page="topics" class="nav-link text-slate-600 dark:text-slate-300 hover:text-purple-500 border-b-2 border-transparent py-2 transition-colors">Topics</button>
                             <button data-page="articles" class="nav-link text-slate-600 dark:text-slate-300 hover:text-purple-500 border-b-2 border-transparent py-2 transition-colors active">Articles</button>
                             <button data-page="compare" class="nav-link text-slate-600 dark:text-slate-300 hover:text-purple-500 border-b-2 border-transparent py-2 transition-colors">Compare</button>
-                            <a href="https://sites.google.com/view/gameryt-calculator/calculator" target="_blank" class="nav-link text-slate-600 dark:text-slate-300 hover:text-purple-500 border-b-2 border-transparent py-2 transition-colors">App</a>
+                            <a href="https://gamerytdeveloper.github.io/GAMERYT-Calculator/" target="_blank" class="nav-link text-slate-600 dark:text-slate-300 hover:text-purple-500 border-b-2 border-transparent py-2 transition-colors">App</a>
                         </nav>
                     </div>
 
                     <!-- Mobile Menu Button -->
                     <div class="md:hidden flex items-center">
                         <button id="menu-btn" class="p-2 rounded-full transition-colors text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700/50">
-                            <span class="material-symbols-outlined">menu</span>
+                            <i class='bx bx-menu bxi'></i>
                         </button>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                     <button data-page="topics" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">Topics</button>
                     <button data-page="articles" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 bg-slate-200/50 dark:bg-slate-700/50">Articles</button>
                     <button data-page="compare" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">Compare</button>
-                    <a href="https://sites.google.com/view/gameryt-calculator/calculator" target="_blank" class="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">App</a>
+                    <a href="https://gamerytdeveloper.github.io/GAMERYT-Calculator/" target="_blank" class="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">App</a>
                 </div>
             </div>
         </header>
@@ -92,37 +92,63 @@
                 activeCategory: 'All',
                 comparisonTarget: 'apple',
                 articles: [
-                    { id: 1, title: 'Getting Started with Standard Calculator', category: 'Getting Started', icon: 'calculate', content: 'Learn the basic functions of the standard calculator, including arithmetic operations, decimals, and clearing the display.' },
-                    { id: 2, title: 'Using the Scientific Calculator', category: 'Advanced Features', icon: 'functions', content: 'Explore advanced functions like trigonometry (sin, cos, tan), logarithms (ln, log), powers, and roots.' },
-                    { id: 3, title: 'How to Use Converters', category: 'Converters', icon: 'conversion_path', content: 'Convert units for length, weight, temperature, speed, and more with our comprehensive set of converters.' },
-                    { id: 4, title: 'Understanding the Time Calculator', category: 'Core Features', icon: 'schedule', content: 'Calculate the duration between two dates or add/subtract time from a specific date and time.' },
-                    { id: 5, title: 'Checking Percentages (Likes vs Dislikes)', category: 'Core Features', icon: 'thumb_up', content: 'Quickly calculate the percentage of likes versus dislikes for any given numbers.' },
-                    { id: 6, title: 'Interacting with the AI Assistant', category: 'Advanced Features', icon: 'smart_toy', content: 'Ask the AI mathematical questions in natural language and get instant answers. The AI can solve equations and complex problems.' },
-                    { id: 7, title: 'Managing Your History', category: 'Core Features', icon: 'history', content: 'Your calculations are saved automatically. Learn how to view, search, copy, and delete items from your history.' },
-                    { id: 8, title: 'Customizing Settings', category: 'Getting Started', icon: 'settings', content: 'Personalize your experience by switching between dark and light mode, toggling decimals, and enabling advanced mode.' },
-                    { id: 9, title: 'Fuel & Volume Conversions', category: 'Converters', icon: 'local_gas_station', content: 'A guide to using the fuel efficiency (e.g., MPG, L/100km) and volume (e.g., Liters, Gallons) converters.' },
-                    { id: 10, title: 'Area, Power, and Force Converters', category: 'Converters', icon: 'square_foot', content: 'Details on how to convert units of area, power (Watts, Horsepower), and force (Newtons).' },
+                    { id: 1, title: 'Getting Started with Standard Calculator', category: 'Getting Started', icon: 'bxs-calculator', content: 'Learn the basic functions of the standard calculator, including arithmetic operations (+, -, *, /), decimals, and clearing the display with AC and DEL.' },
+                    { id: 2, title: 'Using the Scientific Calculator in Advanced Mode', category: 'Advanced Features', icon: 'bx-math', content: 'Explore advanced functions like trigonometry (sin, cos, tan), logarithms (ln, log), powers (x², x³), and roots (√, ∛).' },
+                    { id: 3, title: 'How to Use the Unit Converters', category: 'Converters', icon: 'bx-transfer-alt', content: 'Convert various units for length, weight, temperature, speed, storage, and more with our comprehensive set of converters.' },
+                    { id: 4, title: 'Understanding the Time Calculator', category: 'Core Features', icon: 'bx-time', content: 'Calculate the duration between two dates or add/subtract days, hours, minutes, and seconds from a specific date and time.' },
+                    { id: 5, title: 'Checking Percentages (Likes vs Dislikes)', category: 'Core Features', icon: 'bxs-like', content: 'Quickly calculate the percentage of likes versus dislikes for any given numbers, useful for social media stats or feedback analysis.' },
+                    { id: 6, title: 'Interacting with the AI Assistant', category: 'Advanced Features', icon: 'bxs-bot', content: 'Ask the AI mathematical questions in natural language and get instant answers. The AI can solve equations, percentage problems, and more.' },
+                    { id: 7, 'title': 'Managing Your Calculation History', 'category': 'Core Features', 'icon': 'bx-history', 'content': 'Your calculations are saved automatically. Learn how to view, search, copy individual entries, or delete items from your history.' },
+                    { id: 8, title: 'Customizing Your Settings', category: 'Getting Started', icon: 'bxs-cog', content: 'Personalize your experience by switching between dark and light mode, toggling decimal visibility for converters, and enabling advanced calculator mode.' },
+                    { id: 9, title: 'Fuel & Volume Conversions Explained', category: 'Converters', icon: 'bxs-gas-pump', content: 'A detailed guide to using the fuel efficiency (e.g., MPG, L/100km) and volume (e.g., Liters, Gallons) converters for your travel and measurement needs.' },
+                    { id: 10, title: 'Area, Power, and Force Converters', category: 'Converters', icon: 'bx-ruler', content: 'Details on how to convert units of area (m², ft²), power (Watts, Horsepower), and force (Newtons, lbf) for physics and engineering tasks.' },
+                    { id: 11, title: 'Using the Math Notes Feature', category: 'Advanced Features', icon: 'bxs-edit', content: 'Jot down equations and notes on a digital canvas. Use the auto-solve feature to evaluate typed expressions instantly.' },
+                    { id: 12, title: 'Keyboard Shortcuts for Faster Calculations', category: 'Getting Started', icon: 'bx-keyboard', content: 'Speed up your workflow by using keyboard shortcuts for numbers, operators, and functions like equals (=), clear (AC), and delete (DEL).' }
                 ]
             };
             
             const comparisonData = {
                 features: [
-                    { key: 'private', name: 'Use privately', description: 'Use it privately without being tracked.' },
+                    { key: 'private', name: 'Use privately', description: 'Can be used without tracking or data collection.' },
                     { key: 'history', name: 'History', description: 'View a log of your past calculations.' },
                     { key: 'search', name: 'History search', description: 'Search through your calculation history to find specific entries.' },
-                    { key: 'types', name: 'All convert types', description: 'Access a wide range of converters for units like length, weight, temperature, and more.' },
-                    { key: 'percent', name: 'Check %', description: 'Easily calculate percentages, including for scenarios like likes vs. dislikes.' },
-                    { key: 'ai', name: 'AI Assistant', description: 'Get help with complex math problems using the integrated AI.' },
-                    { key: 'theme', name: 'Dark/light mode', description: 'Switch between dark and light themes for your viewing comfort.' },
-                    { key: 'decimals', name: 'Decimals', description: 'Control whether results are shown as whole numbers or with decimal places.' },
-                    { key: 'advanced', name: 'Advanced mode', description: 'Unlock scientific functions for more complex calculations.' }
+                    { key: 'types', name: 'All convert types', description: 'Access a wide range of converters for units like length, weight, etc.' },
+                    { key: 'storage_converter', name: 'Storage Converter', description: 'Convert digital storage units (e.g., KB, MB, GB).'},
+                    { key: 'time_calculator', name: 'Time Calculator', description: 'Calculate duration between dates or add/subtract time.'},
+                    { key: 'percent', name: 'Check % (Likes/Dislikes)', description: 'Specialized tool to calculate percentages for likes vs. dislikes.' },
+                    { key: 'ai', name: 'AI Assistant', description: 'Get help with math problems using an integrated AI.' },
+                    { key: 'math_notes', name: 'Math Notes', description: 'A canvas to write down notes and solve expressions.' },
+                    { key: 'auto_solve', name: 'Auto Solve / OCR', description: 'Automatically solve handwritten or camera-scanned expressions.'},
+                    { key: 'theme', name: 'Dark/light mode', description: 'Switch between dark and light themes.' },
+                    { key: 'decimals', name: 'Decimals', description: 'Control decimal place visibility in results.' },
+                    { key: 'advanced', name: 'Advanced mode', description: 'Unlock scientific functions for complex calculations.' },
+                    { key: 'ads', name: 'Advertisements', description: 'Displays ads within the application interface.' },
+                    { key: 'price', name: 'Price', description: 'The cost of the application.' }
                 ],
                 calculators: {
-                    gameryt: { name: 'GAMERYT Calculator', private: 'yes', history: 'yes', search: 'yes', types: 'yes', percent: 'yes', ai: 'yes', theme: 'yes', decimals: 'yes', advanced: 'yes' },
-                    apple: { name: 'Apple Calculator', private: 'yes', history: 'limited', search: 'no', types: 'yes', percent: 'no', ai: 'no', theme: 'yes', decimals: 'yes', advanced: 'limited' },
-                    microsoft: { name: 'Microsoft Calculator', private: 'yes', history: 'yes', search: 'no', types: 'yes', percent: 'limited', ai: 'no', theme: 'yes', decimals: 'yes', advanced: 'yes' },
-                    google: { name: 'Google Calculator', private: 'no', history: 'limited', search: 'no', types: 'limited', percent: 'yes', ai: 'no', theme: 'limited', decimals: 'yes', advanced: 'limited' },
-                    samsung: { name: 'Samsung Calculator', private: 'yes', history: 'yes', search: 'no', types: 'yes', percent: 'no', ai: 'no', theme: 'yes', decimals: 'yes', advanced: 'limited' }
+                    gameryt: { name: 'GAMERYT Calculator', private: 'yes', history: 'yes', search: 'yes', types: 'yes', storage_converter: 'yes', time_calculator: 'yes', percent: 'yes', ai: 'yes', math_notes: 'yes', auto_solve: 'yes', theme: 'yes', decimals: 'yes', advanced: 'yes', ads: 'no', price: 'Free' },
+                    apple: { name: 'Apple Calculator', private: 'yes', history: 'limited', search: 'no', types: 'yes', storage_converter: 'no', time_calculator: 'no', percent: 'no', ai: 'no', math_notes: 'yes', auto_solve: 'no', theme: 'yes', decimals: 'yes', advanced: 'limited', ads: 'no', price: 'Free' },
+                    microsoft: { name: 'Microsoft Calculator', private: 'yes', history: 'yes', search: 'no', types: 'yes', storage_converter: 'yes', time_calculator: 'yes', percent: 'no', ai: 'no', math_notes: 'no', auto_solve: 'no', theme: 'yes', decimals: 'yes', advanced: 'yes', ads: 'no', price: 'Free' },
+                    google: { name: 'Google Calculator', private: 'no', history: 'limited', search: 'no', types: 'limited', storage_converter: 'yes', time_calculator: 'limited', percent: 'no', ai: 'no', math_notes: 'no', auto_solve: 'no', theme: 'limited', decimals: 'yes', advanced: 'limited', ads: 'no', price: 'Free' },
+                    samsung: { name: 'Samsung Calculator', private: 'yes', history: 'yes', search: 'no', types: 'yes', storage_converter: 'yes', time_calculator: 'no', percent: 'no', ai: 'no', math_notes: 'no', auto_solve: 'no', theme: 'yes', decimals: 'yes', advanced: 'limited', ads: 'no', price: 'Free' },
+                    calculator_plus: { name: 'Calculator Plus', private: 'no', history: 'yes', search: 'no', types: 'limited', storage_converter: 'no', time_calculator: 'no', percent: 'no', ai: 'no', math_notes: 'no', auto_solve: 'no', theme: 'yes', decimals: 'yes', advanced: 'no', ads: 'yes', price: 'Free (Ads)' },
+                    chrome_calculator: { name: 'Chrome Calculator', private: 'yes', history: 'no', search: 'no', types: 'no', storage_converter: 'no', time_calculator: 'no', percent: 'no', ai: 'no', math_notes: 'no', auto_solve: 'no', theme: 'no', decimals: 'yes', advanced: 'limited', ads: 'no', price: 'Free' },
+                    calculator_percent: { name: 'Calculator %', private: 'no', history: 'limited', search: 'no', types: 'no', storage_converter: 'no', time_calculator: 'no', percent: 'no', ai: 'no', math_notes: 'no', auto_solve: 'no', theme: 'limited', decimals: 'yes', advanced: 'no', ads: 'yes', price: 'Free (Ads)' },
+                    photomath: { name: 'Photomath', private: 'no', history: 'yes', search: 'no', types: 'no', storage_converter: 'no', time_calculator: 'no', percent: 'no', ai: 'yes', math_notes: 'no', auto_solve: 'yes', theme: 'no', decimals: 'yes', advanced: 'yes', ads: 'limited', price: 'Freemium' },
+                    wolframalpha: { name: 'WolframAlpha', private: 'no', history: 'yes', search: 'yes', types: 'yes', storage_converter: 'yes', time_calculator: 'yes', percent: 'no', ai: 'yes', math_notes: 'no', auto_solve: 'yes', theme: 'no', decimals: 'yes', advanced: 'yes', ads: 'limited', price: 'Freemium' },
+                    desmos: { name: 'Desmos Graphing', private: 'yes', history: 'yes', search: 'no', types: 'no', storage_converter: 'no', time_calculator: 'no', percent: 'no', ai: 'no', math_notes: 'no', auto_solve: 'no', theme: 'yes', decimals: 'yes', advanced: 'yes', ads: 'no', price: 'Free' },
+                    calzy: { name: 'Calzy', private: 'yes', history: 'yes', search: 'yes', types: 'yes', storage_converter: 'yes', time_calculator: 'no', percent: 'no', ai: 'no', math_notes: 'no', auto_solve: 'no', theme: 'yes', decimals: 'yes', advanced: 'limited', ads: 'no', price: 'Paid' },
+                    pcalc: { name: 'PCalc', private: 'yes', history: 'yes', search: 'no', types: 'yes', storage_converter: 'yes', time_calculator: 'no', percent: 'no', ai: 'no', math_notes: 'no', auto_solve: 'no', theme: 'yes', decimals: 'yes', advanced: 'yes', ads: 'no', price: 'Paid' },
+                    hiper: { name: 'HiPER Scientific', private: 'yes', history: 'yes', search: 'no', types: 'yes', storage_converter: 'no', time_calculator: 'no', percent: 'no', ai: 'no', math_notes: 'no', auto_solve: 'no', theme: 'yes', decimals: 'yes', advanced: 'yes', ads: 'limited', price: 'Freemium' },
+                    realcalc: { name: 'RealCalc Scientific', private: 'yes', history: 'yes', search: 'no', types: 'yes', storage_converter: 'no', time_calculator: 'no', percent: 'no', ai: 'no', math_notes: 'no', auto_solve: 'no', theme: 'limited', decimals: 'yes', advanced: 'yes', ads: 'limited', price: 'Freemium' },
+                    calculator_pp: { name: 'Calculator++', private: 'yes', history: 'yes', search: 'no', types: 'no', storage_converter: 'no', time_calculator: 'no', percent: 'no', ai: 'no', math_notes: 'yes', auto_solve: 'no', theme: 'yes', decimals: 'yes', advanced: 'yes', ads: 'no', price: 'Paid' },
+                    clevcalc: { name: 'ClevCalc', private: 'no', history: 'yes', search: 'no', types: 'yes', storage_converter: 'yes', time_calculator: 'yes', percent: 'no', ai: 'no', math_notes: 'no', auto_solve: 'no', theme: 'yes', decimals: 'yes', advanced: 'no', ads: 'yes', price: 'Free (Ads)' },
+                    myscript: { name: 'MyScript Calculator', private: 'yes', history: 'no', search: 'no', types: 'no', storage_converter: 'no', time_calculator: 'no', percent: 'no', ai: 'no', math_notes: 'yes', auto_solve: 'yes', theme: 'no', decimals: 'yes', advanced: 'limited', ads: 'no', price: 'Paid' },
+                    calcbot: { name: 'Calcbot 2', private: 'yes', history: 'yes', search: 'no', types: 'yes', storage_converter: 'yes', time_calculator: 'no', percent: 'no', ai: 'no', math_notes: 'no', auto_solve: 'no', theme: 'yes', decimals: 'yes', advanced: 'limited', ads: 'no', price: 'Paid' },
+                    soulver: { name: 'Soulver', private: 'yes', history: 'yes', search: 'no', types: 'yes', storage_converter: 'yes', time_calculator: 'yes', percent: 'no', ai: 'no', math_notes: 'yes', auto_solve: 'no', theme: 'yes', decimals: 'yes', advanced: 'limited', ads: 'no', price: 'Paid' },
+                    numi: { name: 'Numi', private: 'yes', history: 'no', search: 'no', types: 'yes', storage_converter: 'yes', time_calculator: 'yes', percent: 'no', ai: 'no', math_notes: 'yes', auto_solve: 'no', theme: 'yes', decimals: 'yes', advanced: 'limited', ads: 'no', price: 'Paid' },
+                    tydlig: { name: 'Tydlig', private: 'yes', history: 'yes', search: 'no', types: 'limited', storage_converter: 'no', time_calculator: 'no', percent: 'no', ai: 'no', math_notes: 'yes', auto_solve: 'no', theme: 'no', decimals: 'yes', advanced: 'limited', ads: 'no', price: 'Paid' },
+                    onecalc: { name: 'OneCalc', private: 'no', history: 'yes', search: 'no', types: 'yes', storage_converter: 'yes', time_calculator: 'yes', percent: 'no', ai: 'no', math_notes: 'no', auto_solve: 'no', theme: 'yes', decimals: 'yes', advanced: 'yes', ads: 'yes', price: 'Free (Ads)' }
                 }
             };
 
@@ -139,12 +165,12 @@
                 
                 <div class="flex flex-col sm:flex-row gap-4 mb-8">
                     <div class="relative flex-grow">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                        <i class='bx bx-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 bxi'></i>
                         <input id="search-input" type="text" placeholder="Search for articles..." class="w-full pl-10 pr-4 py-3 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500" value="${state.searchTerm}">
                     </div>
                     <div class="flex items-center justify-end gap-2">
-                        <button id="list-view-btn" class="p-3 rounded-lg"><span class="material-symbols-outlined">view_list</span></button>
-                        <button id="grid-view-btn" class="p-3 rounded-lg"><span class="material-symbols-outlined">grid_view</span></button>
+                        <button id="list-view-btn" class="p-3 rounded-lg"><i class='bx bx-list-ul bxi'></i></button>
+                        <button id="grid-view-btn" class="p-3 rounded-lg"><i class='bx bxs-grid bxi'></i></button>
                     </div>
                 </div>
 
@@ -168,14 +194,59 @@
 
             const getComparePageHTML = () => {
                 const { features, calculators } = comparisonData;
-                const targetCalc = calculators[state.comparisonTarget];
 
                 const getIcon = (status) => {
                     switch (status) {
-                        case 'yes': return `<span class="material-symbols-outlined text-green-500">check_circle</span>`;
-                        case 'limited': return `<span class="material-symbols-outlined text-yellow-500">check_circle</span>`;
-                        case 'no': return `<span class="material-symbols-outlined text-red-500">cancel</span>`;
-                        default: return '';
+                        case 'yes': return `<i class='bx bxs-check-circle text-green-500 bxi'></i>`;
+                        case 'limited': return `<i class='bx bxs-check-circle text-yellow-500 bxi'></i>`;
+                        case 'no': return `<i class='bx bxs-x-circle text-red-500 bxi'></i>`;
+                        default: return `<span class="text-sm font-semibold">${status || 'N/A'}</span>`;
+                    }
+                };
+
+                const renderTable = () => {
+                    if (state.comparisonTarget === 'all') {
+                        const allCalculators = Object.values(calculators);
+                        return `
+                        <thead>
+                            <tr class="bg-slate-200/50 dark:bg-slate-700/50">
+                                <th class="p-3 md:p-4 text-left font-semibold border-b border-slate-300 dark:border-slate-700 sticky left-0 bg-slate-200/50 dark:bg-slate-700/50 z-10">Feature</th>
+                                ${allCalculators.map(calc => `<th class="p-3 md:p-4 text-center font-semibold border-b border-slate-300 dark:border-slate-700 min-w-[150px]">${calc.name}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${features.map(feature => `
+                            <tr class="hover:bg-slate-200/30 dark:hover:bg-slate-800/30">
+                                <td class="p-3 md:p-4 align-top border-b border-slate-300 dark:border-slate-700 text-left sticky left-0 bg-white/50 dark:bg-slate-900/50 z-10">
+                                    <div class="font-semibold">${feature.name}</div>
+                                    <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">${feature.description}</div>
+                                </td>
+                                ${allCalculators.map(calc => `<td class="p-3 md:p-4 align-middle text-center border-b border-slate-300 dark:border-slate-700">${getIcon(calc[feature.key])}</td>`).join('')}
+                            </tr>
+                            `).join('')}
+                        </tbody>`;
+                    } else {
+                        const targetCalc = calculators[state.comparisonTarget];
+                        return `
+                        <thead>
+                            <tr class="bg-slate-200/50 dark:bg-slate-700/50">
+                                <th class="p-3 md:p-4 text-left font-semibold border-b border-slate-300 dark:border-slate-700">Feature</th>
+                                <th class="p-3 md:p-4 text-center font-semibold border-b border-slate-300 dark:border-slate-700">GAMERYT Calculator</th>
+                                <th class="p-3 md:p-4 text-center font-semibold border-b border-slate-300 dark:border-slate-700">${targetCalc.name}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${features.map(feature => `
+                            <tr class="hover:bg-slate-200/30 dark:hover:bg-slate-800/30">
+                                <td class="p-3 md:p-4 align-top border-b border-slate-300 dark:border-slate-700 text-left">
+                                    <div class="font-semibold">${feature.name}</div>
+                                    <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">${feature.description}</div>
+                                </td>
+                                <td class="p-3 md:p-4 align-middle text-center border-b border-slate-300 dark:border-slate-700">${getIcon(calculators.gameryt[feature.key])}</td>
+                                <td class="p-3 md:p-4 align-middle text-center border-b border-slate-300 dark:border-slate-700">${getIcon(targetCalc[feature.key])}</td>
+                            </tr>
+                            `).join('')}
+                        </tbody>`;
                     }
                 };
                 
@@ -185,33 +256,34 @@
                     <div class="max-w-md mx-auto mb-8">
                         <label for="compare-select" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">Compare GAMERYT Calculator with:</label>
                         <select id="compare-select" class="w-full p-3 rounded-lg bg-slate-200 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                            <option value="all" ${state.comparisonTarget === 'all' ? 'selected' : ''}>All Calculators</option>
                             <option value="apple" ${state.comparisonTarget === 'apple' ? 'selected' : ''}>Apple Calculator</option>
                             <option value="microsoft" ${state.comparisonTarget === 'microsoft' ? 'selected' : ''}>Microsoft Calculator</option>
                             <option value="google" ${state.comparisonTarget === 'google' ? 'selected' : ''}>Google Calculator</option>
                             <option value="samsung" ${state.comparisonTarget === 'samsung' ? 'selected' : ''}>Samsung Calculator</option>
+                            <option value="calculator_plus" ${state.comparisonTarget === 'calculator_plus' ? 'selected' : ''}>Calculator Plus</option>
+                            <option value="chrome_calculator" ${state.comparisonTarget === 'chrome_calculator' ? 'selected' : ''}>Chrome Calculator</option>
+                            <option value="calculator_percent" ${state.comparisonTarget === 'calculator_percent' ? 'selected' : ''}>Calculator %</option>
+                            <option value="photomath" ${state.comparisonTarget === 'photomath' ? 'selected' : ''}>Photomath</option>
+                            <option value="wolframalpha" ${state.comparisonTarget === 'wolframalpha' ? 'selected' : ''}>WolframAlpha</option>
+                            <option value="desmos" ${state.comparisonTarget === 'desmos' ? 'selected' : ''}>Desmos Graphing</option>
+                            <option value="calzy" ${state.comparisonTarget === 'calzy' ? 'selected' : ''}>Calzy</option>
+                            <option value="pcalc" ${state.comparisonTarget === 'pcalc' ? 'selected' : ''}>PCalc</option>
+                            <option value="hiper" ${state.comparisonTarget === 'hiper' ? 'selected' : ''}>HiPER Scientific</option>
+                            <option value="realcalc" ${state.comparisonTarget === 'realcalc' ? 'selected' : ''}>RealCalc Scientific</option>
+                            <option value="calculator_pp" ${state.comparisonTarget === 'calculator_pp' ? 'selected' : ''}>Calculator++</option>
+                            <option value="clevcalc" ${state.comparisonTarget === 'clevcalc' ? 'selected' : ''}>ClevCalc</option>
+                            <option value="myscript" ${state.comparisonTarget === 'myscript' ? 'selected' : ''}>MyScript Calculator</option>
+                            <option value="calcbot" ${state.comparisonTarget === 'calcbot' ? 'selected' : ''}>Calcbot 2</option>
+                            <option value="soulver" ${state.comparisonTarget === 'soulver' ? 'selected' : ''}>Soulver</option>
+                            <option value="numi" ${state.comparisonTarget === 'numi' ? 'selected' : ''}>Numi</option>
+                            <option value="tydlig" ${state.comparisonTarget === 'tydlig' ? 'selected' : ''}>Tydlig</option>
+                            <option value="onecalc" ${state.comparisonTarget === 'onecalc' ? 'selected' : ''}>OneCalc</option>
                         </select>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full min-w-[600px] border-collapse">
-                            <thead>
-                                <tr class="bg-slate-200/50 dark:bg-slate-700/50">
-                                    <th class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700 text-left font-semibold">Feature</th>
-                                    <th class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700 font-semibold">GAMERYT Calculator</th>
-                                    <th class="p-3 md:p-4 text-center border-b border-slate-300 dark:border-slate-700 font-semibold">${targetCalc.name}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${features.map(feature => `
-                                <tr class="hover:bg-slate-200/30 dark:hover:bg-slate-800/30">
-                                    <td class="p-3 md:p-4 align-top border-b border-slate-300 dark:border-slate-700 text-left">
-                                        <div class="font-semibold">${feature.name}</div>
-                                        <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">${feature.description}</div>
-                                    </td>
-                                    <td class="p-3 md:p-4 align-middle text-center border-b border-slate-300 dark:border-slate-700">${getIcon(calculators.gameryt[feature.key])}</td>
-                                    <td class="p-3 md:p-4 align-middle text-center border-b border-slate-300 dark:border-slate-700">${getIcon(targetCalc[feature.key])}</td>
-                                </tr>
-                                `).join('')}
-                            </tbody>
+                        <table class="w-full border-collapse">
+                            ${renderTable()}
                         </table>
                     </div>
                 </div>`;
@@ -239,7 +311,7 @@
                 const filteredArticles = state.articles.filter(article => {
                     const matchesCategory = state.activeCategory === 'All' || article.category === state.activeCategory;
                     const matchesSearch = article.title.toLowerCase().includes(state.searchTerm.toLowerCase()) ||
-                                        article.content.toLowerCase().includes(state.searchTerm.toLowerCase());
+                                          article.content.toLowerCase().includes(state.searchTerm.toLowerCase());
                     return matchesCategory && matchesSearch;
                 });
 
@@ -260,7 +332,7 @@
                     if (state.view === 'grid') {
                         return `
                         <div class="${commonClasses} flex flex-col">
-                            <div class="flex-shrink-0 mb-4"><span class="material-symbols-outlined text-4xl text-purple-500">${article.icon}</span></div>
+                            <div class="flex-shrink-0 mb-4"><i class='bx ${article.icon} text-4xl text-purple-500'></i></div>
                             <h3 class="text-xl font-bold mb-2">${article.title}</h3>
                             <p class="text-slate-600 dark:text-slate-400 flex-grow">${article.content}</p>
                             <div class="mt-4"><span class="text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300 py-1 px-3 rounded-full">${article.category}</span></div>
@@ -268,7 +340,7 @@
                     } else { // List view
                         return `
                         <div class="${commonClasses} flex flex-col sm:flex-row items-start gap-6">
-                            <div class="flex-shrink-0"><span class="material-symbols-outlined text-3xl text-purple-500">${article.icon}</span></div>
+                            <div class="flex-shrink-0"><i class='bx ${article.icon} text-3xl text-purple-500'></i></div>
                             <div class="flex-grow">
                                 <h3 class="text-xl font-bold mb-1">${article.title}</h3>
                                 <p class="text-slate-600 dark:text-slate-400 mb-3">${article.content}</p>
