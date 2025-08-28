@@ -1,5 +1,5 @@
 // Define a version for your cache. Change this version to update the cache.
-const CACHE_VERSION = 'v1.7.9'; // Bumped version
+const CACHE_VERSION = 'v1.8.0'; // Bumped version
 const CACHE_NAME = `gameryt-calculator-cache-${CACHE_VERSION}`;
 
 // A list of all the essential files your app needs to work offline.
@@ -45,7 +45,12 @@ self.addEventListener('message', (event) => {
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      return cachedResponse || fetch(event.request);
+      return cachedResponse || fetch(event.request).catch(() => {
+        // ✅ fallback for offline navigation
+        if (event.request.mode === 'navigate') {
+          return caches.match('/GAMERYT-Calculator/index.html/');
+        }
+      });
     })
   );
 });
