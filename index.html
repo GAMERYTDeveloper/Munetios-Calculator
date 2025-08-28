@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GAMERYT Calculator</title>
+    <meta name="description" content="A versatile and feature-rich calculator with standard, scientific, and various conversion modes, plus an AI assistant.">
     
     <!-- PWA and Offline Support -->
     <meta name="theme-color" content="#4c1d95"/>
@@ -25,6 +26,9 @@
         }
         html:not(.dark) body {
             background-image: linear-gradient(to right, var(--background-start-light), var(--background-end-light));
+        }
+        body {
+            font-family: 'Inter', sans-serif;
         }
         .icon-sm, .icon-md { 
             font-size: 1.25rem;
@@ -228,7 +232,14 @@
                 <div class="flex-1 p-4 flex flex-col overflow-hidden">
                     <div id="ai-output" class="liquid-glass rounded-3xl p-2 mb-4 overflow-y-auto no-scrollbar"></div>
                     <div class="flex flex-shrink-0">
-                        <input id="ai-input" type="text" placeholder="Ask AI..." class="bg-slate-800/50 border border-slate-700 rounded-l-3xl w-full p-2 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                        <div class="relative flex-grow">
+                            <input id="ai-input" type="text" placeholder="Ask AI..." class="bg-slate-800/50 border border-slate-700 rounded-l-3xl w-full p-2 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                            <div id="ai-suggestion-container" class="absolute inset-0 flex items-center pointer-events-none p-2 hidden">
+                                <span id="ai-input-mirror" class="invisible whitespace-pre"></span>
+                                <span id="ai-suggestion-text" class="text-slate-500 truncate"></span>
+                                <i class="ri-arrow-right-line text-slate-500 ml-1"></i>
+                            </div>
+                        </div>
                         <button id="ai-submit-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold p-2 rounded-r-3xl">
                             <i class="ri-send-plane-2-line icon-md"></i>
                         </button>
@@ -268,6 +279,7 @@
                     is2ndFlipped: false,
                     isRad: false, 
                     showMoreSci: false,
+                    is1eActive: false, // Flag for the new 1e operator
                     lastOperation: { operator: null, operand: null },
                 },
                 mathNotes: {
@@ -299,9 +311,6 @@
             const clearHistoryBtn = document.getElementById('clear-history-btn');
             const historySearchInput = document.getElementById('history-search');
             const mobileHistorySearchInput = document.getElementById('mobile-history-search');
-            const aiInput = document.getElementById('ai-input');
-            const aiOutput = document.getElementById('ai-output');
-            const aiSubmitBtn = document.getElementById('ai-submit-btn');
             const mobileSearchBtn = document.getElementById('mobile-search-btn');
             const mobileSearchView = document.getElementById('mobile-search-view');
             const mobileSearchBackBtn = document.getElementById('mobile-search-back-btn');
@@ -347,6 +356,7 @@
                             <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="tan">tan</button>
                             <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="e">e</button>
                             <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="EE">EE</button>
+                            <button class="text-base bg-purple-800 hover:bg-purple-900 text-white font-bold rounded-3xl transition-all duration-200 active:scale-95 flex justify-center items-center" data-key="1e">1e</button>
                         </div>
                     </div>
                 `;
@@ -496,6 +506,7 @@
                     <div class="liquid-glass rounded-xl shadow-lg p-6">
                          <h2 class="text-2xl font-bold text-center text-pink-400 mb-4">Changelog</h2>
                          <div class="space-y-3 text-slate-300 max-h-64 overflow-y-auto">
+                            <div><strong class="text-purple-400">v1.8.3</strong><ul class="list-disc list-inside pl-2"><li>Added division by zero handling.</li><li>Added new '1e' operator in advanced mode.</li><li>Implemented AI suggestions for faster queries.</li></ul></div>
                             <div><strong class="text-purple-400">v1.8.2</strong><ul class="list-disc list-inside pl-2"><li>Replaced Google Material Symbols with Remix Icon font for a new look and feel.</li></ul></div>
                             <div><strong class="text-purple-400">v1.8.1</strong><ul class="list-disc list-inside pl-2"><li>Replaced custom SVGs with official Google Material Symbol SVGs to ensure correct branding and accessibility.</li><li>Removed external font stylesheet to improve performance and reliability in all regions.</li></ul></div>
                             <div><strong class="text-purple-400">v1.8.0</strong><ul class="list-disc list-inside pl-2"><li>Added Math Notes with canvas drawing and auto-solver.</li><li>Expanded all unit converters with more options.</li><li>Replaced Material Icons with custom SVGs for a lighter footprint.</li></ul></div>
@@ -747,9 +758,12 @@
                         return `Math.${func}(${radAngle})`;
                     });
                     
-                    // A slightly more robust regex to allow for scientific notation (e.g., 1e-5)
                     if (/^[\d\s()+\-*/.,*^eE]+$/.test(safeExpr.replace(/Math\.(PI|E|sin|cos|tan|sqrt|cbrt|log|log10|exp|pow|abs|sign)/g, ''))) {
-                         return new Function('return ' + safeExpr)();
+                         const result = new Function('return ' + safeExpr)();
+                         if (!isFinite(result)) {
+                            return 'Undefined';
+                         }
+                         return result;
                     } else {
                         return 'Error';
                     }
@@ -773,7 +787,11 @@
                 function formatDisplayNumber(numStr) {
                     if (typeof numStr !== 'string') numStr = String(numStr);
                     if (numStr.length > 15) {
-                        return parseFloat(numStr).toExponential(9);
+                        try {
+                            return parseFloat(numStr).toExponential(9);
+                        } catch (e) {
+                            return numStr; // Return original string if it's not a number (e.g., "Undefined")
+                        }
                     }
                     return numStr;
                 }
@@ -789,8 +807,9 @@
                 }
 
                 function handleInput(key) {
-                    const lastChar = currentInput.slice(-1);
-                    const isOperator = ['+', '-', '*', '/'].includes(lastChar);
+                    if (display.innerText === 'Undefined' || display.innerText === 'Error') {
+                        if (key !== 'AC') return;
+                    }
 
                     if (/\d/.test(key) || key === '00') {
                         if (currentInput === '0' || resetDisplay) {
@@ -804,13 +823,21 @@
                         if (!currentInput.includes('.')) {
                             currentInput += '.';
                         }
+                        resetDisplay = false;
                         state.calc.lastOperation.operator = null;
-                    } else if (['+', '-', '*', '/'].includes(key)) {
+                    } else if (['+', '-', '*', '/', '1e'].includes(key)) {
                         if (resetDisplay) {
-                            expression = display.innerText + key;
+                            expression = display.innerText;
                             resetDisplay = false;
                         } else {
-                            expression += currentInput + key;
+                            expression += currentInput;
+                        }
+                        
+                        if (key === '1e') {
+                            expression += '+';
+                            state.calc.is1eActive = true;
+                        } else {
+                            expression += key;
                         }
                         currentInput = '0';
                         state.calc.lastOperation.operator = null;
@@ -829,8 +856,16 @@
                         }
                         
                         const result = safeEvaluate(finalExpression);
-                        addToHistory(`${finalExpression.replace(/\*/g, '×').replace(/\//g, '÷')} = ${result}`);
-                        currentInput = String(result);
+                        let finalResult = result;
+                        if (state.calc.is1eActive) {
+                            if (typeof finalResult === 'number') {
+                                finalResult += 7;
+                            }
+                            state.calc.is1eActive = false;
+                        }
+
+                        addToHistory(`${finalExpression.replace(/\*/g, '×').replace(/\//g, '÷')} = ${finalResult}`);
+                        currentInput = String(finalResult);
                         expression = '';
                         resetDisplay = true;
 
@@ -839,7 +874,9 @@
                         expression = '';
                         resetDisplay = false;
                         state.calc.lastOperation = { operator: null, operand: null };
+                        state.calc.is1eActive = false;
                     } else if (key === 'DEL') {
+                        if (resetDisplay) return;
                         currentInput = currentInput.slice(0, -1) || '0';
                     } else if (key === '%') {
                         currentInput = String(parseFloat(currentInput) / 100);
@@ -861,17 +898,31 @@
                     let val = parseFloat(currentInput);
                     let requiresReset = true;
                     switch (key) {
-                        case '(': case ')': currentInput = currentInput === '0' ? key : currentInput + key; requiresReset = false; break;
+                        case '(': case ')': 
+                            if (currentInput === '0' || resetDisplay) {
+                                currentInput = key;
+                                resetDisplay = false;
+                            } else {
+                                currentInput += key;
+                            }
+                            requiresReset = false; 
+                            break;
                         case 'mc': state.calc.memory = 0; requiresReset = false; break;
-                        case 'm+': state.calc.memory += val; requiresReset = false; break;
-                        case 'm-': state.calc.memory -= val; requiresReset = false; break;
+                        case 'm+': state.calc.memory += val; requiresReset = true; break;
+                        case 'm-': state.calc.memory -= val; requiresReset = true; break;
                         case 'mr': currentInput = String(state.calc.memory); break;
                         case '2nd': state.calc.is2ndFlipped = !state.calc.is2ndFlipped; renderPage('standard'); requiresReset = false; break;
                         case 'x^2': currentInput = String(Math.pow(val, 2)); break;
                         case 'x^3': currentInput = String(Math.pow(val, 3)); break;
                         case 'e^x': currentInput = String(Math.exp(val)); break;
                         case '10^x': currentInput = String(Math.pow(10, val)); break;
-                        case '1/x': currentInput = String(1 / val); break;
+                        case '1/x': 
+                            if (val === 0) {
+                                currentInput = 'Error';
+                            } else {
+                                currentInput = String(1 / val);
+                            }
+                            break;
                         case 'sqrt': currentInput = String(Math.sqrt(val)); break;
                         case 'cbrt': currentInput = String(Math.cbrt(val)); break;
                         case '+/-': currentInput = String(val * -1); requiresReset = false; break;
@@ -1197,12 +1248,14 @@
             }
 
             function handleAiQuery() {
-                const inputElem = state.isMobileSheetOpen ? sheetContent.querySelector('#ai-input') : aiInput;
-                const outputElem = state.isMobileSheetOpen ? sheetContent.querySelector('#ai-output') : aiOutput;
-                const query = inputElem.value.trim().toLowerCase(); if(!query) return; let response='';
+                const aiInput = document.getElementById('ai-input');
+                const aiOutput = document.getElementById('ai-output');
+                if (!aiInput || !aiOutput) return;
+
+                const query = aiInput.value.trim().toLowerCase(); if(!query) return; let response='';
                 try {
                     const percentMatch = query.match(/(\d+\.?\d*)\s*%\s*of\s*(\d+\.?\d*)/i);
-                    const likesMatch = query.match(/(\d+)\s*likes\s*(\d+)\s*dislikes/i);
+                    const likesMatch = query.match(/(\d+)\s*likes\s*and\s*(\d+)\s*dislikes/i);
 
                     if (percentMatch) {
                         const p=parseFloat(percentMatch[1]),n=parseFloat(percentMatch[2]);response=`${p}% of ${n} is ${(p/100)*n}`;
@@ -1222,7 +1275,10 @@
                 } catch(e) {
                     response="Sorry, I couldn't understand that.";
                 }
-                outputElem.innerHTML+=`<div class="text-right text-blue-300 mb-2">${inputElem.value}</div><div class="text-left text-pink-300 mb-4">${response}</div>`; outputElem.scrollTop=outputElem.scrollHeight; inputElem.value=''; addToHistory(`AI: ${response}`);
+                aiOutput.innerHTML+=`<div class="text-right text-blue-300 mb-2">${aiInput.value}</div><div class="text-left text-pink-300 mb-4">${response}</div>`; aiOutput.scrollTop=aiOutput.scrollHeight; aiInput.value=''; addToHistory(`AI: ${response}`);
+                // Hide suggestion after submit
+                const suggestionContainer = aiInput.parentElement.querySelector('#ai-suggestion-container');
+                if(suggestionContainer) suggestionContainer.classList.add('hidden');
             }
 
             function addToHistory(item) { state.history.unshift(item); if(state.history.length>50)state.history.pop(); localStorage.setItem('calculatorHistory',JSON.stringify(state.history)); renderHistory(historySearchInput.value); renderHistory(mobileHistorySearchInput.value);}
@@ -1355,8 +1411,65 @@
             historySearchInput.addEventListener('input', searchHandler);
             mobileHistorySearchInput.addEventListener('input', searchHandler);
             
-            aiSubmitBtn.addEventListener('click', handleAiQuery);
-            aiInput.addEventListener('keydown', e => { if(e.key==='Enter')handleAiQuery(); });
+            // --- AI Panel Logic (including suggestions) ---
+            const getAiSuggestion = (query) => {
+                query = query.toLowerCase();
+                if (!query) return '';
+                if (/^(\d+\.?\d*)\s*$/.test(query)) return '% of...';
+                if (/^(\d+\.?\d*)\s*%\s*of\s*$/.test(query)) return '100';
+                if (/^(\d+)\s*likes\s*$/.test(query)) return 'and... dislikes';
+                return '';
+            };
+
+            document.body.addEventListener('click', e => {
+                if (e.target.id === 'ai-submit-btn' || e.target.closest('#ai-submit-btn')) {
+                    handleAiQuery();
+                }
+            });
+
+            document.body.addEventListener('keydown', e => {
+                if (e.target.id === 'ai-input') {
+                    const aiInput = e.target;
+                    const panel = aiInput.closest('#ai-panel');
+                    if (!panel) return;
+                    const suggestionContainer = panel.querySelector('#ai-suggestion-container');
+                    const suggestionText = panel.querySelector('#ai-suggestion-text');
+
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleAiQuery();
+                    } else if (e.key === 'ArrowRight' || e.key === 'Tab') {
+                        if (!suggestionContainer.classList.contains('hidden') && suggestionText.textContent) {
+                            e.preventDefault();
+                            aiInput.value += suggestionText.textContent;
+                            suggestionContainer.classList.add('hidden');
+                        }
+                    }
+                }
+            });
+
+            document.body.addEventListener('input', e => {
+                if (e.target.id === 'ai-input') {
+                    const aiInput = e.target;
+                    const panel = aiInput.closest('#ai-panel');
+                    if (!panel) return;
+                    const suggestionContainer = panel.querySelector('#ai-suggestion-container');
+                    const inputMirror = panel.querySelector('#ai-input-mirror');
+                    const suggestionText = panel.querySelector('#ai-suggestion-text');
+
+                    const query = aiInput.value;
+                    const suggestion = getAiSuggestion(query);
+
+                    if (suggestion && query) {
+                        inputMirror.textContent = query;
+                        suggestionText.textContent = suggestion;
+                        suggestionContainer.classList.remove('hidden');
+                    } else {
+                        suggestionContainer.classList.add('hidden');
+                    }
+                }
+            });
+
 
             mobileSearchBtn.addEventListener('click', () => { mobileSearchView.classList.remove('hidden'); mobileHistorySearchInput.focus(); });
             mobileSearchBackBtn.addEventListener('click', () => { mobileSearchView.classList.add('hidden'); });
