@@ -1,12 +1,14 @@
 // Always bump version to trigger update
-const CACHE_VERSION = 'v1.8.1';
+const CACHE_VERSION = 'v1.8.2';
 const CACHE_NAME = `gameryt-calculator-cache-${CACHE_VERSION}`;
 
 const URLS_TO_CACHE = [
-  '/GAMERYT-Calculator/',
-  '/GAMERYT-Calculator/index.html',
-  '/GAMERYT-Calculator/404.html',
-  '/GAMERYT-Calculator/icon-192x192.png',
+  '/',               // root
+  '/index.html',
+  '/404.html',
+  '/favicon.png',
+  '/icon-192x192.png',
+  '/icon-512x512.png',
 
   // Fonts
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap',
@@ -28,9 +30,11 @@ self.addEventListener('activate', (event) => {
   console.log(`[SW] Activating ${CACHE_VERSION}...`);
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.map(key => {
-        if (key !== CACHE_NAME) return caches.delete(key);
-      }))
+      Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) return caches.delete(key);
+        })
+      )
     )
   );
   return self.clients.claim(); // ✅ Take control instantly
@@ -41,7 +45,7 @@ self.addEventListener('fetch', (event) => {
   if (event.request.mode === 'navigate') {
     // Offline-first: serve index.html if offline
     event.respondWith(
-      fetch(event.request).catch(() => caches.match('/GAMERYT-Calculator/index.html'))
+      fetch(event.request).catch(() => caches.match('/index.html'))
     );
   } else {
     // Cache-first for assets
