@@ -8,11 +8,11 @@
     
     <!-- PWA and Offline Support -->
     <meta name="theme-color" content="#4c1d95"/>
-   <link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="favicon.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/function-plot/dist/function-plot.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -39,10 +39,10 @@
         }
 
         .liquid-glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -79,6 +79,9 @@
         .color-swatch.active {
             border-color: #f472b6; /* pink-400 */
         }
+        #plot-target svg {
+            color: white;
+        }
     </style>
 </head>
 <body class="bg-slate-900 text-white font-sans transition-colors duration-300">
@@ -99,6 +102,10 @@
                  <div id="sidebar-main-nav" class="space-y-2">
                     <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="standard">
                         <i class="ri-function-line icon-md"></i><span class="ml-3 sidebar-text">Standard</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="graphic">
+                        <i class="ri-line-chart-line icon-md"></i><span class="ml-3 sidebar-text">Graphic</span></button>
+                    <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="programmer">
+                        <i class="ri-code-s-slash-line icon-md"></i><span class="ml-3 sidebar-text">Programmer</span></button>
                     <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="math_notes">
                         <i class="ri-edit-2-line icon-md"></i><span class="ml-3 sidebar-text">Math Notes</span></button>
                     <button class="flex items-center p-2 text-base w-full font-normal text-slate-300 rounded-3xl hover:bg-slate-700/50" data-page="time">
@@ -206,6 +213,11 @@
                     <!-- This is a persistent container for the panels -->
                 </aside>
             </div>
+            
+            <!-- Footer -->
+            <footer class="text-center text-xs text-slate-400 p-2 border-t border-slate-700/50 flex-shrink-0 liquid-glass">
+                GAMERYT™️ and GAMERYT Calculator™️ are trademarked.
+            </footer>
         </div>
 
         <!-- Mobile Bottom Sheet -->
@@ -363,7 +375,7 @@
                 `;
 
                 return `
-                <div id="calculator" class="w-full max-w-2xl mx-auto h-full liquid-glass rounded-xl shadow-lg p-4 flex flex-col">
+                <div id="calculator" class="w-full max-w-2xl mx-auto h-full liquid-glass rounded-3xl shadow-lg p-4 flex flex-col">
                     <div class="relative">
                         <div id="expression-display" class="text-right text-slate-400 text-2xl h-8 pr-4 break-all truncate"></div>
                         <div id="display" class="bg-slate-800/60 text-right text-white p-4 rounded-3xl text-5xl overflow-x-auto no-scrollbar break-all flex-shrink-0">0</div>
@@ -398,7 +410,7 @@
             
             const getTimeCalculatorHTML = () => `
                 <div class="w-full max-w-2xl mx-auto p-4 md:p-6 space-y-8">
-                    <div class="liquid-glass rounded-xl shadow-lg p-6">
+                    <div class="liquid-glass rounded-3xl shadow-lg p-6">
                         <h3 class="text-2xl font-bold text-pink-400 mb-4">Time Difference</h3>
                         <div class="flex flex-wrap -mx-2 items-end">
                             <div class="px-2 w-full md:w-1/2 mb-4 md:mb-0">
@@ -415,7 +427,7 @@
                         </div>
                         <div id="diff-result" class="text-center text-lg md:text-xl font-bold pt-4 mt-4 border-t border-slate-700/50 min-h-[2.25rem]"></div>
                     </div>
-                    <div class="liquid-glass rounded-xl shadow-lg p-6">
+                    <div class="liquid-glass rounded-3xl shadow-lg p-6">
                         <h3 class="text-2xl font-bold text-pink-400 mb-4">Add/Subtract Time</h3>
                         <div>
                              <label for="base-time" class="block text-sm font-medium text-slate-300 mb-1">Base Date & Time</label>
@@ -437,7 +449,7 @@
             
             const getConverterHTML = (title, units) => {
                 const options = units.map(u => `<option value="${u.value}">${u.name}</option>`).join('');
-                return `<div class="w-full max-w-lg mx-auto liquid-glass rounded-xl shadow-lg p-6 space-y-6">
+                return `<div class="w-full max-w-lg mx-auto liquid-glass rounded-3xl shadow-lg p-6 space-y-6">
                     <h2 class="text-2xl font-bold text-center text-pink-400">${title} Converter</h2>
                     <div class="space-y-4">
                          <div>
@@ -462,7 +474,7 @@
             const getLikesDislikesHTML = () => `
                 <div class="w-full max-w-4xl mx-auto p-4 md:p-6 space-y-4 h-full flex flex-col">
                     <h2 class="text-3xl font-bold text-pink-400 flex-shrink-0">Check %</h2>
-                    <div class="liquid-glass rounded-xl shadow-lg p-4 flex-shrink-0 flex flex-wrap items-center gap-4">
+                    <div class="liquid-glass rounded-3xl shadow-lg p-4 flex-shrink-0 flex flex-wrap items-center gap-4">
                         <label for="likes-input" class="font-medium">Likes:</label>
                         <input type="number" id="likes-input" class="bg-slate-800/60 border border-slate-700 rounded-3xl p-2 focus:outline-none focus:ring-2 focus:ring-pink-500 w-24" placeholder="12" min="0">
                         <label for="dislikes-input" class="font-medium">Dislikes:</label>
@@ -470,7 +482,7 @@
                         <button id="likes-submit-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-3xl flex items-center gap-2 ml-auto">
                             <i class="ri-send-plane-2-line icon-sm"></i> Submit</button>
                     </div>
-                    <div class="flex-grow liquid-glass rounded-xl shadow-lg mt-4 flex flex-col overflow-hidden">
+                    <div class="flex-grow liquid-glass rounded-3xl shadow-lg mt-4 flex flex-col overflow-hidden">
                          <h3 class="text-xl font-bold p-4 border-b border-slate-700/50 flex-shrink-0">History</h3>
                          <div id="likes-history-container" class="space-y-4 p-4 overflow-y-auto no-scrollbar"></div>
                     </div></div>`;
@@ -478,7 +490,7 @@
 
             const getSettingsHTML = () => `
                 <div class="w-full max-w-2xl mx-auto p-4 md:p-6 space-y-8">
-                    <div class="liquid-glass rounded-xl shadow-lg p-6">
+                    <div class="liquid-glass rounded-3xl shadow-lg p-6">
                         <h2 class="text-2xl font-bold text-center text-pink-400 mb-4">Settings</h2>
                         <div class="space-y-4">
                             <div class="flex items-center justify-between p-2 rounded-3xl hover:bg-slate-800/50">
@@ -504,7 +516,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="liquid-glass rounded-xl shadow-lg p-6">
+                    <div class="liquid-glass rounded-3xl shadow-lg p-6">
                          <h2 class="text-2xl font-bold text-center text-pink-400 mb-4">Changelog</h2>
                          <div class="space-y-3 text-slate-300 max-h-64 overflow-y-auto">
                             <div><strong class="text-purple-400">v1.8.3</strong><ul class="list-disc list-inside pl-2"><li>Added division by zero handling.</li><li>Added new '1e' operator in advanced mode.</li><li>Implemented AI suggestions for faster queries.</li></ul></div>
@@ -529,7 +541,7 @@
                     </div>
                     <div class="text-center text-slate-400 text-sm py-4">
                         <p class="mb-2">Made by GAMERYTDeveloper</p>
-                        <p class="mb-2">GAMERYT™️ and GAMERYT Calculator™️ are trademarked</p>
+                        <p class="mb-2">GAMERYT™️ and GAMERYT Calculator™️ are trademarked.</p>
                         <a href="https://gamerytdeveloper.github.io/GAMERYT-Calculator/help/help.html" target="_blank" class="text-purple-400 hover:text-pink-400 underline">Help (F1)</a>
                     </div>
                 </div>
@@ -538,7 +550,7 @@
             const getMathNotesHTML = () => `
                 <div class="w-full max-w-4xl mx-auto p-4 md:p-6 space-y-4 h-full flex flex-col">
                     <h2 class="text-3xl font-bold text-pink-400 flex-shrink-0">Math Notes</h2>
-                    <div class="liquid-glass rounded-xl shadow-lg p-4 flex-shrink-0 flex flex-wrap items-center gap-4">
+                    <div class="liquid-glass rounded-3xl shadow-lg p-4 flex-shrink-0 flex flex-wrap items-center gap-4">
                         <label class="font-medium">Color:</label>
                         <div id="color-palette" class="flex items-center gap-2">
                             <div class="color-swatch active" style="background-color: #FFFFFF;" data-color="#FFFFFF"></div>
@@ -551,10 +563,10 @@
                         <input type="range" id="pen-size" min="1" max="20" value="2" class="w-24">
                         <button id="clear-canvas-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-3xl ml-auto">Clear</button>
                     </div>
-                    <div class="flex-grow liquid-glass rounded-xl shadow-lg mt-4 flex flex-col overflow-hidden">
+                    <div class="flex-grow liquid-glass rounded-3xl shadow-lg mt-4 flex flex-col overflow-hidden">
                          <canvas id="math-canvas"></canvas>
                     </div>
-                    <div class="liquid-glass rounded-xl shadow-lg p-4 flex-shrink-0 flex flex-wrap items-center gap-4">
+                    <div class="liquid-glass rounded-3xl shadow-lg p-4 flex-shrink-0 flex flex-wrap items-center gap-4">
                         <label for="math-input" class="font-medium">Auto-Solve:</label>
                         <input type="text" id="math-input" class="flex-grow bg-slate-800/60 border border-slate-700 rounded-3xl p-2 focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="e.g., (3 + 2) * 5">
                         <button id="solve-math-btn" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-3xl">Solve</button>
@@ -562,13 +574,85 @@
                      <div id="math-solve-result" class="text-center text-xl font-bold p-2 min-h-[2rem]"></div>
                 </div>`;
             
+            const getGraphicCalculatorHTML = () => `
+                <div class="w-full h-full p-4 flex flex-col gap-4">
+                    <h2 class="text-3xl font-bold text-pink-400 flex-shrink-0 text-center">Graphic Calculator</h2>
+                    <div class="liquid-glass rounded-3xl shadow-lg p-4 flex-shrink-0 flex flex-wrap items-center gap-4">
+                        <label for="function-input" class="font-medium">f(x) =</label>
+                        <input type="text" id="function-input" class="flex-grow bg-slate-800/60 border border-slate-700 rounded-3xl p-2 focus:outline-none focus:ring-2 focus:ring-pink-500" value="sin(x)">
+                        <button id="plot-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-3xl">Plot</button>
+                    </div>
+                    <div id="plot-target" class="flex-grow liquid-glass rounded-3xl shadow-lg w-full h-full"></div>
+                </div>`;
+
+            const getProgrammerCalculatorHTML = () => `
+                <div id="programmer-calc" class="w-full max-w-2xl mx-auto h-full liquid-glass rounded-3xl shadow-lg p-4 flex flex-col gap-4">
+                    <div id="programmer-display" class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <label class="w-12 text-sm text-slate-400">HEX</label>
+                            <div id="hex-display" class="flex-1 text-right text-2xl font-mono bg-slate-800/60 p-2 rounded-xl truncate">0</div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label class="w-12 text-sm text-slate-400">DEC</label>
+                            <div id="dec-display" class="flex-1 text-right text-3xl font-mono bg-slate-800/60 p-2 rounded-xl truncate text-pink-400">0</div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label class="w-12 text-sm text-slate-400">OCT</label>
+                            <div id="oct-display" class="flex-1 text-right text-2xl font-mono bg-slate-800/60 p-2 rounded-xl truncate">0</div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label class="w-12 text-sm text-slate-400">BIN</label>
+                            <div id="bin-display" class="flex-1 text-right text-2xl font-mono bg-slate-800/60 p-2 rounded-xl truncate">0</div>
+                        </div>
+                    </div>
+                     <div id="programmer-mode-selector" class="flex justify-around bg-slate-800/60 p-1 rounded-3xl">
+                        <button data-mode="16" class="flex-1 p-1 rounded-3xl text-sm transition-colors">HEX</button>
+                        <button data-mode="10" class="flex-1 p-1 rounded-3xl text-sm transition-colors bg-purple-600">DEC</button>
+                        <button data-mode="8" class="flex-1 p-1 rounded-3xl text-sm transition-colors">OCT</button>
+                        <button data-mode="2" class="flex-1 p-1 rounded-3xl text-sm transition-colors">BIN</button>
+                    </div>
+                    <div id="programmer-keypad" class="grid grid-cols-6 gap-2 flex-grow">
+                        <button data-key="A" class="programmer-key hex-key bg-slate-700 hover:bg-slate-600 rounded-3xl disabled:opacity-50">A</button>
+                        <button data-op="&" class="programmer-key bg-purple-800 hover:bg-purple-900 rounded-3xl">AND</button>
+                        <button data-key="7" class="programmer-key digit-key bg-slate-800 hover:bg-slate-700 rounded-3xl">7</button>
+                        <button data-key="8" class="programmer-key digit-key bg-slate-800 hover:bg-slate-700 rounded-3xl">8</button>
+                        <button data-key="9" class="programmer-key digit-key bg-slate-800 hover:bg-slate-700 rounded-3xl">9</button>
+                        <button data-op="clear" class="programmer-key bg-purple-600 hover:bg-purple-700 rounded-3xl">C</button>
+                        
+                        <button data-key="B" class="programmer-key hex-key bg-slate-700 hover:bg-slate-600 rounded-3xl disabled:opacity-50">B</button>
+                        <button data-op="|" class="programmer-key bg-purple-800 hover:bg-purple-900 rounded-3xl">OR</button>
+                        <button data-key="4" class="programmer-key digit-key bg-slate-800 hover:bg-slate-700 rounded-3xl">4</button>
+                        <button data-key="5" class="programmer-key digit-key bg-slate-800 hover:bg-slate-700 rounded-3xl">5</button>
+                        <button data-key="6" class="programmer-key digit-key bg-slate-800 hover:bg-slate-700 rounded-3xl">6</button>
+                        <button data-op="del" class="programmer-key bg-purple-600 hover:bg-purple-700 rounded-3xl">DEL</button>
+                        
+                        <button data-key="C" class="programmer-key hex-key bg-slate-700 hover:bg-slate-600 rounded-3xl disabled:opacity-50">C</button>
+                        <button data-op="^" class="programmer-key bg-purple-800 hover:bg-purple-900 rounded-3xl">XOR</button>
+                        <button data-key="1" class="programmer-key digit-key bg-slate-800 hover:bg-slate-700 rounded-3xl">1</button>
+                        <button data-key="2" class="programmer-key digit-key bg-slate-800 hover:bg-slate-700 rounded-3xl">2</button>
+                        <button data-key="3" class="programmer-key digit-key bg-slate-800 hover:bg-slate-700 rounded-3xl">3</button>
+                        <button data-op="=" class="programmer-key bg-pink-600 hover:bg-pink-700 rounded-3xl row-span-2">=</button>
+
+                        <button data-key="D" class="programmer-key hex-key bg-slate-700 hover:bg-slate-600 rounded-3xl disabled:opacity-50">D</button>
+                        <button data-op="~" class="programmer-key bg-purple-800 hover:bg-purple-900 rounded-3xl">NOT</button>
+                        <button data-key="0" class="programmer-key digit-key bg-slate-800 hover:bg-slate-700 rounded-3xl col-span-3">0</button>
+                        
+                        <button data-key="E" class="programmer-key hex-key bg-slate-700 hover:bg-slate-600 rounded-3xl disabled:opacity-50">E</button>
+                        <button data-op="<<" class="programmer-key bg-purple-800 hover:bg-purple-900 rounded-3xl">LSH</button>
+                        <button data-key="F" class="programmer-key hex-key bg-slate-700 hover:bg-slate-600 rounded-3xl disabled:opacity-50">F</button>
+                        <button data-op=">>" class="programmer-key bg-purple-800 hover:bg-purple-900 rounded-3xl">RSH</button>
+                    </div>
+                </div>`;
+            
             // --- RENDER & LOGIC FUNCTIONS ---
             function renderPage(page) {
                 state.currentPage = page;
                 mainContent.innerHTML = '';
-                mainContent.style.padding = ['standard', 'math_notes'].includes(page) ? '0' : '1rem';
+                mainContent.style.padding = ['standard', 'math_notes', 'graphic', 'programmer'].includes(page) ? '0' : '1rem';
                 const pages = {
                     standard: getStandardCalculatorHTML,
+                    graphic: getGraphicCalculatorHTML,
+                    programmer: getProgrammerCalculatorHTML,
                     math_notes: getMathNotesHTML,
                     time: getTimeCalculatorHTML,
                     storage: () => getConverterHTML('Storage', unitDefinitions.storage),
@@ -590,6 +674,8 @@
                 };
                 const listeners = {
                     standard: attachStandardCalculatorListeners,
+                    graphic: attachGraphicCalculatorListeners,
+                    programmer: attachProgrammerCalculatorListeners,
                     math_notes: attachMathNotesListeners,
                     time: attachTimeCalculatorListeners,
                     storage: () => attachConverterListeners('storage'),
@@ -1248,6 +1334,156 @@
 
                 window.addEventListener('resize', resizeCanvas);
             }
+            
+            function attachGraphicCalculatorListeners() {
+                const plotBtn = document.getElementById('plot-btn');
+                const functionInput = document.getElementById('function-input');
+                const plotTarget = document.getElementById('plot-target');
+
+                function plot() {
+                    try {
+                        plotTarget.innerHTML = '';
+                        functionPlot({
+                            target: '#plot-target',
+                            data: [{
+                                fn: functionInput.value,
+                                color: '#f472b6'
+                            }],
+                            grid: true,
+                             xAxis: { color: '#fff', label: 'x-axis' },
+                             yAxis: { color: '#fff', label: 'y-axis' }
+                        });
+                    } catch (err) {
+                        plotTarget.innerHTML = `<p class="text-red-400 p-4">Error: ${err.message}</p>`;
+                    }
+                }
+
+                plotBtn.addEventListener('click', plot);
+                functionInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        plot();
+                    }
+                });
+
+                // Initial plot
+                plot();
+            }
+
+            function attachProgrammerCalculatorListeners() {
+                let currentInput = '0';
+                let operand1 = null;
+                let operation = null;
+                let currentMode = 10; // DEC
+
+                const hexDisplay = document.getElementById('hex-display');
+                const decDisplay = document.getElementById('dec-display');
+                const octDisplay = document.getElementById('oct-display');
+                const binDisplay = document.getElementById('bin-display');
+                const keypad = document.getElementById('programmer-keypad');
+                const modeSelector = document.getElementById('programmer-mode-selector');
+
+                function updateDisplays(value) {
+                    const num = BigInt(value);
+                    hexDisplay.textContent = num.toString(16).toUpperCase();
+                    decDisplay.textContent = num.toString(10);
+                    octDisplay.textContent = num.toString(8);
+                    binDisplay.textContent = num.toString(2);
+                }
+                
+                function updateModeUI() {
+                    document.querySelectorAll('#programmer-mode-selector button').forEach(btn => {
+                        btn.classList.toggle('bg-purple-600', parseInt(btn.dataset.mode) === currentMode);
+                    });
+
+                    document.querySelectorAll('.programmer-key').forEach(btn => {
+                        const key = btn.dataset.key;
+                        if (!key) return;
+
+                        if (/[A-F]/.test(key)) {
+                            btn.disabled = currentMode < 16;
+                        } else if (/[8-9]/.test(key)) {
+                            btn.disabled = currentMode < 10;
+                        } else if (/[2-7]/.test(key)) {
+                            btn.disabled = currentMode < 8;
+                        }
+                    });
+                }
+                
+                function handleInput(key) {
+                    if (currentInput === '0') {
+                        currentInput = key;
+                    } else {
+                        currentInput += key;
+                    }
+                    const decValue = BigInt(parseInt(currentInput, currentMode));
+                    updateDisplays(decValue);
+                }
+
+                function handleOperation(op) {
+                     try {
+                        if (op === 'clear') {
+                            currentInput = '0';
+                            operand1 = null;
+                            operation = null;
+                            updateDisplays(0n);
+                        } else if (op === 'del') {
+                            currentInput = currentInput.slice(0, -1) || '0';
+                            const decValue = BigInt(parseInt(currentInput, currentMode));
+                            updateDisplays(decValue);
+                        } else if (op === '~') { // Unary NOT
+                            const decValue = BigInt(parseInt(currentInput, currentMode));
+                            const result = ~decValue;
+                            currentInput = result.toString(currentMode);
+                            updateDisplays(result);
+                        } else if (op === '=') {
+                            if (operand1 !== null && operation) {
+                                const operand2 = BigInt(parseInt(currentInput, currentMode));
+                                let result;
+                                if (operation === '&') result = operand1 & operand2;
+                                else if (operation === '|') result = operand1 | operand2;
+                                else if (operation === '^') result = operand1 ^ operand2;
+                                else if (operation === '<<') result = operand1 << operand2;
+                                else if (operation === '>>') result = operand1 >> operand2;
+
+                                updateDisplays(result);
+                                currentInput = result.toString(currentMode);
+                                operand1 = null;
+                                operation = null;
+                            }
+                        } else { // Binary operators
+                            operand1 = BigInt(parseInt(currentInput, currentMode));
+                            operation = op;
+                            currentInput = '0';
+                        }
+                    } catch (e) {
+                        decDisplay.textContent = "Error";
+                    }
+                }
+
+                keypad.addEventListener('click', e => {
+                    const target = e.target.closest('button');
+                    if (!target) return;
+                    if (target.dataset.key) {
+                        handleInput(target.dataset.key);
+                    } else if (target.dataset.op) {
+                        handleOperation(target.dataset.op);
+                    }
+                });
+                
+                modeSelector.addEventListener('click', e => {
+                     const target = e.target.closest('button');
+                     if (!target) return;
+                     const newMode = parseInt(target.dataset.mode);
+                     if (newMode !== currentMode) {
+                         const decValue = BigInt(parseInt(currentInput, currentMode));
+                         currentMode = newMode;
+                         currentInput = decValue.toString(currentMode);
+                         updateModeUI();
+                     }
+                });
+
+                updateModeUI();
+            }
 
             function handleAiQuery() {
                 const aiInput = document.getElementById('ai-input');
@@ -1502,3 +1738,4 @@
     </script>
 </body>
 </html>
+
