@@ -1,7 +1,7 @@
-GAMERYT-Calculator
+Muentios-Calculator
 The ultimate calculator web application built with a sleek, modern interface. This project goes beyond simple arithmetic, offering a full suite of scientific functions, numerous unit converters, specialty tools, and an integrated AI assistant.
 
-Live :  https://gamerytdeveloper.github.io/GAMERYT-Calculator/offical.html
+Live :  https://gamerytdeveloper.github.io/Muentios-Calculator/
 ✨ Features
 This calculator is packed with features to handle a wide range of calculations and conversions:
 
@@ -136,7 +136,7 @@ Added advanced 'Check %' for Likes vs. Dislikes.
 v1.2.0
 Major mobile responsiveness overhaul.
 v1.0.0
-Initial release of GAMERYT Calculator.
+Initial release of Muentios Calculator.
 📧 Contact
 This project was created by GAMERYTDeveloper.
 
