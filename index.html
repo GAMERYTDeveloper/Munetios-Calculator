@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAMERYT Calculator</title>
+    <title>Munetios Calculator</title>
     <meta name="description" content="A versatile and feature-rich calculator with standard, scientific, and various conversion modes, plus an AI assistant.">
     
     <!-- PWA and Offline Support -->
     <meta name="theme-color" content="#4c1d95"/>
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="manifest" href="/munetios-calculator/manifest.json">
+    <link rel="icon" type="image/png" href="/munetios-calculator/favicon.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/function-plot/dist/function-plot.js"></script>
@@ -216,7 +216,7 @@
             
             <!-- Footer -->
             <footer class="text-center text-xs text-slate-400 p-2 border-t border-slate-700/50 flex-shrink-0 liquid-glass">
-                GAMERYT™️ and GAMERYT Calculator™️ are trademarked.
+                Munetios™️ and Munetios Calculator™️ are trademarked.
             </footer>
         </div>
 
@@ -266,7 +266,7 @@
         // --- Service Worker Registration ---
         if ('serviceWorker' in navigator) {
           window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/GAMERYT-Calculator/sw.js', { scope: '/GAMERYT-Calculator/' })
+            navigator.serviceWorker.register('/munetios-calculator/sw.js', { scope: '/munetios-calculator/' })
               .then(registration => {
                 console.log('Service Worker registered successfully with scope: ', registration.scope);
               })
@@ -536,13 +536,13 @@
                             <div><strong class="text-purple-400">v1.4.0</strong><ul class="list-disc list-inside pl-2"><li>Added Time Calculator.</li><li>Restored 'DEL' and '%' buttons.</li></ul></div>
                             <div><strong class="text-purple-400">v1.3.0</strong><ul class="list-disc list-inside pl-2"><li>Added advanced 'Check %' for Likes vs. Dislikes.</li></ul></div>
                             <div><strong class="text-purple-400">v1.2.0</strong><ul class="list-disc list-inside pl-2"><li>Major mobile responsiveness overhaul.</li></ul></div>
-                            <div><strong class="text-purple-400">v1.0.0</strong><ul class="list-disc list-inside pl-2"><li>Initial release of GAMERYT Calculator.</li></ul></div>
+                            <div><strong class="text-purple-400">v1.0.0</strong><ul class="list-disc list-inside pl-2"><li>Initial release of Munetios Calculator.</li></ul></div>
                          </div>
                     </div>
                     <div class="text-center text-slate-400 text-sm py-4">
                         <p class="mb-2">Made by GAMERYTDeveloper</p>
-                        <p class="mb-2">GAMERYT™️ and GAMERYT Calculator™️ are trademarked.</p>
-                        <a href="https://gamerytdeveloper.github.io/GAMERYT-Calculator/help/help.html" target="_blank" class="text-purple-400 hover:text-pink-400 underline">Help (F1)</a>
+                        <p class="mb-2">Munetios™️ and Munetios Calculator™️ are trademarked.</p>
+                        <a href="https://gamerytdeveloper.github.io/munetios-calculator/help/help.html" target="_blank" class="text-purple-400 hover:text-pink-400 underline">Help (F1)</a>
                     </div>
                 </div>
                 <style>.toggle-checkbox:checked { right: 0; border-color: #ec4899; } .toggle-checkbox:checked + .toggle-label { background-color: #ec4899; }</style>`;
@@ -1715,7 +1715,7 @@
             document.addEventListener('keydown', e => {
                 if (e.key === 'F1') {
                     e.preventDefault();
-                    window.open('https://gamerytdeveloper.github.io/GAMERYT-Calculator/help/help.html', '_blank');
+                    window.open('https://gamerytdeveloper.github.io/munetios-calculator/help/help.html', '_blank');
                 }
                 if (e.ctrlKey && e.shiftKey) {
                     if (e.key.toLowerCase() === 'a') {
